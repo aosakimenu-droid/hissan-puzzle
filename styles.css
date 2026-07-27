@@ -3240,6 +3240,8 @@ select {
   font-weight: 900;
   line-height: 1;
   vertical-align: baseline;
+  opacity: 1;
+  -webkit-text-fill-color: currentColor;
 }
 
 .digit-input.carry-input {
@@ -3258,6 +3260,8 @@ select {
   border-color: #ccd5e2;
   background: #f3f6fa;
   color: #98a2b3;
+  opacity: 1;
+  -webkit-text-fill-color: currentColor;
   cursor: default;
 }
 
@@ -3288,6 +3292,7 @@ select {
   border-color: var(--mint);
   background: #eaffe9;
   color: var(--ink);
+  -webkit-text-fill-color: var(--ink);
 }
 
 .digit-input.carry-input.correct {
@@ -4829,10 +4834,10 @@ select {
 
   .challenge-view .problem-area {
     min-height: 164px;
-    max-height: 164px;
+    max-height: none;
     margin: 8px 0;
-    padding: 10px;
-    overflow: auto;
+    padding: 8px;
+    overflow: visible;
   }
 
   .challenge-view .guided-layout {
@@ -4840,8 +4845,8 @@ select {
   }
 
   .challenge-view .paper-board {
-    padding: 10px;
-    font-size: clamp(1.05rem, 4.7vw, 1.62rem);
+    padding: 8px;
+    font-size: clamp(0.98rem, 4.35vw, 1.5rem);
   }
 
   .challenge-view .step-guide {
@@ -4880,8 +4885,8 @@ select {
   }
 
   .challenge-view .step-guide {
-    max-height: 164px;
-    overflow: auto;
+    max-height: none;
+    overflow: visible;
   }
 
   .challenge-view .numpad {
@@ -5010,9 +5015,9 @@ select {
 
   .problem-area {
     min-height: 260px;
-    max-height: calc(100vh - 360px);
+    max-height: none;
     margin: 10px 0;
-    overflow: auto;
+    overflow: visible;
     align-items: start;
   }
 
@@ -5215,9 +5220,9 @@ select {
 
   .challenge-view .problem-area {
     min-height: 168px;
-    max-height: 210px;
+    max-height: none;
     margin: 4px 0;
-    overflow: auto;
+    overflow: visible;
   }
 
   .challenge-view .problem-area:has(.fill-layout) {
