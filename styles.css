@@ -3292,11 +3292,23 @@ select {
   border-color: var(--mint);
   background: #eaffe9;
   color: var(--ink);
-  -webkit-text-fill-color: var(--ink);
+  opacity: 1 !important;
+  color: var(--ink) !important;
+  -webkit-text-fill-color: var(--ink) !important;
 }
 
 .digit-input.carry-input.correct {
-  color: #087443;
+  color: #087443 !important;
+  -webkit-text-fill-color: #087443 !important;
+}
+
+.digit-input.correct:disabled,
+.digit-input.correct.locked {
+  border-color: var(--mint);
+  background: #eaffe9;
+  color: var(--ink) !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: var(--ink) !important;
 }
 
 .digit-input.wrong {
