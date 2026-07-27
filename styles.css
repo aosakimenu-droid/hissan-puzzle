@@ -4664,10 +4664,17 @@ select {
 }
 
 @media (max-width: 699px) {
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   .app-shell {
     width: min(100% - 12px, 680px);
     padding-top: 6px;
     padding-bottom: 0;
+    overflow-x: hidden;
   }
 
   .page-nav {
@@ -4677,7 +4684,7 @@ select {
   }
 
   .challenge-view .top-bar {
-    grid-template-columns: minmax(150px, 1fr) minmax(270px, auto);
+    grid-template-columns: 1fr;
     align-items: center;
     gap: 8px;
   }
@@ -4687,6 +4694,7 @@ select {
   }
 
   .challenge-view .score-board {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
   }
 
@@ -4769,6 +4777,8 @@ select {
   }
 
   .challenge-view .problem-card {
+    width: 100%;
+    min-width: 0;
     min-height: 0;
     padding: 10px;
   }
@@ -4845,6 +4855,8 @@ select {
   }
 
   .challenge-view .problem-area {
+    width: 100%;
+    min-width: 0;
     min-height: 164px;
     max-height: none;
     margin: 8px 0;
@@ -4853,10 +4865,14 @@ select {
   }
 
   .challenge-view .guided-layout {
+    width: 100%;
+    min-width: 0;
     gap: 8px;
   }
 
   .challenge-view .paper-board {
+    max-width: 100%;
+    min-width: 0;
     padding: 8px;
     font-size: clamp(0.98rem, 4.35vw, 1.5rem);
   }
@@ -5384,6 +5400,8 @@ select {
     grid-template-columns: repeat(6, minmax(42px, 1fr));
     gap: 4px;
     margin-top: 4px;
+    width: 100%;
+    min-width: 0;
   }
 
   .challenge-view .numpad button {
