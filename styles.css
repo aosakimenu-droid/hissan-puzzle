@@ -3189,12 +3189,33 @@ select {
 }
 
 .digit-cell {
+  position: relative;
   display: grid;
   place-items: center;
   width: var(--cell-size);
   height: 1.34em;
   line-height: 1;
   text-align: center;
+}
+
+.digit-cell.solved-cell::after {
+  content: attr(data-value);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 950;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.carry-line .digit-cell.solved-cell::after {
+  align-items: end;
+  color: #087443;
+  font-size: 0.58em;
 }
 
 .carry-line {

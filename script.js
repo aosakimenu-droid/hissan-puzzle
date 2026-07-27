@@ -1837,6 +1837,7 @@ function checkCurrentStep() {
   }
 
   if (input.value === input.dataset.answer) {
+    markInputCellSolved(input);
     input.classList.add("correct");
     input.classList.remove("wrong", "active");
     input.disabled = true;
@@ -1965,6 +1966,7 @@ function showAnswer() {
   state.problemMistakes += 1;
   state.steps.forEach((input) => {
     input.value = input.dataset.answer;
+    markInputCellSolved(input);
     input.disabled = true;
     input.classList.add("correct");
     input.classList.remove("wrong", "active", "locked");
@@ -1985,6 +1987,13 @@ function showAnswer() {
   if (meter) meter.style.width = "100%";
   els.feedback.textContent = "答えを見ました。次は同じ順番でやってみよう。";
   els.feedback.className = "feedback";
+}
+
+function markInputCellSolved(input) {
+  const cell = input.closest(".digit-cell");
+  if (!cell) return;
+  cell.dataset.value = input.dataset.answer || input.value || "";
+  cell.classList.add("solved-cell");
 }
 function saveProgress() {
   localStorage.setItem("hp_streak", state.streak);
