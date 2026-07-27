@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ひっさんパズル | 小学生向けの掛け算・割り算の筆算練習アプリ</title>
+    <meta
+      name="description"
+      content="ひっさんパズルは、小学生が掛け算・割り算の筆算を1マスずつ穴埋めで練習できる無料の学習ゲームです。九九あなうめ、繰り上がり、わり算の手順も楽しく学べます。"
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:site_name" content="ひっさんパズル" />
+    <meta property="og:title" content="ひっさんパズル | 小学生向けの筆算練習アプリ" />
+    <meta
+      property="og:description"
+      content="掛け算・割り算の筆算を、穴埋め式で1マスずつ楽しく練習。コインとガチャで続けやすい小学生向け算数学習ゲームです。"
+    />
+    <meta property="og:image" content="assets/characters/character-main.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#fffaf1" />
+    <link rel="manifest" href="manifest.webmanifest?v=103" />
+    <link rel="stylesheet" href="styles.css?v=103" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "ひっさんパズル",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Web browser",
+        "isAccessibleForFree": true,
+        "inLanguage": "ja",
+        "audience": {
+          "@type": "EducationalAudience",
+          "educationalRole": "student"
+        },
+        "educationalLevel": "小学生",
+        "teaches": ["掛け算の筆算", "割り算の筆算", "九九の穴埋め", "繰り上がり", "計算の手順"],
+        "description": "小学生が掛け算と割り算の筆算を穴埋め式で練習できる無料の学習ゲームです。"
+      }
+    </script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="view app-home active" data-view="home" aria-label="ホーム">
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <p class="eyebrow">ひっさんパズル</p>
+            <h1>問題をといて、<span>コインをためよう</span></h1>
+            <p>かけ算とわり算の筆算を、1マスずつ進めてガチャに挑戦する学習ゲーム。</p>
+            <div class="home-actions">
+              <button class="primary-button" type="button" data-nav="challenge">レベルアップチャレンジ</button>
+              <button class="ghost-button" type="button" data-nav="gacha">ガチャをまわす</button>
+            </div>
+          </div>
+          <div class="hero-teacher" aria-hidden="true">
+            <img class="character-avatar character-avatar-main" src="assets/characters/character-main.png" alt="" />
+          </div>
+        </div>
+
+        <section class="home-dashboard home-dashboard-simple" aria-label="コインとコレクション">
+          <div class="daily-card soft">
+            <p class="eyebrow">いまのコイン</p>
+            <h2 id="homeCoinText">0コイン</h2>
+            <p id="homeGachaText">あと100コインでガチャに挑戦できます。</p>
+            <button class="ghost-button" type="button" data-nav="gacha">ガチャへ</button>
+          </div>
+          <div class="daily-card reward-preview">
+            <p class="eyebrow">コレクション</p>
+            <h2 id="homeNextReward">まだこれから</h2>
+            <p id="homeRewardText">ガチャでキャラ景品を集めよう。</p>
+            <button class="ghost-button" type="button" data-nav="rewards">ごほうびを見る</button>
+          </div>
+          <div class="daily-card journey-card">
+            <p class="eyebrow">九九とどけもの</p>
+            <h2 id="homeJourneyTitle">背景まであと50問</h2>
+            <p id="homeJourneyText">九九あなうめを進めると、ホーム背景が増えます。</p>
+            <div class="home-progress journey-progress" aria-hidden="true"><span id="homeJourneyProgress"></span></div>
+            <button class="ghost-button" type="button" data-home-course="multiplyFill">九九あなうめへ</button>
+          </div>
+        </section>
+
+        <aside class="ad-slot home-ad-slot" aria-label="広告スペース">
+          <span>広告スペース</span>
+          <strong>Google AdSense 予定枠</strong>
+        </aside>
+
+        <div class="home-secondary-actions">
+          <button class="ghost-button" type="button" data-nav="review">ふくしゅう</button>
+          <button class="parent-link" type="button" data-nav="parent">親モード</button>
+        </div>
+
+        <section class="seo-content" aria-label="ひっさんパズルで練習できること">
+          <div class="seo-content-inner">
+            <p class="eyebrow">小学生の筆算練習</p>
+            <h2>掛け算・割り算の筆算を、順番に身につける算数学習ゲーム</h2>
+            <p>
+              ひっさんパズルは、筆算が苦手な小学生向けに作った無料のブラウザ学習アプリです。
+              答えを一気に書くのではなく、オレンジ色のマスを順番にうめながら、掛け算の繰り上がりや割り算の「商を立てる・かける・ひく・おろす」を練習できます。
+            </p>
+            <div class="seo-grid">
+              <article>
+                <h3>掛け算の筆算</h3>
+                <p>1けたから大きな数まで、繰り上がりのメモを見ながら1マスずつ進めます。</p>
+              </article>
+              <article>
+                <h3>割り算の筆算</h3>
+                <p>商、かけ算、ひき算、おろす手順を分けて、計算途中が分かるように練習します。</p>
+              </article>
+              <article>
+                <h3>九九あなうめ</h3>
+                <p>4×？=32 や ？×8=32 のような穴埋め問題で、九九の理解をゲーム感覚で深めます。</p>
+              </article>
+            </div>
+            <details>
+              <summary>よくある質問</summary>
+              <dl>
+                <dt>無料で使えますか？</dt>
+                <dd>はい。ブラウザで開いて、無料で筆算練習を始められます。</dd>
+                <dt>対象学年はどのくらいですか？</dt>
+                <dd>掛け算・割り算の筆算を学び始める小学生を主な対象にしています。</dd>
+                <dt>タブレットでも使えますか？</dt>
+                <dd>横向きのタブレットで遊びやすいように画面を調整しています。</dd>
+              </dl>
+            </details>
+          </div>
+        </section>
+      </section>
+
+      <section class="view gacha-view" data-view="gacha" aria-label="コインガチャ">
+        <div class="page-nav">
+          <button class="home-button" type="button" data-nav="home">ホームにもどる</button>
+        </div>
+        <section class="gacha-hero">
+          <div class="gacha-copy">
+            <p class="eyebrow">コインガチャ</p>
+            <h2>問題をといたコインで、キャラを集めよう</h2>
+            <p class="large-copy">100コインたまったら、ガチャでキャラをゲット。</p>
+            <div class="gacha-status-grid" aria-label="ガチャの状態">
+              <div class="gacha-stat"><span>コイン</span><strong id="gachaCoinText">0</strong></div>
+              <div class="gacha-stat"><span>まわせる回数</span><strong id="gachaTicketText">0回</strong></div>
+              <div class="gacha-stat"><span>あと</span><strong id="gachaNeedText">100</strong></div>
+            </div>
+          </div>
+          <div class="gacha-machine" aria-hidden="true">
+            <div class="gacha-glow"></div>
+            <div class="gacha-dome">
+              <span class="capsule c1">?</span><span class="capsule c2">星</span><span class="capsule c3">♪</span><span class="capsule c4">猫</span><span class="capsule c5">冠</span>
+            </div>
+            <div class="gacha-body">
+              <div class="gacha-window">LUCKY</div>
+              <strong>100</strong>
+              <span>COIN</span>
+              <div class="gacha-handle"></div>
+            </div>
+          </div>
+        </section>
+        <section class="gacha-action-panel" aria-label="ガチャ操作">
+          <div>
+            <p class="eyebrow">次の1回まで</p>
+            <strong id="gachaProgressText">あと100コイン</strong>
+            <div class="gacha-coin-track" aria-hidden="true"><span id="gachaProgress"></span></div>
+          </div>
+          <button id="gachaButton" class="primary-button gacha-button" type="button">ガチャをまわす</button>
+        </section>
+        <section class="gacha-result" aria-live="polite">
+          <div class="gacha-result-prize" id="gachaResultIcon" aria-hidden="true">?</div>
+          <div>
+            <p class="eyebrow">今回の景品</p>
+            <span class="rarity-badge" id="gachaResultRarity">READY</span>
+            <h3 id="gachaResultTitle">100コインためてガチャに挑戦しよう</h3>
+            <p id="gachaResultText">問題を解くほど、コレクションが増えていきます。</p>
+          </div>
+        </section>
+        <div id="gachaParty" class="gacha-party-overlay" aria-hidden="true"></div>
+        <div class="gacha-prize-preview" id="gachaPrizePreview" aria-label="景品一覧"></div>
+        <aside class="ad-slot" aria-label="広告スペース">
+          <span>広告スペース</span><strong>Google AdSense 予定枠</strong>
+        </aside>
+        <div class="gacha-footer-actions">
+          <button class="ghost-button" type="button" data-nav="challenge">問題を解く</button>
+          <button class="ghost-button" type="button" data-nav="rewards">コレクションを見る</button>
+        </div>
+      </section>
+
+      <section class="view course-select-view" data-view="courseSelect" aria-label="コース選択">
+        <div class="page-nav">
+          <button class="home-button" type="button" data-nav="challenge">問題にもどる</button>
+        </div>
+        <section class="course-select-hero">
+          <div>
+            <p class="eyebrow">コース選択</p>
+            <h1>どの練習をする？</h1>
+            <p>迷ったらレベルアップチャレンジ。自分で選ぶ時は、かけ算・わり算・九九あなうめから選べます。</p>
+          </div>
+          <img class="character-avatar character-avatar-small" src="assets/characters/character-cheer.png" alt="" />
+        </section>
+        <section class="course-category-grid" aria-label="練習コース">
+          <section class="course-category featured">
+            <div class="course-category-head">
+              <p class="eyebrow">おすすめ</p>
+              <h2>レベルアップチャレンジ</h2>
+              <p>クリアするほど、少しずつむずかしくなります。</p>
+            </div>
+            <button class="course-card featured active" type="button" data-course="autoAdventure"><strong>レベルアップチャレンジ</strong><span>今のステージから進みます</span></button>
+          </section>
+          <section class="course-category">
+            <div class="course-category-head"><p class="eyebrow">かけ算</p><h2>かけ算の筆算</h2></div>
+            <div class="course-grid" role="group" aria-label="かけ算の筆算">
+              <button class="course-card" type="button" data-course="starter"><strong>ひとけたスタート</strong><span>1けた×1けたから</span></button>
+              <button class="course-card" type="button" data-course="multiplyForest"><strong>くり上がりの森</strong><span>2けた×1けた</span></button>
+              <button class="course-card" type="button" data-course="multiplyMountain"><strong>二けた橋</strong><span>2けた×2けた</span></button>
+              <button class="course-card" type="button" data-course="multiplyCastle"><strong>かけ算マスター城</strong><span>大きいかけ算</span></button>
+            </div>
+          </section>
+          <section class="course-category">
+            <div class="course-category-head"><p class="eyebrow">わり算</p><h2>わり算の筆算</h2></div>
+            <div class="course-grid" role="group" aria-label="わり算の筆算">
+              <button class="course-card" type="button" data-course="divideRiver"><strong>わり算スタート</strong><span>あまりなしの基本</span></button>
+              <button class="course-card" type="button" data-course="divideCave"><strong>あまりの池</strong><span>あまりまで考える</span></button>
+              <button class="course-card" type="button" data-course="divideSky"><strong>わり算マスター城</strong><span>大きい数のわり算</span></button>
+            </div>
+          </section>
+          <section class="course-category">
+            <div class="course-category-head"><p class="eyebrow">テンポよく</p><h2>九九あなうめ</h2></div>
+            <div class="course-grid" role="group" aria-label="九九あなうめ">
+              <button class="course-card" type="button" data-course="multiplyFill"><strong>九九あなうめ</strong><span>かくれた数を見つける</span></button>
+              <button class="course-card" type="button" data-course="mixAdventure"><strong>ミックスチャレンジ</strong><span>かけ算とわり算が出ます</span></button>
+            </div>
+          </section>
+        </section>
+      </section>
+
+      <section class="view challenge-view" data-view="challenge" aria-label="計算チャレンジ">
+        <div class="page-nav">
+          <button class="home-button" type="button" data-nav="home">ホームにもどる</button>
+        </div>
+        <section class="top-bar" aria-label="学習状況">
+          <div><p class="eyebrow">計算チャレンジ</p><h1>オレンジのマスだけ、順番にうめよう</h1></div>
+          <div class="score-board" aria-live="polite">
+            <div><span class="score-label">ノーミス</span><strong id="streak">0</strong></div>
+            <div><span class="score-label">コイン</span><strong id="stars">0</strong></div>
+            <div><span class="score-label">ランク</span><strong id="rankTitle">見習い</strong></div>
+          </div>
+        </section>
+        <section class="controls course-controls compact" aria-label="チャレンジコース">
+          <div class="course-head">
+            <div><p class="eyebrow">いまのコース</p><h2 id="activeCourseTitle">レベルアップチャレンジ</h2></div>
+            <div class="course-actions">
+              <button id="toggleCourses" class="ghost-button" type="button">コース変更</button>
+              <button id="newProblem" class="primary-button" type="button">べつの問題</button>
+            </div>
+          </div>
+        </section>
+        <section class="workspace">
+          <aside class="mission-panel" aria-label="コインメモ">
+            <div class="mascot" aria-hidden="true"><img class="character-avatar character-avatar-small" src="assets/characters/character-main.png" alt="" /></div>
+            <h2>コインメモ</h2>
+            <p id="missionText">1問クリアで20コイン以上もらえます。</p>
+            <div class="progress-track" aria-label="ガチャまでのコイン"><div id="missionProgress" class="progress-fill"></div></div>
+            <div id="badgeList" class="badges" aria-live="polite"></div>
+            <div class="combo-panel" aria-live="polite">
+              <div><p class="eyebrow">ノーミスボーナス</p><strong id="comboText">あと3問でフィーバー</strong></div>
+              <div class="combo-track" aria-hidden="true"><span id="comboProgress"></span></div>
+            </div>
+            <div class="coach-panel in-sidebar"><p class="eyebrow">先生メッセージ</p><p id="coachMessage">オレンジのマスだけ見れば大丈夫。ゆっくり進もう。</p></div>
+          </aside>
+          <section class="problem-card" aria-label="筆算問題">
+            <div class="problem-head">
+              <div><p id="problemType" class="eyebrow">かけ算</p><h2 id="problemTitle">問題を作っています</h2></div>
+              <button id="hintButton" class="ghost-button" type="button">ヒント</button>
+            </div>
+            <div class="stage-status-panel" aria-label="現在のチャレンジ">
+              <div class="stage-status-main"><span>いま</span><strong id="currentStageName">レベルアップチャレンジ</strong></div>
+              <div class="stage-status-item"><span>宝箱まで</span><strong id="treasureGoalText">あと3問で宝箱</strong></div>
+              <div class="stage-status-item"><span>ガチャまで</span><strong id="stageCoinGoalText">あと100コイン</strong></div>
+            </div>
+            <div class="play-reward-panel" aria-label="ガチャまでのコイン">
+              <div><p class="eyebrow">ガチャまで</p><strong id="playRewardTitle">あと100コイン</strong><span id="playRewardText">1問解くとコインが増えます。</span></div>
+              <div class="treasure-path" aria-hidden="true"><span id="playRewardProgress"></span></div>
+            </div>
+            <div id="problemArea" class="problem-area" aria-live="polite"></div>
+            <div class="actions">
+              <button id="checkButton" class="primary-button" type="button">このマスを確認</button>
+              <button id="showAnswerButton" class="ghost-button" type="button">答えを見る</button>
+            </div>
+            <p id="feedback" class="feedback" aria-live="assertive"></p>
+            <div class="numpad" aria-label="数字パッド">
+              <button type="button" data-num="1">1</button><button type="button" data-num="2">2</button><button type="button" data-num="3">3</button><button type="button" data-num="4">4</button><button type="button" data-num="5">5</button><button type="button" data-num="6">6</button>
+              <button type="button" data-num="7">7</button><button type="button" data-num="8">8</button><button type="button" data-num="9">9</button><button type="button" data-action="back">消す</button><button type="button" data-num="0">0</button><button type="button" data-action="hint">ヒント</button>
+            </div>
+          </section>
+        </section>
+        <aside class="ad-slot challenge-ad-slot" aria-label="広告スペース"><span>広告スペース</span><strong>Google AdSense 予定枠</strong></aside>
+      </section>
+
+      <section class="view rewards-view" data-view="rewards" aria-label="コレクション">
+        <div class="page-nav"><button class="home-button" type="button" data-nav="home">ホームにもどる</button></div>
+        <div class="section-head"><div><p class="eyebrow">コレクション</p><h2>キャラコレクションと練習シール</h2><p id="nextRewardText" class="large-copy">問題を解いてコインをためると、ガチャでキャラ景品が増えていきます。</p></div></div>
+        <div id="rewardShelf" class="reward-room" aria-live="polite"></div>
+        <aside class="ad-slot" aria-label="広告スペース"><span>広告スペース</span><strong>Google AdSense 予定枠</strong></aside>
+      </section>
+
+      <section class="view review-view" data-view="review" aria-label="ふくしゅう部屋">
+        <div class="page-nav"><button class="home-button" type="button" data-nav="home">ホームにもどる</button></div>
+        <div class="section-head"><div><p class="eyebrow">ふくしゅう部屋</p><h2>苦手ステージに挑戦</h2></div></div>
+        <p id="weakPointText" class="large-copy">まだ苦手記録はありません。</p>
+        <button id="reviewButton" class="primary-button" type="button">復習をはじめる</button>
+      </section>
+
+      <section class="view parent-view" data-view="parent" aria-label="親モード">
+        <div class="page-nav"><button class="home-button" type="button" data-nav="home">ホームにもどる</button></div>
+        <div class="section-head"><div><p class="eyebrow">親モード</p><h2>今日の学習レポート</h2></div></div>
+        <section class="parent-dashboard" aria-label="学習レポート">
+          <div class="parent-summary-card main"><p class="eyebrow">今日の進み具合</p><strong id="parentSolvedToday">0 / 3</strong><span id="parentGoalText">今日の目標まで、あと3問。</span></div>
+          <div class="parent-summary-card"><p class="eyebrow">これまで</p><strong id="parentTotalSolved">0問</strong><span>解いた問題数</span></div>
+          <div class="parent-summary-card"><p class="eyebrow">連続</p><strong id="parentStreak">0</strong><span>今のノーミス連続</span></div>
+          <div class="parent-summary-card"><p class="eyebrow">現在地</p><strong id="parentFocusText">ぜんぶ</strong><span>おまかせの進み具合</span></div>
+        </section>
+        <section class="parent-insight-grid" aria-label="学習の見守り">
+          <section class="parent-report-card">
+            <div class="report-head"><div><p class="eyebrow">苦手ポイント</p><h3>次に見てあげたいところ</h3></div><button id="parentReviewButton" class="ghost-button" type="button">復習へ</button></div>
+            <p id="parentWeakPointText" class="parent-advice">まだ苦手記録はありません。</p>
+            <div id="parentWeakList" class="weak-list"></div>
+          </section>
+          <section class="parent-report-card"><p class="eyebrow">最近の学習</p><h3>解いた問題</h3><div id="historyList" class="history-list"></div></section>
+        </section>
+        <section class="parent-tool-grid" aria-label="親向けメニュー">
+          <details class="parent-box" open>
+            <summary>学習設定</summary>
+            <div class="parent-grid">
+              <label><span>1日の目標</span><input id="dailyGoal" type="number" min="1" max="20" value="3" /></label>
+              <label><span>重点</span><select id="practiceFocus"><option value="all">ぜんぶ</option><option value="multiply">かけ算</option><option value="divide">わり算</option></select></label>
+              <label class="toggle-row"><input id="soundToggle" type="checkbox" /><span>音を出す</span></label>
+            </div>
+          </details>
+          <form id="customForm" class="custom-form parent-custom-form">
+            <div><p class="eyebrow">手作り問題</p><p class="mini-copy">練習したい式をそのまま入れられます。</p></div>
+            <label><span>式</span><input id="customExpression" type="text" inputmode="text" placeholder="例: 445×45 / 117÷9" /></label>
+            <button class="ghost-button" type="submit">この問題で練習</button>
+          </form>
+          <details class="parent-box parent-reset-box">
+            <summary>コイン・ガチャのリセット</summary>
+            <p class="mini-copy">ごほうび周りや学習記録を必要に応じてリセットできます。</p>
+            <div class="reset-action-grid">
+              <button id="resetCoinsButton" class="ghost-button danger-button" type="button">コインを0にする</button>
+              <button id="resetGachaButton" class="ghost-button danger-button" type="button">キャラ景品を空にする</button>
+              <button id="resetRewardButton" class="ghost-button danger-button strong" type="button">コインとガチャをリセット</button>
+              <button id="resetAllButton" class="ghost-button danger-button strong all-reset-button" type="button">すべての記録をリセット</button>
+            </div>
+            <p id="parentResetMessage" class="parent-reset-message" aria-live="polite"></p>
+          </details>
+        </section>
+        <aside class="ad-slot parent-ad-slot" aria-label="広告スペース"><span>広告スペース</span><strong>Google AdSense 予定枠</strong></aside>
+      </section>
+    </main>
+
+    <div id="celebration" class="celebration" aria-hidden="true"></div>
+    <div id="stageUpOverlay" class="stage-up-overlay" aria-live="polite" aria-hidden="true">
+      <div class="stage-up-card">
+        <div class="stage-up-glow" aria-hidden="true"></div>
+        <img class="character-avatar stage-up-character" src="assets/characters/character-happy.png" alt="" />
+        <p class="eyebrow">ステージアップ</p>
+        <h2 id="stageUpTitle">新しいステージへ！</h2>
+        <p id="stageUpText">ここから少しだけレベルアップします。</p>
+        <strong id="stageUpBonus">+50コイン</strong>
+      </div>
+    </div>
+    <div id="rewardToast" class="reward-toast" aria-live="polite" aria-hidden="true">
+      <div class="reward-toast-card">
+        <div class="reward-prize" id="rewardToastPrize" aria-hidden="true"><span>宝</span></div>
+        <p class="eyebrow">コインをゲット</p>
+        <h2 id="rewardToastTitle">コインをもらえたよ</h2>
+        <p id="rewardToastText">ガチャまで近づきました。</p>
+        <div class="toast-road" aria-hidden="true"><span id="rewardToastRoad"></span></div>
+      </div>
+    </div>
+    <script src="script.js?v=103"></script>
+  </body>
+</html>
