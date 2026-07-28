@@ -1892,60 +1892,69 @@ function scheduleNextProblem(delay = NEXT_PROBLEM_DELAY) {
 function completeProblem() {
   if (state.completed || !state.problem) return;
   state.completed = true;
+  let nextDelay = NEXT_PROBLEM_DELAY;
 
-  const cleanClear = state.problemMistakes === 0 && !state.answerShown;
-  const comboHit = cleanClear && (state.streak + 1) % 3 === 0;
-  let earnedCoins = coinsForCompletedProblem(comboHit);
-  const treasure = updateTreasureProgress();
-  if (treasure.opened) earnedCoins += treasure.bonus;
-
-  const backgroundReward = advanceBackgroundQuest();
-  const nextStage = updateAutoStageProgress(cleanClear);
-  if (nextStage) earnedCoins += STAGE_UP_BONUS;
-
-  state.streak = cleanClear ? state.streak + 1 : 0;
-  state.stars = Number(state.stars || 0) + 3;
-  state.coins = Number(state.coins || 0) + earnedCoins;
-  state.solvedToday = Number(state.solvedToday || 0) + 1;
-
-  const kind = state.problem.kind || "multiply";
-  if (kind === "multiplyFill") {
-    state.stickers.fill = Number(state.stickers.fill || 0) + 1;
-  } else if (kind === "divide") {
-    state.stickers.divide = Number(state.stickers.divide || 0) + 1;
-  } else {
-    state.stickers.multiply = Number(state.stickers.multiply || 0) + 1;
-  }
-
-  state.lastPraise = praiseForCompletedProblem(comboHit);
-  state.history.unshift({
-    title: els.problemTitle?.textContent || courseDisplayName(),
-    kind,
-    mistakes: state.problemMistakes,
-    coins: earnedCoins,
-    at: new Date().toISOString(),
-  });
-  state.history = state.history.slice(0, 30);
-
-  saveProgress();
-  celebrate();
-  setCharacterMood("happy", 2400);
-  if (nextStage) showStageUpParty(nextStage, STAGE_UP_BONUS);
-
-  const extras = [];
-  if (comboHit) extras.push("フィーバーボーナス");
-  if (treasure.opened) extras.push(`宝箱+${treasure.bonus}`);
-  if (backgroundReward) extras.push(`背景「${backgroundReward.background.name}」`);
-  if (nextStage) extras.push("ステージアップ");
-
-  els.feedback.textContent = `${state.lastPraise} ${earnedCoins}コインをゲット。${extras.length ? extras.join(" / ") : "つぎの問題へ進みます。"}`;
-  els.feedback.className = "feedback good";
   try {
-    updateProgress();
+    const cleanClear = state.problemMistakes === 0 && !state.answerShown;
+    const comboHit = cleanClear && (state.streak + 1) % 3 === 0;
+    let earnedCoins = coinsForCompletedProblem(comboHit);
+    const treasure = updateTreasureProgress();
+    if (treasure.opened) earnedCoins += treasure.bonus;
+
+    const backgroundReward = advanceBackgroundQuest();
+    const nextStage = updateAutoStageProgress(cleanClear);
+    if (nextStage) earnedCoins += STAGE_UP_BONUS;
+
+    state.streak = cleanClear ? state.streak + 1 : 0;
+    state.stars = Number(state.stars || 0) + 3;
+    state.coins = Number(state.coins || 0) + earnedCoins;
+    state.solvedToday = Number(state.solvedToday || 0) + 1;
+
+    const kind = state.problem.kind || "multiply";
+    if (kind === "multiplyFill") {
+      state.stickers.fill = Number(state.stickers.fill || 0) + 1;
+    } else if (kind === "divide") {
+      state.stickers.divide = Number(state.stickers.divide || 0) + 1;
+    } else {
+      state.stickers.multiply = Number(state.stickers.multiply || 0) + 1;
+    }
+
+    state.lastPraise = praiseForCompletedProblem(comboHit);
+    state.history.unshift({
+      title: els.problemTitle?.textContent || courseDisplayName(),
+      kind,
+      mistakes: state.problemMistakes,
+      coins: earnedCoins,
+      at: new Date().toISOString(),
+    });
+    state.history = state.history.slice(0, 30);
+
+    saveProgress();
+    celebrate();
+    setCharacterMood("happy", 2400);
+    if (nextStage) showStageUpParty(nextStage, STAGE_UP_BONUS);
+
+    const extras = [];
+    if (comboHit) extras.push("フィーバーボーナス");
+    if (treasure.opened) extras.push(`宝箱+${treasure.bonus}`);
+    if (backgroundReward) extras.push(`背景「${backgroundReward.background.name}」`);
+    if (nextStage) extras.push("ステージアップ");
+
+    els.feedback.textContent = `${state.lastPraise} ${earnedCoins}コインをゲット。${extras.length ? extras.join(" / ") : "つぎの問題へ進みます。"}`;
+    els.feedback.className = "feedback good";
+    try {
+      updateProgress();
+    } catch (error) {
+      console.error(error);
+    }
+    nextDelay = nextStage ? STAGE_UP_PROBLEM_DELAY : treasure.opened || backgroundReward ? REWARD_PROBLEM_DELAY : NEXT_PROBLEM_DELAY;
   } catch (error) {
     console.error(error);
+    els.feedback.textContent = "完成です。つぎの問題へ進みます。";
+    els.feedback.className = "feedback good";
+  } finally {
+    scheduleNextProblem(nextDelay);
   }
-  scheduleNextProblem(nextStage ? STAGE_UP_PROBLEM_DELAY : treasure.opened || backgroundReward ? REWARD_PROBLEM_DELAY : NEXT_PROBLEM_DELAY);
 }
 
 function praiseForCompletedProblem(comboHit = false) {
