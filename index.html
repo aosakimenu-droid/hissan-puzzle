@@ -12,6 +12,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="ひっさんパズル" />
+    <meta property="og:url" content="https://hissan-puzzle.pages.dev/" />
     <meta property="og:title" content="ひっさんパズル | 小学生向けの筆算練習アプリ" />
     <meta
       property="og:description"
@@ -20,13 +21,15 @@
     <meta property="og:image" content="assets/characters/character-main.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#fffaf1" />
-    <link rel="manifest" href="manifest.webmanifest?v=128" />
-    <link rel="stylesheet" href="styles.css?v=128" />
+    <link rel="canonical" href="https://hissan-puzzle.pages.dev/" />
+    <link rel="manifest" href="manifest.webmanifest?v=129" />
+    <link rel="stylesheet" href="styles.css?v=129" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "ひっさんパズル",
+        "url": "https://hissan-puzzle.pages.dev/",
         "applicationCategory": "EducationalApplication",
         "operatingSystem": "Web browser",
         "isAccessibleForFree": true,
@@ -37,7 +40,12 @@
         },
         "educationalLevel": "小学生",
         "teaches": ["掛け算の筆算", "割り算の筆算", "九九の穴埋め", "繰り上がり", "計算の手順"],
-        "description": "小学生が掛け算と割り算の筆算を穴埋め式で練習できる無料の学習ゲームです。"
+        "description": "小学生が掛け算と割り算の筆算を穴埋め式で練習できる無料の学習ゲームです。",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "JPY"
+        }
       }
     </script>
   </head>
@@ -123,6 +131,8 @@
                 <dd>掛け算・割り算の筆算を学び始める小学生を主な対象にしています。</dd>
                 <dt>タブレットでも使えますか？</dt>
                 <dd>横向きのタブレットで遊びやすいように画面を調整しています。</dd>
+                <dt>学習記録はどこに保存されますか？</dt>
+                <dd>コインやクリア数などの記録は、利用している端末のブラウザ内に保存されます。名前やメールアドレスの入力は不要です。</dd>
               </dl>
             </details>
           </div>
@@ -348,11 +358,15 @@
           </div>
           <div>
             <h3>1回どれくらい？</h3>
-            <p>まずは10〜15分、慣れてきたら休憩を入れながら30〜60分を目安にしてください。疲れてきたら九九あなうめに切り替えるのもおすすめです。</p>
+            <p>まずは10〜15分で十分です。長く使う日は、20〜30分ごとに休憩を入れてください。疲れてきたら九九あなうめに切り替えるのもおすすめです。</p>
           </div>
           <div>
             <h3>広告について</h3>
-            <p>広告を入れる場合も、計算中の手元や答えの入力を邪魔しない位置に限定する方針です。</p>
+            <p>広告を入れる場合も、計算中の手元や答えの入力を邪魔しない位置に限定します。突然大きく出る広告や、学習を中断させる配置は避けます。</p>
+          </div>
+          <div>
+            <h3>記録と個人情報</h3>
+            <p>コインや苦手記録は、使っている端末のブラウザに保存されます。名前、メールアドレス、学校名などを入力しなくても遊べます。</p>
           </div>
         </section>
         <section class="parent-tool-grid" aria-label="親向けメニュー">
@@ -384,6 +398,18 @@
         </section>
         <aside class="ad-slot parent-ad-slot" aria-label="広告スペース"><span>広告スペース</span><strong>Google AdSense 予定枠</strong></aside>
       </section>
+
+      <footer class="app-footer" aria-label="サイト情報">
+        <div>
+          <strong>ひっさんパズル</strong>
+          <span>小学生向けの掛け算・割り算の筆算練習アプリ</span>
+        </div>
+        <nav aria-label="公開サイト情報">
+          <a href="./about.html">保護者向け情報</a>
+          <a href="./privacy.html">プライバシーポリシー</a>
+          <a href="./sitemap.xml">サイトマップ</a>
+        </nav>
+      </footer>
     </main>
 
     <div id="celebration" class="celebration" aria-hidden="true"></div>
@@ -434,6 +460,6 @@
         </div>
       </section>
     </div>
-    <script src="script.js?v=128"></script>
+    <script src="script.js?v=129"></script>
   </body>
 </html>
