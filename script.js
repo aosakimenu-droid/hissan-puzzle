@@ -1647,16 +1647,30 @@ function collectSteps() {
   );
 }
 
+function useTabletKeypadOnly() {
+  return window.matchMedia?.("(pointer: coarse) and (min-width: 700px)")?.matches;
+}
+
+function focusActiveInput(input) {
+  if (!input || useTabletKeypadOnly()) return;
+  input.focus();
+}
+
 function activateCurrentStep() {
   const inputs = state.steps;
+  const keypadOnly = useTabletKeypadOnly();
   clearAssistHighlights();
   inputs.forEach((input, index) => {
     const isDone = index < state.stepIndex;
     const isCurrent = index === state.stepIndex;
-    input.disabled = !isCurrent && !isDone;
-    input.tabIndex = isDone ? -1 : 0;
+    input.disabled = keypadOnly ? true : !isCurrent && !isDone;
+    input.readOnly = keypadOnly;
+    input.inputMode = keypadOnly ? "none" : "numeric";
+    input.tabIndex = keypadOnly || isDone ? -1 : 0;
+    input.setAttribute("aria-disabled", keypadOnly ? "true" : String(!isCurrent && !isDone));
     input.classList.toggle("active", isCurrent);
     input.classList.toggle("locked", !isCurrent && !isDone);
+    input.classList.toggle("keypad-only", keypadOnly);
   });
 
   const current = inputs[state.stepIndex];
@@ -1679,7 +1693,7 @@ function activateCurrentStep() {
     return;
   }
 
-  current.focus();
+  focusActiveInput(current);
   const guide = guideForInput(current);
   if (title) title.textContent = `ステップ ${state.stepIndex + 1} / ${inputs.length}`;
   if (text) text.textContent = guide.text;
@@ -1779,7 +1793,11 @@ function applyMistakeAssist(input) {
   els.feedback.textContent = mistakeFeedbackFor(input, stepMistakes);
   els.feedback.className = "feedback try";
   updateCompanion("mistake");
-  input.select();
+  if (useTabletKeypadOnly()) {
+    input.blur();
+  } else {
+    input.select();
+  }
 }
 
 function recordWeakness(input) {
@@ -1794,8 +1812,12 @@ function wireInputFlow() {
   state.steps = [...els.problemArea.querySelectorAll(".digit-input")];
   state.steps.forEach((input) => {
     input.addEventListener("focus", () => {
+      if (useTabletKeypadOnly()) {
+        input.blur();
+        return;
+      }
       if (!input.classList.contains("active")) {
-        state.steps[state.stepIndex]?.focus();
+        focusActiveInput(state.steps[state.stepIndex]);
       }
     });
     input.addEventListener("beforeinput", (event) => {
@@ -1814,7 +1836,7 @@ function wireInputFlow() {
         if (extraDigits) {
           enterDigits(extraDigits);
         } else {
-          state.steps[state.stepIndex]?.focus();
+          focusActiveInput(state.steps[state.stepIndex]);
         }
         return;
       }
@@ -1833,7 +1855,7 @@ function checkCurrentStep() {
   if (!input.value) {
     els.feedback.textContent = "オレンジのマスに数字を入れてみよう。";
     els.feedback.className = "feedback try";
-    input.focus();
+    focusActiveInput(input);
     return;
   }
 
@@ -2723,7 +2745,7 @@ els.numpad?.addEventListener("click", (event) => {
     enterDigit(button.dataset.num);
   } else if (button.dataset.action === "back") {
     current.value = "";
-    current.focus();
+    focusActiveInput(current);
   } else if (button.dataset.action === "hint") {
     showHint();
   }
