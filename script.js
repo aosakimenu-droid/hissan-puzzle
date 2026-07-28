@@ -201,6 +201,7 @@ const BACKGROUND_QUEST_STEP = 50;
 const STAGE_UP_BONUS = 50;
 const NEXT_PROBLEM_DELAY = 900;
 const REWARD_PROBLEM_DELAY = 2400;
+const BACKGROUND_REWARD_DELAY = 3600;
 const STAGE_UP_PROBLEM_DELAY = 2700;
 
 const BACKGROUND_NAMES = [
@@ -827,10 +828,13 @@ function nextRewardGoalInfo() {
     };
   }
   if (state.problem?.kind === "multiplyFill" || state.mode === "multiplyFill") {
+    const leftText = background.left === 1 ? "あと1問で新しい背景！" : `背景まであと${background.left}問`;
     return {
       label: "背景チャレンジ",
-      title: background.complete ? "背景コンプリート" : `背景まであと${background.left}問`,
-      text: background.complete ? "すべての景色を集めました。" : `次は「${background.next.background.name}」。ホームの景色が増えます。`,
+      title: background.complete ? "背景コンプリート" : leftText,
+      text: background.complete
+        ? "すべての景色を集めました。好きな背景を選べます。"
+        : `次は「${background.next.background.name}」。クリアするとホームが変わります。`,
       progress: background.complete ? 100 : Math.max(6, background.progress),
       className: "is-background",
     };
@@ -2056,7 +2060,13 @@ function completeProblem() {
     } catch (error) {
       console.error(error);
     }
-    nextDelay = nextStage ? STAGE_UP_PROBLEM_DELAY : treasure.opened || backgroundReward ? REWARD_PROBLEM_DELAY : NEXT_PROBLEM_DELAY;
+    nextDelay = backgroundReward
+      ? BACKGROUND_REWARD_DELAY
+      : nextStage
+        ? STAGE_UP_PROBLEM_DELAY
+        : treasure.opened
+          ? REWARD_PROBLEM_DELAY
+          : NEXT_PROBLEM_DELAY;
   } catch (error) {
     console.error(error);
     els.feedback.textContent = "完成です。つぎの問題へ進みます。";
@@ -2332,7 +2342,7 @@ function showRewardToast({ coins = 0, comboHit = false, treasure = {}, backgroun
   if (!els.rewardToast || !els.rewardToastTitle || !els.rewardToastText || !els.rewardToastPrize) return;
   const coin = coinProgress();
   const nextGoal = nextRewardGoalInfo();
-  const type = backgroundReward ? "stage" : treasure.opened ? "treasure" : coin.ready > 0 ? "gacha-ready" : "coin";
+  const type = backgroundReward ? "background" : treasure.opened ? "treasure" : coin.ready > 0 ? "gacha-ready" : "coin";
   const prizeLabel = backgroundReward ? "景" : treasure.opened ? "宝" : coin.ready > 0 ? "玉" : "コ";
   const title = backgroundReward
     ? `背景「${backgroundReward.background.name}」をゲット`
@@ -2344,9 +2354,11 @@ function showRewardToast({ coins = 0, comboHit = false, treasure = {}, backgroun
   const extras = [];
   if (comboHit) extras.push("宝箱チャンス");
   if (nextStage) extras.push("ステージアップ");
-  const text = coin.ready > 0
-    ? `新しい仲間に会いに行けます。${extras.join(" / ")}`
-    : `${nextGoal.title}。${extras.length ? extras.join(" / ") : nextGoal.text}`;
+  const text = backgroundReward
+    ? "ホームに新しい景色が増えました。あとでコレクションから選べます。"
+    : coin.ready > 0
+      ? `新しい仲間に会いに行けます。${extras.join(" / ")}`
+      : `${nextGoal.title}。${extras.length ? extras.join(" / ") : nextGoal.text}`;
 
   els.rewardToast.className = `reward-toast show ${type}`;
   els.rewardToast.setAttribute("aria-hidden", "false");
@@ -2359,7 +2371,7 @@ function showRewardToast({ coins = 0, comboHit = false, treasure = {}, backgroun
   showRewardToast.timer = window.setTimeout(() => {
     els.rewardToast.classList.remove("show");
     els.rewardToast.setAttribute("aria-hidden", "true");
-  }, backgroundReward || treasure.opened || coin.ready > 0 ? 2300 : 1550);
+  }, backgroundReward ? 3200 : treasure.opened || coin.ready > 0 ? 2300 : 1550);
 }
 
 function showRewardSpotlight({ type = "treasure", title = "", text = "", label = "ごほうび発見", visual = "宝", image = "" } = {}) {
@@ -2384,9 +2396,9 @@ function showCompletionRewardEffects({ treasure = {}, backgroundReward = null, n
   if (backgroundReward) {
     showRewardSpotlight({
       type: "background",
-      label: "新しい背景",
-      title: `${backgroundReward.background.name}をゲット`,
-      text: `${backgroundReward.frame.name}フレームでホームが変わりました。`,
+      label: "50問クリア",
+      title: `${backgroundReward.background.name}をゲット！`,
+      text: `${backgroundReward.frame.name}フレームでホームが変わりました。次の景色へ進もう。`,
       image: backgroundReward.background.image,
     });
     return;
