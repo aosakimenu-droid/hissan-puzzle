@@ -3261,6 +3261,21 @@ select {
   font-size: 0.58em;
 }
 
+.digit-cell.carry-solved-cell::after {
+  content: attr(data-value);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  color: #087443;
+  font: inherit;
+  font-size: 0.58em;
+  font-weight: 950;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 2;
+}
+
 .carry-line {
   min-height: 0.78em;
   margin-bottom: -0.08em;
@@ -3388,8 +3403,9 @@ select {
 .digit-cell.carry-solved-cell .digit-input.carry-input,
 .digit-cell.carry-solved-cell .digit-input.carry-input.correct,
 .digit-cell.carry-solved-cell .digit-input.carry-input:disabled {
-  color: #087443 !important;
-  -webkit-text-fill-color: #087443 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  caret-color: transparent;
   opacity: 1 !important;
 }
 
