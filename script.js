@@ -1651,6 +1651,10 @@ function useTabletKeypadOnly() {
   return window.matchMedia?.("(pointer: coarse) and (min-width: 700px)")?.matches;
 }
 
+function useCoarsePointer() {
+  return window.matchMedia?.("(pointer: coarse)")?.matches;
+}
+
 function focusActiveInput(input) {
   if (!input || useTabletKeypadOnly()) return;
   input.focus();
@@ -1795,6 +1799,12 @@ function applyMistakeAssist(input) {
   updateCompanion("mistake");
   if (useTabletKeypadOnly()) {
     input.blur();
+  } else if (useCoarsePointer()) {
+    try {
+      input.setSelectionRange(input.value.length, input.value.length);
+    } catch (error) {
+      input.blur();
+    }
   } else {
     input.select();
   }
