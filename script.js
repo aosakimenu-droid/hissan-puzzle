@@ -1059,32 +1059,32 @@ function guideForInput(input) {
 
   if (input.classList.contains("carry-input")) {
     return {
-      text: "くり上がりを小さいマスにメモします。",
-      carry: "次の位の計算で、この小さいメモを足します。",
+      text: "小さいマスにメモしよう。",
+      carry: "次の計算で、このメモを足します。",
     };
   }
   if (input.closest(".quotient-row")) {
     return {
-      text: "商を書くマスです。左から順番に、割る数が何回入るか考えます。",
-      carry: "まだ答えは見えません。頭の中で『何回入るかな』と試します。",
+      text: "何回入るかな。上のマスに入れよう。",
+      carry: "次は、かけ算でたしかめます。",
     };
   }
   if (input.closest(".division-product-row")) {
     return {
-      text: "かけ戻した数を書くマスです。掛け算の筆算と同じ順番で進めます。",
-      carry: "右のかけ算メモを見ながら、繰り上がりも使って書きます。",
+      text: "かけ算の答えを下に入れよう。",
+      carry: "右から順番に進めます。",
     };
   }
   if (input.closest(".division-remainder-row")) {
     return {
-      text: "ひいた後の数を書きます。次の数字をおろす時は、同じ行の右に続けます。",
-      carry: "ひいてから、次の位へ進みます。",
+      text: "ひいた答えを入れよう。",
+      carry: "できたら、次の数字をおろします。",
     };
   }
   if (input.closest(".division-final-row")) {
     return {
-      text: "最後のあまりを書きます。割る数より小さいか確認しましょう。",
-      carry: "ここでわり算の最後を整えます。",
+      text: "最後のあまりを入れよう。",
+      carry: "割る数より小さいかな。",
     };
   }
   if (input.closest(".fill-equation")) {
@@ -1092,14 +1092,14 @@ function guideForInput(input) {
     const shown = input.dataset.shown;
     const side = input.dataset.side === "left" ? "左" : "右";
     return {
-      text: `${side}のかくれた数を考えます。${product}は${shown}がいくつ分かを探そう。`,
-      carry: `${shown}の段を思い出して、${product}になるところを見つけます。`,
+      text: `${side}のかくれた数をさがそう。`,
+      carry: `${shown}の段で、${product}になるところを見つけよう。`,
     };
   }
   if (input.closest(".guided-row")) {
     return {
-      text: "この段の答えを書くマスです。右の位から順番に、計算した数字を入れよう。",
-      carry: "答えはここには出しません。筆算の中の数字を見て考えます。",
+      text: "右から順番に入れよう。",
+      carry: "上の数字を見て考えよう。",
     };
   }
   return {
@@ -1137,8 +1137,8 @@ function divisionMultiplyMemoHtml(divisor, quotientDigit) {
     return `
       <div class="division-multiply-memo">
         <span>かけ算メモ</span>
-        <strong>${divisor} × 0 を右から確認</strong>
-        <p>0回のかけ戻しです。位をそろえて下の行を入れます。</p>
+        <strong>${divisor} × 0</strong>
+        <p>右から順番に入れよう。</p>
       </div>
     `;
   }
@@ -1149,16 +1149,16 @@ function divisionMultiplyMemoHtml(divisor, quotientDigit) {
     const writeDigit = total % 10;
     const nextCarry = Math.floor(total / 10);
     const place = placeNameFromRight(reverseIndex);
-    const carryText = carry ? "に前のメモを足します" : "を計算します";
-    const nextText = nextCarry ? "十の位は小さいマスへ。" : "繰り上がりがないか確認。";
-    steps.push(`${place}: ${multiplier} × ${digit}${carryText}。一の位は大きいマスへ、${nextText}`);
+    const carryText = carry ? "メモも足そう" : "計算しよう";
+    const nextText = nextCarry ? "メモがあるよ。" : "メモなし。";
+    steps.push(`${place}: ${multiplier} × ${digit}。${carryText}。${nextText}`);
     carry = nextCarry;
   });
-  if (carry > 0) steps.push("最後に残ったメモを左の大きいマスへ。");
+  if (carry > 0) steps.push("最後のメモも忘れずに。");
   return `
     <div class="division-multiply-memo">
       <span>かけ算メモ</span>
-      <strong>${divisor} × ${multiplier} を右から筆算</strong>
+      <strong>${divisor} × ${multiplier}</strong>
       ${steps.map((step) => `<p>${step}</p>`).join("")}
     </div>
   `;
@@ -1181,14 +1181,14 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
     const hasNextDivisorDigit = digitIndex < divisorDigits.length - 1;
     const place = placeNameFromRight(digitIndex);
     const formula = carry
-      ? `${quotientDigit} × ${divisorDigit} に、前のメモを足します。`
-      : `${quotientDigit} × ${divisorDigit} を計算します。`;
+      ? `${quotientDigit} × ${divisorDigit} にメモを足そう。`
+      : `${quotientDigit} × ${divisorDigit} を考えよう。`;
 
     if (nextCarry > 0 && hasNextDivisorDigit) {
       carryMetas[pos - 1] = {
         answer: nextCarry,
-        step: `${formula}${place}の十の位を小さいマスにメモします。`,
-        carry: "次の位で、この小さいメモを足します。",
+        step: `${formula}小さいマスにメモしよう。`,
+        carry: "次でこのメモを足します。",
         multiplyMemo: memoHtml,
         seq,
       };
@@ -1197,8 +1197,8 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
 
     if (nextCarry > 0 && !hasNextDivisorDigit) {
       productMetas[pos - 1] = {
-        step: `${formula}左にもう掛ける数がないので、残った十の位を大きいマスに入れます。`,
-        carry: `次のマスまで入れると、${divisor}×${quotientDigit}の行が完成します。`,
+        step: `${formula}残ったメモを入れよう。`,
+        carry: "次のマスで、この行が完成します。",
         multiplyMemo: memoHtml,
         seq,
       };
@@ -1206,8 +1206,8 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
     }
 
     productMetas[pos] = {
-      step: `${formula}${place}の答えをこの大きいマスに入れます。`,
-      carry: nextCarry ? "十の位は、次の位で使います。" : "繰り上がりはありません。",
+      step: `${formula}答えを入れよう。`,
+      carry: nextCarry ? "メモも忘れずに。" : "メモなしです。",
       multiplyMemo: memoHtml,
       seq,
     };
@@ -1352,14 +1352,14 @@ function multiplyMetas(problem) {
       const hasNextTopDigit = topIndex < topDigits.length - 1;
       const place = placeNameFromRight(topIndex);
       const formula = carry
-        ? `${bottomDigit} × ${topDigit} に、前のメモを足します。`
-        : `${bottomDigit} × ${topDigit} を計算します。`;
+        ? `${bottomDigit} × ${topDigit} にメモを足そう。`
+        : `${bottomDigit} × ${topDigit} を考えよう。`;
 
       if (nextCarry > 0 && hasNextTopDigit) {
         carryMetas[pos - 1] = {
           answer: nextCarry,
-          step: `${formula}${place}の十の位を小さいマスにメモします。`,
-          carry: "次の位で、この小さいメモを足します。",
+          step: `${formula}小さいマスにメモしよう。`,
+          carry: "次でこのメモを足します。",
           seq,
         };
         seq += 1;
@@ -1367,16 +1367,16 @@ function multiplyMetas(problem) {
 
       if (nextCarry > 0 && !hasNextTopDigit) {
         rowMetas[pos - 1] = {
-          step: `${formula}左にもう掛ける数がないので、残った十の位を大きいマスに入れます。`,
-          carry: "次のマスまで入れると、この段が完成します。",
+          step: `${formula}残ったメモを入れよう。`,
+          carry: "次のマスで、この段が完成します。",
           seq,
         };
         seq += 1;
       }
 
       rowMetas[pos] = {
-        step: `${formula}${place}の答えをこの大きいマスに入れます。`,
-        carry: nextCarry ? "十の位は、次の位で使います。" : "繰り上がりはありません。",
+        step: `${formula}答えを入れよう。`,
+        carry: nextCarry ? "メモも忘れずに。" : "メモなしです。",
         seq,
       };
       seq += 1;
@@ -1395,8 +1395,8 @@ function multiplyMetas(problem) {
     const resultDigit = sum % 10;
     const nextCarry = Math.floor(sum / 10);
     metas.answer[pos] = {
-      step: `${columnDigits.join(" + ")}${carry ? " と繰り上がり" : ""}をたします。答えのこの位を入れます。`,
-      carry: nextCarry ? "十の位は、左の位へ繰り上げます。" : "次へ進みましょう。",
+      step: `${columnDigits.join(" + ")}${carry ? " とメモ" : ""}をたそう。`,
+      carry: nextCarry ? "メモを左へ送ります。" : "次へ進もう。",
       seq,
     };
     seq += 1;
@@ -1556,8 +1556,8 @@ function divideWork(problem, width) {
     const remainder = current - product;
     quotientCells[index] = String(quotientDigit);
     quotientMetas[index] = {
-      step: `${current}の中に${problem.divisor}は何回入るかな。入る回数を商のマスに書きます。`,
-      carry: "商を書けたら、次はその数を使って掛け戻します。",
+      step: `${current}に${problem.divisor}は何回入るかな。`,
+      carry: "上に入れたら、次はかけ算です。",
       seq,
     };
     seq += 1;
@@ -1596,12 +1596,12 @@ function divideWork(problem, width) {
       .reverse()
       .forEach(({ cellIndex }) => {
         remainderMetas[cellIndex] = {
-          step: `${current}から、下に書いた${product}をひきます。ひき算なので右の位から書きます。`,
+          step: `${current}から下の数をひこう。`,
           carry: hasNextDigit
-            ? `引いた答えを書けたら、同じ行の右に次の数字をおろします。`
+            ? "できたら、次の数字をおろします。"
             : remainder < problem.divisor
-              ? `あまりが${problem.divisor}より小さいか確認しましょう。`
-              : "あまりが割る数より小さいか見直しましょう。",
+              ? "あまりは小さいかな。"
+              : "あまりが大きすぎないかな。",
           seq,
         };
         seq += 1;
@@ -1610,8 +1610,8 @@ function divideWork(problem, width) {
       combinedRemainderText.split("").forEach((char, cellIndex) => {
         if (char !== " " && !remainderMetas[cellIndex]) {
           remainderMetas[cellIndex] = {
-            step: "ひいた答えの右に、次の数字をおろします。",
-            carry: `次は、おろしてできた数の中に${problem.divisor}が何回入るか考えます。`,
+            step: "次の数字をおろそう。",
+            carry: `次も、${problem.divisor}が何回入るか考えます。`,
             seq,
           };
           seq += 1;
