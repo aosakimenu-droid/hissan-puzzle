@@ -1048,6 +1048,15 @@ function carryLine(name, width, metas = {}) {
 }
 
 function guideForInput(input) {
+  const step = input.dataset.step || "";
+  const carry = input.dataset.carry || "";
+  if (step || carry) {
+    return {
+      text: step || "オレンジのマスに数字を1つ入れましょう。",
+      carry: carry || "次のマスへ進みます。",
+    };
+  }
+
   if (input.classList.contains("carry-input")) {
     return {
       text: "くり上がりを小さいマスにメモします。",
@@ -1128,8 +1137,8 @@ function divisionMultiplyMemoHtml(divisor, quotientDigit) {
     return `
       <div class="division-multiply-memo">
         <span>かけ算メモ</span>
-        <strong>${divisor} × 0 = 0</strong>
-        <p>0回なので、下に書く数は0です。</p>
+        <strong>${divisor} × 0 を右から確認</strong>
+        <p>0回のかけ戻しです。位をそろえて下の行を入れます。</p>
       </div>
     `;
   }
@@ -1140,16 +1149,16 @@ function divisionMultiplyMemoHtml(divisor, quotientDigit) {
     const writeDigit = total % 10;
     const nextCarry = Math.floor(total / 10);
     const place = placeNameFromRight(reverseIndex);
-    const carryText = carry ? ` + メモ${carry}` : "";
-    const nextText = nextCarry ? `、${nextCarry}を小さくメモ` : "";
-    steps.push(`${place}: ${multiplier} × ${digit}${carryText} = ${total} → ${writeDigit}を書く${nextText}`);
+    const carryText = carry ? "に前のメモを足します" : "を計算します";
+    const nextText = nextCarry ? "十の位は小さいマスへ。" : "繰り上がりがないか確認。";
+    steps.push(`${place}: ${multiplier} × ${digit}${carryText}。一の位は大きいマスへ、${nextText}`);
     carry = nextCarry;
   });
-  if (carry > 0) steps.push(`最後にメモ${carry}を書く`);
+  if (carry > 0) steps.push("最後に残ったメモを左の大きいマスへ。");
   return `
     <div class="division-multiply-memo">
       <span>かけ算メモ</span>
-      <strong>${divisor} × ${multiplier} = ${divisor * multiplier}</strong>
+      <strong>${divisor} × ${multiplier} を右から筆算</strong>
       ${steps.map((step) => `<p>${step}</p>`).join("")}
     </div>
   `;
@@ -1170,15 +1179,16 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
     const nextCarry = Math.floor(total / 10);
     const pos = endIndex - digitIndex;
     const hasNextDivisorDigit = digitIndex < divisorDigits.length - 1;
+    const place = placeNameFromRight(digitIndex);
     const formula = carry
-      ? `${quotientDigit} × ${divisorDigit} + ${carry} = ${total}`
-      : `${quotientDigit} × ${divisorDigit} = ${total}`;
+      ? `${quotientDigit} × ${divisorDigit} に、前のメモを足します。`
+      : `${quotientDigit} × ${divisorDigit} を計算します。`;
 
     if (nextCarry > 0 && hasNextDivisorDigit) {
       carryMetas[pos - 1] = {
         answer: nextCarry,
-        step: `${formula}。${total}の十の位${nextCarry}を小さくメモします。`,
-        carry: `次の位で、このメモ${nextCarry}を足します。`,
+        step: `${formula}${place}の十の位を小さいマスにメモします。`,
+        carry: "次の位で、この小さいメモを足します。",
         multiplyMemo: memoHtml,
         seq,
       };
@@ -1187,8 +1197,8 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
 
     if (nextCarry > 0 && !hasNextDivisorDigit) {
       productMetas[pos - 1] = {
-        step: `${formula}。左にもう掛ける数がないので、${nextCarry}を大きいマスに書きます。`,
-        carry: `次に${resultDigit}を書けば、${divisor}×${quotientDigit}が完成です。`,
+        step: `${formula}左にもう掛ける数がないので、残った十の位を大きいマスに入れます。`,
+        carry: `次のマスまで入れると、${divisor}×${quotientDigit}の行が完成します。`,
         multiplyMemo: memoHtml,
         seq,
       };
@@ -1196,8 +1206,8 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
     }
 
     productMetas[pos] = {
-      step: `${formula}。このマスには${resultDigit}を書きます。`,
-      carry: nextCarry ? `${nextCarry}を次の位へ使います。` : "繰り上がりはありません。",
+      step: `${formula}${place}の答えをこの大きいマスに入れます。`,
+      carry: nextCarry ? "十の位は、次の位で使います。" : "繰り上がりはありません。",
       multiplyMemo: memoHtml,
       seq,
     };
@@ -1340,15 +1350,16 @@ function multiplyMetas(problem) {
       const nextCarry = Math.floor(total / 10);
       const pos = problem.width - 1 - rowIndex - topIndex;
       const hasNextTopDigit = topIndex < topDigits.length - 1;
+      const place = placeNameFromRight(topIndex);
       const formula = carry
-        ? `${bottomDigit} × ${topDigit} + ${carry} = ${total}`
-        : `${bottomDigit} × ${topDigit} = ${total}`;
+        ? `${bottomDigit} × ${topDigit} に、前のメモを足します。`
+        : `${bottomDigit} × ${topDigit} を計算します。`;
 
       if (nextCarry > 0 && hasNextTopDigit) {
         carryMetas[pos - 1] = {
           answer: nextCarry,
-          step: `${formula}。${total}の十の位${nextCarry}を小さくメモします。`,
-          carry: `次の位で、このメモ${nextCarry}を足します。`,
+          step: `${formula}${place}の十の位を小さいマスにメモします。`,
+          carry: "次の位で、この小さいメモを足します。",
           seq,
         };
         seq += 1;
@@ -1356,16 +1367,16 @@ function multiplyMetas(problem) {
 
       if (nextCarry > 0 && !hasNextTopDigit) {
         rowMetas[pos - 1] = {
-          step: `${formula}。左にもう掛ける数がないので、${nextCarry}を大きいマスに書きます。`,
-          carry: `次に${resultDigit}を書けば、この段が完成です。`,
+          step: `${formula}左にもう掛ける数がないので、残った十の位を大きいマスに入れます。`,
+          carry: "次のマスまで入れると、この段が完成します。",
           seq,
         };
         seq += 1;
       }
 
       rowMetas[pos] = {
-        step: `${formula}。このマスには${resultDigit}を書きます。`,
-        carry: nextCarry ? `${nextCarry}を次の位へ使います。` : "繰り上がりはありません。",
+        step: `${formula}${place}の答えをこの大きいマスに入れます。`,
+        carry: nextCarry ? "十の位は、次の位で使います。" : "繰り上がりはありません。",
         seq,
       };
       seq += 1;
@@ -1384,8 +1395,8 @@ function multiplyMetas(problem) {
     const resultDigit = sum % 10;
     const nextCarry = Math.floor(sum / 10);
     metas.answer[pos] = {
-      step: `${columnDigits.join(" + ")}${carry ? ` + 繰り上がり${carry}` : ""} = ${sum}。答えのこの位は${resultDigit}です。`,
-      carry: nextCarry ? `${nextCarry}を左の位へ繰り上げます。` : "次へ進みましょう。",
+      step: `${columnDigits.join(" + ")}${carry ? " と繰り上がり" : ""}をたします。答えのこの位を入れます。`,
+      carry: nextCarry ? "十の位は、左の位へ繰り上げます。" : "次へ進みましょう。",
       seq,
     };
     seq += 1;
@@ -1545,8 +1556,8 @@ function divideWork(problem, width) {
     const remainder = current - product;
     quotientCells[index] = String(quotientDigit);
     quotientMetas[index] = {
-      step: `${current}の中に${problem.divisor}は何回入るかな。${quotientDigit}回なので、商に${quotientDigit}を書きます。`,
-      carry: `次は ${problem.divisor} × ${quotientDigit} を掛け算の筆算と同じ順番で下に書きます。`,
+      step: `${current}の中に${problem.divisor}は何回入るかな。入る回数を商のマスに書きます。`,
+      carry: "商を書けたら、次はその数を使って掛け戻します。",
       seq,
     };
     seq += 1;
@@ -1585,11 +1596,11 @@ function divideWork(problem, width) {
       .reverse()
       .forEach(({ cellIndex }) => {
         remainderMetas[cellIndex] = {
-          step: `${current} - ${product} = ${remainder}。ひき算なので右の位から書きます。`,
+          step: `${current}から、下に書いた${product}をひきます。ひき算なので右の位から書きます。`,
           carry: hasNextDigit
-            ? `引いた答えを書けたら、同じ行の右に${digits[index + 1]}をおろします。`
+            ? `引いた答えを書けたら、同じ行の右に次の数字をおろします。`
             : remainder < problem.divisor
-              ? `あまり${remainder}は${problem.divisor}より小さいのでOKです。`
+              ? `あまりが${problem.divisor}より小さいか確認しましょう。`
               : "あまりが割る数より小さいか見直しましょう。",
           seq,
         };
@@ -1599,8 +1610,8 @@ function divideWork(problem, width) {
       combinedRemainderText.split("").forEach((char, cellIndex) => {
         if (char !== " " && !remainderMetas[cellIndex]) {
           remainderMetas[cellIndex] = {
-            step: `${remainder}の右に、次の数字${digits[index + 1]}をおろして${nextCurrent}にします。`,
-            carry: `次は ${nextCurrent}の中に${problem.divisor}が何回入るか考えます。`,
+            step: "ひいた答えの右に、次の数字をおろします。",
+            carry: `次は、おろしてできた数の中に${problem.divisor}が何回入るか考えます。`,
             seq,
           };
           seq += 1;

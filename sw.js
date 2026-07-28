@@ -1,4 +1,4 @@
-const CACHE_NAME = "hissan-puzzle-v117";
+const CACHE_NAME = "hissan-puzzle-v119";
 const rewardAssetPath = (folder, prefix, count) =>
   Array.from({ length: count }, (_, index) => `./assets/rewards/${folder}/${prefix}${String(index + 1).padStart(3, "0")}.png`);
 const backgroundAssetPath = (folder, count) =>
