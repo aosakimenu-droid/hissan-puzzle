@@ -1994,6 +1994,10 @@ function markInputCellSolved(input) {
   const cell = input.closest(".digit-cell");
   if (!cell) return;
   cell.dataset.value = input.dataset.answer || input.value || "";
+  if (input.classList.contains("carry-input")) {
+    cell.classList.add("carry-solved-cell");
+    return;
+  }
   cell.classList.add("solved-cell");
 }
 function saveProgress() {

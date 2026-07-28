@@ -3255,12 +3255,6 @@ select {
   z-index: 2;
 }
 
-.digit-cell.solved-cell .digit-input {
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
-  caret-color: transparent;
-}
-
 .carry-line .digit-cell.solved-cell::after {
   align-items: end;
   color: #087443;
@@ -3379,6 +3373,16 @@ select {
   color: var(--ink) !important;
   opacity: 1 !important;
   -webkit-text-fill-color: var(--ink) !important;
+}
+
+.digit-cell.solved-cell .digit-input,
+.digit-cell.solved-cell .digit-input.correct,
+.digit-cell.solved-cell .digit-input.carry-input.correct,
+.digit-cell.solved-cell .digit-input.correct:disabled,
+.digit-cell.solved-cell .digit-input.correct.locked {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  caret-color: transparent;
 }
 
 .digit-input.wrong {
