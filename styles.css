@@ -3255,6 +3255,12 @@ select {
   z-index: 2;
 }
 
+.digit-cell.solved-cell .digit-input {
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  caret-color: transparent;
+}
+
 .carry-line .digit-cell.solved-cell::after {
   align-items: end;
   color: #087443;
