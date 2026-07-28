@@ -64,15 +64,15 @@ function applyJapaneseLabels() {
   setText(".app-home .hero-copy .eyebrow", "ひっさんパズル");
   const homeTitle = document.querySelector(".app-home h1");
   if (homeTitle) homeTitle.innerHTML = "問題をといて、<span>コインをためよう</span>";
-  setText(".app-home .hero-copy > p:not(.eyebrow)", "かけ算とわり算の筆算を、1マスずつ進めてガチャに挑戦する学習ゲーム。");
+  setText(".app-home .hero-copy > p:not(.eyebrow)", "3問で宝箱、100コインでガチャ。解くたびにごほうびへ近づくよ。");
   setText(".app-home [data-nav='challenge']", "レベルアップチャレンジ");
   setText(".app-home [data-nav='gacha']", "ガチャをまわす");
   setText(".daily-card.soft .eyebrow", "いまのコイン");
   setText(".daily-card.reward-preview .eyebrow", "コレクション");
-  setText(".daily-card.reward-preview h2", "まだこれから");
-  setText(".daily-card.reward-preview p:not(.eyebrow)", "ガチャでキャラ景品を集めよう。");
+  setText(".daily-card.reward-preview h2", "キャラを集めよう");
+  setText(".daily-card.reward-preview p:not(.eyebrow)", "ガチャで新しい仲間に出会えます。");
   setText(".daily-card.reward-preview button", "ごほうびを見る");
-  setText(".journey-card .eyebrow", "九九とどけもの");
+  setText(".journey-card .eyebrow", "背景チャレンジ");
   setText(".journey-card button", "九九あなうめへ");
   setText(".home-secondary-actions [data-nav='review']", "ふくしゅう");
   setText(".home-secondary-actions [data-nav='parent']", "親モード");
@@ -81,8 +81,8 @@ function applyJapaneseLabels() {
   setAllText("[data-nav='challenge']", "問題を解く");
   setAllText("[data-nav='rewards']", "コレクションを見る");
   setText(".gacha-copy .eyebrow", "コインガチャ");
-  setText(".gacha-copy h2", "問題をといたコインで、キャラを集めよう");
-  setText(".gacha-copy .large-copy", "1問ごとにコインが増えます。100コインたまったら、ガチャでキャラをゲット。");
+  setText(".gacha-copy h2", "コインをためて、キャラと出会おう");
+  setText(".gacha-copy .large-copy", "100コインで1回まわせます。レアな仲間が出たら、今日は大当たり。");
   setText("#gachaButton", "ガチャをまわす");
 
   setText(".course-select-hero .eyebrow", "コース選択");
@@ -125,7 +125,7 @@ function applyJapaneseLabels() {
   setText(".stage-status-main span", "いま");
   setText(".stage-status-item:nth-child(2) span", "宝箱まで");
   setText(".stage-status-item:nth-child(3) span", "ガチャまで");
-  setText(".play-reward-panel .eyebrow", "ガチャまで");
+  setText(".play-reward-panel .eyebrow", "つぎのごほうび");
   setText("#checkButton", "このマスを確認");
   setText("#showAnswerButton", "答えを見る");
   setText("[data-action='back']", "消す");
@@ -133,7 +133,7 @@ function applyJapaneseLabels() {
 
   setText(".rewards-view .section-head .eyebrow", "コレクション");
   setText(".rewards-view .section-head h2", "キャラコレクションと練習シール");
-  setText("#nextRewardText", "問題を解いてコインをためると、ガチャでキャラ景品が増えていきます。");
+  setText("#nextRewardText", "問題を解くほど、キャラ・背景・シールが少しずつ増えていきます。");
   setText(".review-view .section-head .eyebrow", "ふくしゅう部屋");
   setText(".review-view .section-head h2", "苦手ステージに挑戦");
   setText("#weakPointText", "まだ苦手記録はありません。");
@@ -2141,14 +2141,14 @@ function updateProgress() {
   const missionText = document.querySelector("#missionText");
   if (missionText) {
     missionText.textContent =
-      coin.ready > 0 ? `ガチャを${coin.ready}回まわせます。` : `あと${coin.need}コインでガチャ。1問ずつためよう。`;
+      coin.ready > 0 ? `ガチャを${coin.ready}回まわせます。いまがチャンス。` : `あと${coin.need}コインでガチャ。まずは1問進めよう。`;
   }
   if (els.homeCoinText) els.homeCoinText.textContent = `${state.coins}コイン`;
   if (els.homeGachaText) {
     els.homeGachaText.textContent =
       coin.ready > 0
-        ? `いま${coin.ready}回ガチャをまわせます。かけら${state.gachaFragments}こ。`
-        : `あと${coin.need}コイン。${gachaProblemEstimate(coin)}でガチャに近づきます。かけら${state.gachaFragments}こ。`;
+        ? `いま${coin.ready}回ガチャをまわせます。新しい仲間を見に行こう。`
+        : `あと${coin.need}コイン。${gachaProblemEstimate(coin)}でガチャが近づきます。`;
   }
   els.badgeList.innerHTML =
     coin.ready > 0 ? '<span class="badge">ガチャOK</span>' : '<span class="badge">あと' + coin.need + 'コイン</span>';
@@ -2173,7 +2173,7 @@ function updateBackgroundQuestUi() {
   if (els.homeJourneyText) {
     els.homeJourneyText.textContent = next.complete
       ? `全${BACKGROUND_REWARDS.length}背景とフレームを集めました。好きな背景を選べます。`
-      : `九九あなうめをあと${next.left}問クリアすると、新しいホーム背景がもらえます。`;
+      : `九九あなうめを進めると、ホームが新しい景色に変わります。`;
   }
   if (els.homeJourneyProgress) els.homeJourneyProgress.style.width = `${next.complete ? 100 : Math.max(4, next.progress)}%`;
 }
@@ -2183,7 +2183,7 @@ function updateComboPanel() {
   const fever = state.streak > 0 && combo === 0;
   const remaining = combo === 0 ? 3 : 3 - combo;
   if (els.comboProgress) els.comboProgress.style.width = `${(fever ? 1 : combo / 3) * 100}%`;
-  if (els.comboText) els.comboText.textContent = fever ? `${state.streak}れんぞく。フィーバー中` : `あと${remaining}問でフィーバー`;
+  if (els.comboText) els.comboText.textContent = fever ? `${state.streak}れんぞく。フィーバー中` : `あと${remaining}問で宝箱チャンス`;
   if (els.comboPanel) els.comboPanel.classList.toggle("fever", fever);
 }
 
@@ -2195,18 +2195,18 @@ function updatePlayRewardPanel() {
     els.playRewardTitle.textContent = next.complete ? "背景コンプリート" : `背景まであと${next.left}問`;
     els.playRewardText.textContent = next.complete
       ? "すべてのホーム背景とフレームを集めました。"
-      : `次は「${next.next.background.name}」${next.next.frame.level > 1 ? `の${next.next.frame.name}` : ""}がもらえます。`;
+      : `あと少しで、ホームの景色が増えます。`;
     els.playRewardProgress.style.width = `${next.complete ? 100 : Math.max(6, next.progress)}%`;
     return;
   }
   if (coin.ready > 0) {
     els.playRewardTitle.textContent = `ガチャ${coin.ready}回ぶん`;
-    els.playRewardText.textContent = "ホームかガチャ画面でキャラ景品をゲットできます。";
+    els.playRewardText.textContent = "ガチャで新しい仲間に会いに行こう。";
     els.playRewardProgress.style.width = "100%";
     return;
   }
   els.playRewardTitle.textContent = `あと${coin.need}コイン`;
-  els.playRewardText.textContent = `${gachaProblemEstimate(coin)}でガチャに届きます。1問ごとにゲージが進みます。`;
+  els.playRewardText.textContent = `${gachaProblemEstimate(coin)}でガチャに近づきます。`;
   els.playRewardProgress.style.width = `${Math.max(8, coin.percent)}%`;
 }
 
@@ -2290,7 +2290,7 @@ function renderGachaUi() {
   if (els.gachaTicketText) els.gachaTicketText.textContent = `${coin.ready}回`;
   if (els.gachaNeedText) els.gachaNeedText.textContent = canRoll ? "OK" : `${coin.need}`;
   if (els.gachaProgressText) {
-    els.gachaProgressText.textContent = hasCoin ? `いま${coin.ready}回まわせます` : `${gachaProblemEstimate(coin)} / あと${coin.need}コイン`;
+    els.gachaProgressText.textContent = hasCoin ? `いま${coin.ready}回まわせます` : `${gachaProblemEstimate(coin)}でチャンス / あと${coin.need}コイン`;
   }
   if (els.gachaProgress) els.gachaProgress.style.width = `${hasCoin ? 100 : Math.max(8, coin.percent)}%`;
   if (els.gachaButton) {
@@ -2319,8 +2319,8 @@ function renderGachaUi() {
         els.gachaResultRarity.textContent = "";
         els.gachaResultRarity.className = "rarity-badge";
       }
-      els.gachaResultTitle.textContent = "まだまわしていません";
-      els.gachaResultText.textContent = "100コインためるとガチャに挑戦できます。";
+      els.gachaResultTitle.textContent = "次の仲間が待っています";
+      els.gachaResultText.textContent = "100コインためると、ガチャに挑戦できます。";
     }
   }
   if (els.gachaPrizePreview) {
