@@ -88,7 +88,7 @@ function applyJapaneseLabels() {
 
   setText(".course-select-hero .eyebrow", "コース選択");
   setText(".course-select-hero h1", "今日はどこから進む？");
-  setText(".course-select-hero p:not(.eyebrow)", "迷ったら青いおすすめ。苦手がはっきりしている時だけ、かけ算・わり算・九九あなうめを選びます。");
+  setText(".course-select-hero p:not(.eyebrow)", "迷ったら、いちばん上のおすすめ。苦手がある時だけ、かけ算・わり算・九九あなうめを選びます。");
   const courseHeads = document.querySelectorAll(".course-category-head");
   const courseHeadLabels = [
     ["おすすめ", "レベルアップチャレンジ", "できる問題から始めて、少しずつレベルアップします。"],
@@ -113,16 +113,16 @@ function applyJapaneseLabels() {
     if (routeBadges[index]) routeBadges[index].textContent = text;
   });
   const courseLabels = {
-    autoAdventure: ["レベルアップチャレンジ", "おすすめ / できる問題から少しずつ難しくなる"],
-    starter: ["かけ算ならし", "Lv.1 / 1けた×1けたで筆算の順番に慣れる"],
-    multiplyFill: ["九九あなうめ", "テンポ練習 / かくれた数を見つける"],
-    multiplyForest: ["かけ算マスター 1", "Lv.2 / 2けた×1けた、くり上がり"],
-    multiplyMountain: ["かけ算マスター 2", "Lv.3 / 2けた×2けたに挑戦"],
-    multiplyCastle: ["かけ算マスター 3", "Lv.4 / 3けた×3けたを攻略"],
-    divideRiver: ["わり算マスター 1", "Lv.1 / あまりなしの基本"],
-    divideCave: ["わり算マスター 2", "Lv.2 / あまりまで考える"],
-    divideSky: ["わり算マスター 3", "Lv.3 / 大きい数のわり算に挑戦"],
-    mixAdventure: ["ミックス練習", "仕上げ / かけ算とわり算がいろいろ出る"],
+    autoAdventure: ["レベルアップチャレンジ", "おすすめ。できる問題から少しずつ難しくなる"],
+    starter: ["かけ算ならし", "Lv.1  1けた×1けたで筆算の順番に慣れる"],
+    multiplyFill: ["九九あなうめ", "テンポ練習。かくれた数を見つける"],
+    multiplyForest: ["かけ算マスター 1", "Lv.2  2けた×1けた、くり上がり"],
+    multiplyMountain: ["かけ算マスター 2", "Lv.3  2けた×2けたに挑戦"],
+    multiplyCastle: ["かけ算マスター 3", "Lv.4  3けた×3けたに挑戦"],
+    divideRiver: ["わり算マスター 1", "Lv.1  あまりなしの基本"],
+    divideCave: ["わり算マスター 2", "Lv.2  あまりまで考える"],
+    divideSky: ["わり算マスター 3", "Lv.3  大きい数のわり算に挑戦"],
+    mixAdventure: ["ミックス練習", "仕上げ。かけ算とわり算がいろいろ出る"],
   };
   Object.entries(courseLabels).forEach(([key, [title, text]]) => {
     setText(`.course-card[data-course="${key}"] strong`, title);
@@ -381,9 +381,9 @@ const WORLDS = [
   { name: "ひみつの森", text: "まずは筆算の順番に慣れよう。", target: 0, icon: "森", image: "assets/stages/stage-forest.png" },
   { name: "すうじの川", text: "くり上がりと途中メモを見ながら進もう。", target: 5, icon: "川", image: "assets/stages/stage-river.png" },
   { name: "くり上がり山", text: "少し長い計算も、1マスずつなら大丈夫。", target: 10, icon: "山", image: "assets/stages/stage-mountain.png" },
-  { name: "わり算どうくつ", text: "商、かける、ひく、おろすを順番に攻略しよう。", target: 15, icon: "洞", image: "assets/stages/stage-cave.png" },
+  { name: "わり算どうくつ", text: "商、かける、ひく、おろすを順番に進めよう。", target: 15, icon: "洞", image: "assets/stages/stage-cave.png" },
   { name: "100の位キャッスル", text: "3けたのかけ算に挑戦しよう。", target: 25, icon: "城", image: "assets/stages/stage-castle.png" },
-  { name: "わり算マスター城", text: "大きな数のわり算を攻略しよう。", target: 40, icon: "星", image: "assets/stages/stage-starland.png" },
+  { name: "わり算マスター城", text: "大きな数のわり算に挑戦しよう。", target: 40, icon: "星", image: "assets/stages/stage-starland.png" },
 ];
 const REWARDS = [
   { at: 3, name: "森のバッジ", note: "3問クリア", icon: "森" },
@@ -1140,7 +1140,7 @@ function guideForInput(input) {
 
   if (input.classList.contains("carry-input")) {
     return {
-      text: "小さいマスにメモしよう。",
+      text: "くり上がりを小さいマスに入れよう。",
       carry: "次の計算で、このメモを足します。",
     };
   }
@@ -1268,7 +1268,7 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
     if (nextCarry > 0 && hasNextDivisorDigit) {
       carryMetas[pos - 1] = {
         answer: nextCarry,
-        step: `${formula}小さいマスにメモしよう。`,
+        step: `${formula}くり上がりを小さいマスに入れよう。`,
         carry: "次でこのメモを足します。",
         multiplyMemo: memoHtml,
         seq,
@@ -1278,7 +1278,7 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
 
     if (nextCarry > 0 && !hasNextDivisorDigit) {
       productMetas[pos - 1] = {
-        step: `${formula}残ったメモを入れよう。`,
+        step: `${formula}くり上がりの数を入れよう。`,
         carry: "次のマスで、この行が完成します。",
         multiplyMemo: memoHtml,
         seq,
@@ -1442,7 +1442,7 @@ function multiplyMetas(problem) {
       if (nextCarry > 0 && hasNextTopDigit) {
         carryMetas[pos - 1] = {
           answer: nextCarry,
-          step: `${formula}小さいマスにメモしよう。`,
+          step: `${formula}くり上がりを小さいマスに入れよう。`,
           carry: "次でこのメモを足します。",
           seq,
         };
@@ -1451,7 +1451,7 @@ function multiplyMetas(problem) {
 
       if (nextCarry > 0 && !hasNextTopDigit) {
         rowMetas[pos - 1] = {
-          step: `${formula}残ったメモを入れよう。`,
+          step: `${formula}くり上がりの数を入れよう。`,
           carry: "次のマスで、この段が完成します。",
           seq,
         };
@@ -2634,7 +2634,7 @@ function updateCompanion(event = "") {
     els.homeRewardText.textContent = coin.ready > 0
       ? `ガチャを${coin.ready}回まわせます。新しい仲間に会いに行こう。`
       : nextCharacter
-        ? `${gachaProblemEstimate(coin)}でガチャ。かけら${state.gachaFragments}こで交換も近づきます。`
+        ? `${gachaProblemEstimate(coin)}でガチャ。集めたかけらでも仲間に近づきます。`
         : `${gachaProblemEstimate(coin)}でガチャ。コレクションを見に行こう。`;
   }
   if (els.nextRewardText) {
@@ -2746,7 +2746,7 @@ function updateCompanion(event = "") {
       mistake: "間違いは発見です。どの手順で迷ったか見つけよう。",
       weak: "苦手ポイントを記録しました。あとで復習できます。",
     };
-    els.coachMessage.textContent = messages[event] || (weak ? `今日は「${weak[0]}」を一緒に攻略しよう。` : "オレンジのマスだけ見れば大丈夫。ゆっくり進もう。");
+    els.coachMessage.textContent = messages[event] || (weak ? `今日は「${weak[0]}」を一緒に練習しよう。` : "オレンジのマスだけ見れば大丈夫。ゆっくり進もう。");
   }
 }
 function parseCustomProblem(text) {
@@ -2839,8 +2839,8 @@ function showParentResetMessage(message) {
 function resetRewardData(type) {
   const messages = {
     coins: "コインを0に戻します。学習履歴は残ります。よろしいですか？",
-    gacha: "キャラ景品を空に戻します。学習履歴は残ります。よろしいですか？",
-    all: "コインとキャラ景品をリセットします。学習履歴は残ります。よろしいですか？",
+    gacha: "集めたキャラを空に戻します。学習履歴は残ります。よろしいですか？",
+    all: "コインとキャラをリセットします。学習履歴は残ります。よろしいですか？",
   };
   if (!window.confirm(messages[type] || messages.all)) return;
 
@@ -2861,8 +2861,8 @@ function resetRewardData(type) {
     type === "coins"
       ? "コインを0に戻しました。"
       : type === "gacha"
-        ? "キャラ景品を空に戻しました。"
-        : "コインとキャラ景品をリセットしました。";
+        ? "集めたキャラを空に戻しました。"
+        : "コインとキャラをリセットしました。";
   showParentResetMessage(doneMessage);
 }
 
