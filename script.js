@@ -32,6 +32,7 @@ const state = {
   gachaFragments: Number(localStorage.getItem("hp_gacha_fragments") || 0),
   selectedCompanion: localStorage.getItem("hp_selected_companion") || "main",
   rewardFilter: localStorage.getItem("hp_reward_filter") || "all",
+  rewardTab: localStorage.getItem("hp_reward_tab") || "characters",
   treasureProgress: Number(localStorage.getItem("hp_treasure_progress") || 0),
   autoProgress: loadJson("hp_auto_progress", { stage: 0, clears: 0, noMiss: 0, misses: 0 }),
   backgroundQuest: normalizeBackgroundQuest(loadJson("hp_background_quest", null)),
@@ -2009,6 +2010,7 @@ function saveProgress() {
   localStorage.setItem("hp_gacha_fragments", state.gachaFragments);
   localStorage.setItem("hp_selected_companion", state.selectedCompanion);
   localStorage.setItem("hp_reward_filter", state.rewardFilter);
+  localStorage.setItem("hp_reward_tab", state.rewardTab);
   localStorage.setItem("hp_treasure_progress", state.treasureProgress);
   localStorage.setItem("hp_auto_progress", JSON.stringify(state.autoProgress));
   localStorage.setItem("hp_background_quest", JSON.stringify(state.backgroundQuest));
@@ -2368,8 +2370,21 @@ function updateCompanion(event = "") {
     }).join("");
   }
   if (els.rewardShelf) {
+    const validTabs = ["characters", "backgrounds", "stickers", "titles"];
+    const activeTab = validTabs.includes(state.rewardTab) ? state.rewardTab : "characters";
     const activeFilter = RARITY_ORDER.includes(state.rewardFilter) ? state.rewardFilter : "all";
     const filteredRewards = GACHA_PRIZES.filter((reward) => activeFilter === "all" || reward.rarity === activeFilter);
+    const rewardTabHtml = [
+      ["characters", "キャラ", `${ownedPrizeCount()}/${GACHA_PRIZES.length}`],
+      ["backgrounds", "背景", `${state.backgroundQuest.unlockedStage}/${BACKGROUND_REWARDS.length * BACKGROUND_FRAMES.length}`],
+      ["stickers", "シール", `${Object.values(state.stickers).reduce((sum, count) => sum + Number(count || 0), 0)}枚`],
+      ["titles", "称号", `${titleBadgeCount()}/${TITLE_BADGES.length}`],
+    ]
+      .map(
+        ([tab, label, count]) =>
+          `<button class="reward-tab-button ${activeTab === tab ? "active" : ""}" type="button" data-reward-tab="${tab}"><strong>${label}</strong><span>${count}</span></button>`,
+      )
+      .join("");
     const filterHtml = ["all", ...RARITY_ORDER].map((filter) => {
       const label = filter === "all" ? "ぜんぶ" : filter;
       const count = filter === "all" ? ownedPrizeCount() : GACHA_PRIZES.filter((prize) => prize.rarity === filter && ownedPrize(prize)).length;
@@ -2404,12 +2419,16 @@ function updateCompanion(event = "") {
       const frame = BACKGROUND_FRAMES.find((item) => item.level === frameLevel) || BACKGROUND_FRAMES[0];
       return `<div class="background-card ${unlocked ? "owned" : "locked"} ${selected ? "selected" : ""} ${frame.className}"><span class="background-thumb" style="background-image:url('${background.image}')"></span><strong>${unlocked ? background.name : "？？？"}</strong><small>${unlocked ? frame.name : "まだ見つかっていません"}</small><button class="mini-action-button" type="button" data-background-select="${background.id}" ${unlocked && !selected ? "" : "disabled"}>${selected ? "ホーム背景" : unlocked ? "背景にする" : "ロック中"}</button></div>`;
     }).join("");
+    const activeSectionHtml = {
+      backgrounds: `<section class="reward-section background-book"><h3>ホーム背景 <span>${state.backgroundQuest.unlockedStage} / ${BACKGROUND_REWARDS.length * BACKGROUND_FRAMES.length}こ・次まで${backgroundNext.complete ? 0 : backgroundNext.left}問</span></h3><p class="background-book-note">九九あなうめを50問クリアするたびに、背景やフレームがふえます。</p><div class="background-grid">${backgroundHtml}</div></section>`,
+      stickers: `<section class="reward-section sticker-book"><h3>練習シール</h3><div class="sticker-grid">${stickerHtml}</div></section>`,
+      titles: `<section class="reward-section title-book"><h3>称号バッジ <span>${titleBadgeCount()} / ${TITLE_BADGES.length}こ</span></h3><div class="title-grid">${titleHtml}</div></section>`,
+      characters: `<section class="reward-section"><h3>キャラコレクション <span>${ownedPrizeCount()} / ${GACHA_PRIZES.length}体・かけら${state.gachaFragments}こ</span></h3><div class="reward-filter-bar">${filterHtml}</div><div class="treasure-grid">${treasureHtml}</div></section>`,
+    }[activeTab];
     els.rewardShelf.innerHTML = `
       <section class="reward-section reward-overview"><div class="reward-summary-grid"><div><p class="eyebrow">キャラ</p><strong>${ownedPrizeCount()} / ${GACHA_PRIZES.length}体</strong><span>相棒にしたいキャラを選べます。</span></div><div><p class="eyebrow">かけら</p><strong>${state.gachaFragments}こ</strong><span>重複したキャラはかけらになります。</span></div><div><p class="eyebrow">称号</p><strong>${titleBadgeCount()} / ${TITLE_BADGES.length}こ</strong><span>続けると解放されます。</span></div><div class="rarity-chip-row">${raritySummaryHtml()}</div></div></section>
-      <section class="reward-section background-book"><h3>ホーム背景 <span>${state.backgroundQuest.unlockedStage} / ${BACKGROUND_REWARDS.length * BACKGROUND_FRAMES.length}こ・次まで${backgroundNext.complete ? 0 : backgroundNext.left}問</span></h3><p class="background-book-note">九九あなうめを50問クリアするたびに、背景やフレームがふえます。</p><div class="background-grid">${backgroundHtml}</div></section>
-      <section class="reward-section"><h3>キャラコレクション <span>${ownedPrizeCount()} / ${GACHA_PRIZES.length}体・かけら${state.gachaFragments}こ</span></h3><div class="reward-filter-bar">${filterHtml}</div><div class="treasure-grid">${treasureHtml}</div></section>
-      <section class="reward-section sticker-book"><h3>練習シール</h3><div class="sticker-grid">${stickerHtml}</div></section>
-      <section class="reward-section title-book"><h3>称号バッジ <span>${titleBadgeCount()} / ${TITLE_BADGES.length}こ</span></h3><div class="title-grid">${titleHtml}</div></section>
+      <nav class="reward-tab-bar" aria-label="コレクションの種類">${rewardTabHtml}</nav>
+      ${activeSectionHtml}
     `;
   }
   renderParentDashboard();
@@ -2707,6 +2726,13 @@ els.numpad?.addEventListener("click", (event) => {
 });
 
 els.rewardShelf?.addEventListener("click", (event) => {
+  const tabButton = event.target.closest("[data-reward-tab]");
+  if (tabButton) {
+    state.rewardTab = tabButton.dataset.rewardTab || "characters";
+    saveProgress();
+    updateProgress();
+    return;
+  }
   const filterButton = event.target.closest("[data-reward-filter]");
   if (filterButton) {
     state.rewardFilter = filterButton.dataset.rewardFilter || "all";

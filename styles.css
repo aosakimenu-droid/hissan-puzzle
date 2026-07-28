@@ -1946,6 +1946,49 @@ button {
   font-weight: 900;
 }
 
+.reward-tab-bar {
+  position: sticky;
+  top: 8px;
+  z-index: 12;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+  border: 2px solid #d8deea;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 24px rgba(37, 48, 68, 0.08);
+}
+
+.reward-tab-button {
+  display: grid;
+  gap: 2px;
+  min-height: 50px;
+  border: 2px solid #d8deea;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 6px 8px;
+  font-weight: 900;
+}
+
+.reward-tab-button strong,
+.reward-tab-button span {
+  line-height: 1.15;
+}
+
+.reward-tab-button span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.reward-tab-button.active {
+  border-color: #f79009;
+  background: linear-gradient(135deg, #fff4d7, #ffffff);
+  color: #92400e;
+  box-shadow: 0 8px 18px rgba(247, 144, 9, 0.16);
+}
+
 .exchange-station {
   border: 2px solid #ffcf75;
   border-radius: 8px;
@@ -4704,14 +4747,31 @@ select {
     padding: 4px;
   }
 
+  .challenge-view .page-nav {
+    position: fixed;
+    top: 6px;
+    right: 10px;
+    z-index: 60;
+    margin: 0;
+    padding: 0;
+  }
+
+  .challenge-view .page-nav .home-button {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.82rem;
+  }
+
   .challenge-view .top-bar {
     grid-template-columns: 1fr;
     align-items: center;
     gap: 8px;
+    padding-top: 40px;
   }
 
+  .challenge-view .top-bar .eyebrow,
   .challenge-view .top-bar h1 {
-    font-size: 1.24rem;
+    display: none;
   }
 
   .challenge-view .score-board {
@@ -4733,8 +4793,8 @@ select {
   }
 
   .challenge-view .controls {
-    margin: 8px 0;
-    padding: 6px;
+    margin: 6px 0;
+    padding: 5px;
   }
 
   .course-controls.compact {
@@ -4819,19 +4879,19 @@ select {
   }
 
   .challenge-view .stage-status-panel {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin: 6px 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
+    margin: 5px 0;
   }
 
   .challenge-view .stage-status-main {
-    grid-column: 1 / -1;
+    grid-column: auto;
   }
 
   .challenge-view .stage-status-main,
   .challenge-view .stage-status-item {
-    min-height: 42px;
-    padding: 6px 8px;
+    min-height: 36px;
+    padding: 5px 6px;
   }
 
   .challenge-view .stage-status-panel span {
@@ -4843,9 +4903,7 @@ select {
   }
 
   .challenge-view .play-reward-panel {
-    gap: 8px;
-    margin: 6px 0 4px;
-    padding: 6px 8px;
+    display: none;
   }
 
   .challenge-view .play-reward-panel .eyebrow {
@@ -4880,7 +4938,7 @@ select {
     min-width: 0;
     min-height: 164px;
     max-height: none;
-    margin: 8px 0;
+    margin: 6px 0;
     padding: 8px;
     overflow: visible;
   }
@@ -4900,7 +4958,7 @@ select {
 
   .challenge-view .step-guide {
     gap: 7px;
-    padding: 10px;
+    padding: 9px;
   }
 
   .challenge-view .step-guide h3 {
@@ -4910,6 +4968,71 @@ select {
   .challenge-view .step-guide p,
   .challenge-view .carry-board {
     font-size: 0.86rem;
+  }
+
+  .gacha-hero {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .gacha-machine {
+    order: -1;
+    width: min(220px, 72%);
+  }
+
+  .gacha-copy h2 {
+    font-size: 1.62rem;
+    line-height: 1.28;
+  }
+
+  .gacha-copy .large-copy {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .gacha-status-grid {
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .gacha-stat {
+    min-height: 68px;
+    padding: 9px;
+  }
+
+  .gacha-stat strong {
+    font-size: 1.28rem;
+  }
+
+  .reward-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .reward-summary-grid > div {
+    padding: 10px;
+  }
+
+  .reward-summary-grid strong {
+    font-size: 1.25rem;
+  }
+
+  .reward-tab-bar {
+    top: 4px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .reward-tab-button {
+    min-height: 44px;
+    padding: 5px 4px;
+    font-size: 0.82rem;
+  }
+
+  .reward-tab-button span {
+    font-size: 0.68rem;
   }
 }
 
@@ -5147,13 +5270,26 @@ select {
   }
 
   .challenge-view .page-nav {
-    display: none;
+    position: fixed;
+    top: 8px;
+    right: 10px;
+    z-index: 60;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  .challenge-view .page-nav .home-button {
+    min-height: 32px;
+    padding: 0 12px;
+    font-size: 0.8rem;
   }
 
   .challenge-view .top-bar {
     grid-template-columns: auto 1fr;
     align-items: center;
     margin-bottom: 0;
+    padding-right: 132px;
   }
 
   .challenge-view .top-bar .eyebrow,
