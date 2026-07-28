@@ -1423,6 +1423,67 @@ button {
   font-size: 1.35rem;
 }
 
+.gacha-focus-panel p,
+.gacha-exchange-teaser p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-weight: 900;
+  line-height: 1.55;
+}
+
+.focus-prize,
+.collection-goal-prize {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(150px, 30vw);
+  height: min(150px, 30vw);
+  margin: 0 auto;
+  border: 5px solid #ffcf75;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.98), transparent 28%),
+    linear-gradient(135deg, #fff4d7, #ffffff);
+  overflow: hidden;
+  box-shadow:
+    0 18px 40px rgba(247, 144, 9, 0.18),
+    0 0 0 8px rgba(255, 212, 59, 0.12);
+}
+
+.focus-prize::before,
+.collection-goal-prize::before {
+  content: "";
+  position: absolute;
+  inset: -28%;
+  background: conic-gradient(from 0deg, transparent, rgba(255, 207, 117, 0.72), transparent 32%);
+  animation: prizeLights 2600ms linear infinite;
+}
+
+.focus-prize img,
+.collection-goal-prize img {
+  position: relative;
+  z-index: 1;
+  width: 92%;
+  height: 92%;
+  object-fit: contain;
+}
+
+.focus-prize .prize-mark,
+.collection-goal-prize .prize-mark {
+  z-index: 2;
+}
+
+.focus-prize[data-rarity="SR"],
+.focus-prize[data-rarity="UR"],
+.collection-goal-prize[data-rarity="SR"],
+.collection-goal-prize[data-rarity="UR"] {
+  border-color: #8b5cf6;
+  background: linear-gradient(135deg, #fff4d7, #e9d5ff, #dbeafe);
+  box-shadow:
+    0 22px 52px rgba(124, 58, 237, 0.22),
+    0 0 0 8px rgba(255, 255, 255, 0.64);
+}
+
 .rarity-chip-row {
   display: flex;
   flex-wrap: wrap;
@@ -1498,6 +1559,13 @@ button {
 .gacha-target-card[data-rarity="SR"],
 .gacha-target-card[data-rarity="UR"] {
   border-style: solid;
+}
+
+.gacha-target-card.owned {
+  border-style: solid;
+  border-color: #34c38f;
+  background: #edfff6;
+  color: #046c4e;
 }
 
 .gacha-prize-list {
@@ -1910,6 +1978,77 @@ button {
 .reward-section {
   display: grid;
   gap: 12px;
+}
+
+.collection-goal-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  align-items: center;
+  border: 3px solid #ffcf75;
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(135deg, rgba(255, 244, 215, 0.98), rgba(255, 255, 255, 0.96));
+  padding: 18px;
+  box-shadow:
+    0 16px 42px rgba(247, 144, 9, 0.16),
+    0 0 0 5px rgba(255, 207, 117, 0.13);
+  overflow: hidden;
+}
+
+.collection-goal-card::after {
+  content: "";
+  position: absolute;
+  inset: -30% -18% auto auto;
+  width: 44%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(255, 212, 59, 0.28), transparent 62%);
+  pointer-events: none;
+}
+
+.collection-goal-card h3 {
+  margin: 0 0 6px;
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.collection-goal-card p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 900;
+  line-height: 1.55;
+}
+
+.collection-goal-card.is-background {
+  border-color: #8ec5ff;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(135deg, rgba(239, 246, 255, 0.98), rgba(255, 255, 255, 0.96));
+}
+
+.collection-goal-card.is-gacha-ready {
+  border-color: #f79009;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(255, 255, 255, 0.95), transparent 28%),
+    linear-gradient(135deg, #fff4d7, #ffe0f0, #eff6ff);
+}
+
+.collection-goal-track {
+  height: 16px;
+  margin-top: 12px;
+  border: 3px solid #ffcf75;
+  border-radius: 999px;
+  background: #fffaf1;
+  overflow: hidden;
+}
+
+.collection-goal-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #34c38f, #ffd43b, #f79009, #8b5cf6);
+  transition: width 240ms ease;
 }
 
 .reward-section h3 {
@@ -3150,6 +3289,27 @@ select {
   border-radius: 8px;
   background: #fff4d7;
   box-shadow: 0 8px 20px rgba(247, 144, 9, 0.1);
+}
+
+.play-reward-panel.is-gacha-ready {
+  border-color: #f79009;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(255, 255, 255, 0.92), transparent 30%),
+    linear-gradient(135deg, #fff4d7, #ffe0f0, #eff6ff);
+  box-shadow:
+    0 14px 34px rgba(247, 144, 9, 0.18),
+    0 0 0 5px rgba(255, 207, 117, 0.14);
+}
+
+.play-reward-panel.is-background {
+  border-color: #8ec5ff;
+  background:
+    radial-gradient(circle at 88% 18%, rgba(255, 255, 255, 0.92), transparent 30%),
+    linear-gradient(135deg, #eff6ff, #ffffff);
+}
+
+.play-reward-panel.is-treasure .treasure-path span {
+  background: linear-gradient(90deg, #34c38f, #ffd43b, #f79009);
 }
 
 .play-reward-panel .eyebrow {
@@ -4679,6 +4839,19 @@ select {
 
   .home-dashboard-simple {
     grid-template-columns: 1fr;
+  }
+
+  .collection-goal-card,
+  .gacha-focus-panel,
+  .gacha-exchange-teaser {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .focus-prize,
+  .collection-goal-prize {
+    width: 118px;
+    height: 118px;
   }
 
   .reward-toast {

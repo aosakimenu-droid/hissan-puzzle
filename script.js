@@ -767,6 +767,43 @@ function exchangeTargets() {
     });
 }
 
+function nextCharacterGoal() {
+  const targets = exchangeTargets();
+  return targets.find((prize) => prize.canExchange) || targets.find((prize) => prize.rarity === "UR") || targets.find((prize) => prize.rarity === "SR") || targets[0] || null;
+}
+
+function nextRewardGoalInfo() {
+  const coin = coinProgress();
+  const treasure = treasureProgressInfo();
+  const background = nextBackgroundQuestInfo();
+  const character = nextCharacterGoal();
+  if (coin.ready > 0) {
+    return {
+      label: "ガチャチャンス",
+      title: `いま${coin.ready}回まわせます`,
+      text: character ? `次は「${character.name}」みたいな仲間に会えるかも。` : "コレクションを見に行こう。",
+      progress: 100,
+      className: "is-gacha-ready",
+    };
+  }
+  if (state.problem?.kind === "multiplyFill" || state.mode === "multiplyFill") {
+    return {
+      label: "背景チャレンジ",
+      title: background.complete ? "背景コンプリート" : `背景まであと${background.left}問`,
+      text: background.complete ? "すべての景色を集めました。" : `次は「${background.next.background.name}」。ホームの景色が増えます。`,
+      progress: background.complete ? 100 : Math.max(6, background.progress),
+      className: "is-background",
+    };
+  }
+  return {
+    label: "つぎのごほうび",
+    title: treasure.left === 1 ? "次の1問で宝箱" : `宝箱まであと${treasure.left}問`,
+    text: `ガチャは${gachaProblemEstimate(coin)}。宝箱とコインをためよう。`,
+    progress: treasure.percent,
+    className: "is-treasure",
+  };
+}
+
 function selectCompanion(key) {
   const prize = GACHA_PRIZES.find((item) => item.key === key);
   if (!prize || !ownedPrize(prize)) return;
@@ -1965,6 +2002,13 @@ function completeProblem() {
     els.feedback.className = "feedback good";
     try {
       updateProgress();
+      showRewardToast({
+        coins: earnedCoins,
+        comboHit,
+        treasure,
+        backgroundReward,
+        nextStage,
+      });
     } catch (error) {
       console.error(error);
     }
@@ -2189,25 +2233,13 @@ function updateComboPanel() {
 
 function updatePlayRewardPanel() {
   if (!els.playRewardTitle || !els.playRewardText || !els.playRewardProgress) return;
-  const coin = coinProgress();
-  if (state.problem?.kind === "multiplyFill" || state.mode === "multiplyFill") {
-    const next = nextBackgroundQuestInfo();
-    els.playRewardTitle.textContent = next.complete ? "背景コンプリート" : `背景まであと${next.left}問`;
-    els.playRewardText.textContent = next.complete
-      ? "すべてのホーム背景とフレームを集めました。"
-      : `あと少しで、ホームの景色が増えます。`;
-    els.playRewardProgress.style.width = `${next.complete ? 100 : Math.max(6, next.progress)}%`;
-    return;
-  }
-  if (coin.ready > 0) {
-    els.playRewardTitle.textContent = `ガチャ${coin.ready}回ぶん`;
-    els.playRewardText.textContent = "ガチャで新しい仲間に会いに行こう。";
-    els.playRewardProgress.style.width = "100%";
-    return;
-  }
-  els.playRewardTitle.textContent = `あと${coin.need}コイン`;
-  els.playRewardText.textContent = `${gachaProblemEstimate(coin)}でガチャに近づきます。`;
-  els.playRewardProgress.style.width = `${Math.max(8, coin.percent)}%`;
+  const goal = nextRewardGoalInfo();
+  const panel = document.querySelector(".play-reward-panel");
+  panel?.classList.remove("is-gacha-ready", "is-background", "is-treasure");
+  panel?.classList.add(goal.className);
+  els.playRewardTitle.textContent = goal.title;
+  els.playRewardText.textContent = goal.text;
+  els.playRewardProgress.style.width = `${Math.max(8, goal.progress)}%`;
 }
 
 function updateStageStatusPanel() {
@@ -2250,6 +2282,40 @@ function showStageUpParty(stage, bonus = STAGE_UP_BONUS) {
     els.stageUpOverlay.classList.remove("show");
     els.stageUpOverlay.setAttribute("aria-hidden", "true");
   }, 2600);
+}
+
+function showRewardToast({ coins = 0, comboHit = false, treasure = {}, backgroundReward = null, nextStage = null } = {}) {
+  if (!els.rewardToast || !els.rewardToastTitle || !els.rewardToastText || !els.rewardToastPrize) return;
+  const coin = coinProgress();
+  const nextGoal = nextRewardGoalInfo();
+  const type = backgroundReward ? "stage" : treasure.opened ? "treasure" : coin.ready > 0 ? "gacha-ready" : "coin";
+  const prizeLabel = backgroundReward ? "景" : treasure.opened ? "宝" : coin.ready > 0 ? "玉" : "コ";
+  const title = backgroundReward
+    ? `背景「${backgroundReward.background.name}」をゲット`
+    : treasure.opened
+      ? `宝箱から${treasure.bonus}コイン`
+      : coin.ready > 0
+        ? "ガチャをまわせます"
+        : `${coins}コインをゲット`;
+  const extras = [];
+  if (comboHit) extras.push("宝箱チャンス");
+  if (nextStage) extras.push("ステージアップ");
+  const text = coin.ready > 0
+    ? `新しい仲間に会いに行けます。${extras.join(" / ")}`
+    : `${nextGoal.title}。${extras.length ? extras.join(" / ") : nextGoal.text}`;
+
+  els.rewardToast.className = `reward-toast show ${type}`;
+  els.rewardToast.setAttribute("aria-hidden", "false");
+  els.rewardToastPrize.innerHTML = `<span>${escapeHtml(prizeLabel)}</span>`;
+  els.rewardToastTitle.textContent = title;
+  els.rewardToastText.textContent = text.trim();
+  if (els.rewardToastRoad) els.rewardToastRoad.style.width = `${Math.max(8, nextGoal.progress)}%`;
+
+  window.clearTimeout(showRewardToast.timer);
+  showRewardToast.timer = window.setTimeout(() => {
+    els.rewardToast.classList.remove("show");
+    els.rewardToast.setAttribute("aria-hidden", "true");
+  }, backgroundReward || treasure.opened || coin.ready > 0 ? 2300 : 1550);
 }
 
 function showGachaParty(prize) {
@@ -2324,7 +2390,32 @@ function renderGachaUi() {
     }
   }
   if (els.gachaPrizePreview) {
-    els.gachaPrizePreview.innerHTML = GACHA_PRIZES.slice(0, 8)
+    const target = nextCharacterGoal();
+    const exchange = exchangeTargets().slice(0, 3);
+    const targetCards = RARITY_ORDER.map((rarity) => {
+      const prize = GACHA_PRIZES.find((item) => item.rarity === rarity && !ownedPrize(item)) || GACHA_PRIZES.find((item) => item.rarity === rarity);
+      const owned = ownedPrize(prize);
+      return `
+        <div class="gacha-target-card ${owned ? "owned" : ""}" data-rarity="${escapeHtml(rarity)}">
+          <span>${prizeVisualHtml(prize, !owned)}</span>
+          <div><strong>${owned ? "出会い済み" : escapeHtml(rarityLabel(rarity))}</strong><small>${owned ? `${rarity}は集まり中` : "まだ見ぬ仲間"}</small></div>
+        </div>
+      `;
+    }).join("");
+    const exchangeHtml = exchange.length
+      ? exchange
+          .map(
+            (prize) => `
+              <div class="exchange-card ${prize.canExchange ? "ready" : ""}" data-rarity="${escapeHtml(prize.rarity)}">
+                <span class="exchange-icon">${prizeVisualHtml(prize, true)}</span>
+                <div><strong>${escapeHtml(rarityLabel(prize.rarity))}の仲間</strong><small>${prize.canExchange ? "交換できます" : `あと${prize.cost - state.gachaFragments}かけら`}</small></div>
+                <button class="mini-action-button exchange-button" type="button" data-exchange="${prize.key}" ${prize.canExchange ? "" : "disabled"}>${prize.canExchange ? "交換" : prize.cost}</button>
+              </div>
+            `,
+          )
+          .join("")
+      : '<p class="mini-copy">まだ見ぬ仲間はぜんぶ集まりました。</p>';
+    const prizeCards = GACHA_PRIZES.slice(0, 12)
       .map((prize) => {
         const owned = ownedPrize(prize);
         return `
@@ -2336,6 +2427,25 @@ function renderGachaUi() {
         `;
       })
       .join("");
+    els.gachaPrizePreview.innerHTML = `
+      <section class="gacha-focus-panel">
+        <div class="focus-prize" data-rarity="${escapeHtml(target?.rarity || "N")}">${target ? prizeVisualHtml(target, !ownedPrize(target)) : "★"}</div>
+        <div>
+          <p class="eyebrow">つぎに会いたい仲間</p>
+          <h3>${target ? (ownedPrize(target) ? "コレクションを見に行こう" : `${rarityLabel(target.rarity)}の仲間をねらおう`) : "ぜんぶ集まりました"}</h3>
+          <p>${target ? `かけらは${state.gachaFragments}こ。ガチャでも交換でも、少しずつ仲間が増えます。` : "すごい。今ある仲間はぜんぶ集まりました。"}</p>
+          <div class="gacha-target-grid">${targetCards}</div>
+        </div>
+      </section>
+      <section class="gacha-exchange-teaser">
+        <div><p class="eyebrow">かけら交換</p><h3>ダブっても前に進む</h3><p>同じキャラはかけらになります。あと少しの仲間を交換できます。</p></div>
+        <div class="exchange-card-grid">${exchangeHtml}</div>
+      </section>
+      <section class="gacha-prize-list">
+        <div class="gacha-list-head"><h3>仲間ずかん</h3><button class="compact-button ghost-button" type="button" data-nav="rewards">ぜんぶ見る</button></div>
+        <div class="gacha-prize-grid">${prizeCards}</div>
+      </section>
+    `;
   }
 }
 function rollGacha() {
@@ -2400,7 +2510,12 @@ function updateCompanion(event = "") {
   }
   if (els.homeNextReward) els.homeNextReward.textContent = `${ownedPrizeCount()} / ${GACHA_PRIZES.length}こ`;
   if (els.homeRewardText) {
-    els.homeRewardText.textContent = coin.ready > 0 ? `ガチャを${coin.ready}回まわせます。かけら${state.gachaFragments}こ。` : `${gachaProblemEstimate(coin)}でガチャ。かけら${state.gachaFragments}こ。`;
+    const nextCharacter = nextCharacterGoal();
+    els.homeRewardText.textContent = coin.ready > 0
+      ? `ガチャを${coin.ready}回まわせます。新しい仲間に会いに行こう。`
+      : nextCharacter
+        ? `${gachaProblemEstimate(coin)}でガチャ。かけら${state.gachaFragments}こで交換も近づきます。`
+        : `${gachaProblemEstimate(coin)}でガチャ。コレクションを見に行こう。`;
   }
   if (els.nextRewardText) {
     els.nextRewardText.textContent = `キャラ${ownedPrizeCount()} / ${GACHA_PRIZES.length}体、称号${titleBadgeCount()} / ${TITLE_BADGES.length}こ。`;
@@ -2468,6 +2583,20 @@ function updateCompanion(event = "") {
     }).join("");
     const titleHtml = titleBadgeStatus().map((badge) => `<div class="title-card ${badge.isUnlocked ? "owned" : "empty"}"><span>${titleBadgeVisualHtml(badge)}</span><strong>${badge.isUnlocked ? badge.name : "？？？"}</strong><small>${badge.note}</small></div>`).join("");
     const backgroundNext = nextBackgroundQuestInfo();
+    const nextGoal = nextRewardGoalInfo();
+    const nextCharacter = nextCharacterGoal();
+    const nextGoalVisual = nextCharacter ? prizeVisualHtml(nextCharacter, !ownedPrize(nextCharacter)) : '<span class="prize-mark">★</span>';
+    const collectionGoalHtml = `
+      <section class="reward-section collection-goal-card ${escapeHtml(nextGoal.className)}">
+        <div class="collection-goal-prize" data-rarity="${escapeHtml(nextCharacter?.rarity || "N")}">${nextGoalVisual}</div>
+        <div>
+          <p class="eyebrow">${escapeHtml(nextGoal.label)}</p>
+          <h3>${escapeHtml(nextGoal.title)}</h3>
+          <p>${escapeHtml(nextGoal.text)}</p>
+          <div class="collection-goal-track" aria-hidden="true"><span style="width:${Math.max(8, nextGoal.progress)}%"></span></div>
+        </div>
+      </section>
+    `;
     const backgroundHtml = BACKGROUND_REWARDS.map((background) => {
       const frameLevel = unlockedFrameLevelForBackground(background.id);
       const unlocked = frameLevel > 0;
@@ -2482,6 +2611,7 @@ function updateCompanion(event = "") {
       characters: `<section class="reward-section"><h3>キャラコレクション <span>${ownedPrizeCount()} / ${GACHA_PRIZES.length}体・かけら${state.gachaFragments}こ</span></h3><div class="reward-filter-bar">${filterHtml}</div><div class="treasure-grid">${treasureHtml}</div></section>`,
     }[activeTab];
     els.rewardShelf.innerHTML = `
+      ${collectionGoalHtml}
       <section class="reward-section reward-overview"><div class="reward-summary-grid"><div><p class="eyebrow">キャラ</p><strong>${ownedPrizeCount()} / ${GACHA_PRIZES.length}体</strong><span>相棒にしたいキャラを選べます。</span></div><div><p class="eyebrow">かけら</p><strong>${state.gachaFragments}こ</strong><span>重複したキャラはかけらになります。</span></div><div><p class="eyebrow">称号</p><strong>${titleBadgeCount()} / ${TITLE_BADGES.length}こ</strong><span>続けると解放されます。</span></div><div class="rarity-chip-row">${raritySummaryHtml()}</div></div></section>
       <nav class="reward-tab-bar" aria-label="コレクションの種類">${rewardTabHtml}</nav>
       ${activeSectionHtml}
@@ -2737,7 +2867,20 @@ els.showAnswerButton.addEventListener("click", showAnswer);
 els.gachaButton?.addEventListener("click", rollGacha);
 
 document.querySelectorAll("[data-nav]").forEach((button) => {
+  button.dataset.navBound = "true";
   button.addEventListener("click", () => showView(button.getAttribute("data-nav")));
+});
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-nav]");
+  if (!button || button.dataset.navBound === "true") return;
+  showView(button.getAttribute("data-nav"));
+});
+
+els.gachaPrizePreview?.addEventListener("click", (event) => {
+  const exchangeButton = event.target.closest("[data-exchange]");
+  if (!exchangeButton) return;
+  exchangePrize(exchangeButton.dataset.exchange);
 });
 
 els.customForm?.addEventListener("submit", (event) => {
