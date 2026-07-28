@@ -3385,6 +3385,14 @@ select {
   caret-color: transparent;
 }
 
+.digit-cell.carry-solved-cell .digit-input.carry-input,
+.digit-cell.carry-solved-cell .digit-input.carry-input.correct,
+.digit-cell.carry-solved-cell .digit-input.carry-input:disabled {
+  color: #087443 !important;
+  -webkit-text-fill-color: #087443 !important;
+  opacity: 1 !important;
+}
+
 .digit-input.wrong {
   border-color: var(--rose);
   background: #fff0f2;
