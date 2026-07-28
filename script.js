@@ -58,7 +58,7 @@ function applyJapaneseLabels() {
   document.title = "ひっさんパズル | 小学生向けの掛け算・割り算の筆算練習アプリ";
   document.querySelector('meta[name="description"]')?.setAttribute(
     "content",
-    "掛け算と割り算の筆算を、穴埋め式で楽しく練習できる学習アプリ",
+    "小学生が掛け算と割り算の筆算を1マスずつ穴埋めで練習できる無料の学習ゲーム。九九穴埋め、繰り上がり、割り算の手順も楽しく学べます。",
   );
 
   setText(".app-home .hero-copy .eyebrow", "ひっさんパズル");
@@ -86,19 +86,42 @@ function applyJapaneseLabels() {
   setText("#gachaButton", "ガチャをまわす");
 
   setText(".course-select-hero .eyebrow", "コース選択");
-  setText(".course-select-hero h1", "どの練習をする？");
-  setText(".course-select-hero p:not(.eyebrow)", "迷ったらレベルアップチャレンジ。自分で選ぶ時は、かけ算・わり算・九九あなうめから選べます。");
+  setText(".course-select-hero h1", "今日はどこから進む？");
+  setText(".course-select-hero p:not(.eyebrow)", "迷ったら青いおすすめ。苦手がはっきりしている時だけ、かけ算・わり算・九九あなうめを選びます。");
+  const courseHeads = document.querySelectorAll(".course-category-head");
+  const courseHeadLabels = [
+    ["おすすめ", "レベルアップチャレンジ", "できる問題から始めて、少しずつレベルアップします。"],
+    ["かけ算", "かけ算マスター", "筆算の順番、くり上がり、大きいかけ算を練習します。"],
+    ["わり算", "わり算マスター", "たてる・かける・ひく・おろすを順番に練習します。"],
+    ["九九", "九九あなうめ", "短い問題で、かくれた数をテンポよく見つけます。"],
+  ];
+  courseHeadLabels.forEach(([eyebrow, title, text], index) => {
+    const head = courseHeads[index];
+    if (!head) return;
+    const eyebrowEl = head.querySelector(".eyebrow");
+    const titleEl = head.querySelector("h2");
+    const textEl = head.querySelector("p:last-child:not(.eyebrow)");
+    if (eyebrowEl) eyebrowEl.textContent = eyebrow;
+    if (titleEl) titleEl.textContent = title;
+    if (textEl) textEl.textContent = text;
+  });
+  setText("#autoCourseNote strong", "迷ったらここ");
+  setText("#autoCourseNote span", "クリアするほど、かけ算・わり算が少しずつむずかしくなります。");
+  const routeBadges = document.querySelectorAll(".course-route-badges span");
+  ["おすすめで進む", "苦手だけ練習", "九九でテンポよく"].forEach((text, index) => {
+    if (routeBadges[index]) routeBadges[index].textContent = text;
+  });
   const courseLabels = {
-    autoAdventure: ["レベルアップチャレンジ", "今のステージから進んで、かけ算もわり算もレベルアップ"],
-    starter: ["ひとけたスタート", "1けた×1けたから筆算に慣れる"],
-    multiplyFill: ["九九あなうめ", "かくれた数を見つけてコインをためる"],
-    multiplyForest: ["くり上がりの森", "2けた×1けた、くり上がり"],
-    multiplyMountain: ["二けた橋", "2けた×2けたに挑戦"],
-    multiplyCastle: ["かけ算マスター城", "3けた×3けたを攻略"],
-    divideRiver: ["わり算スタート", "あまりなしの基本"],
-    divideCave: ["あまりの池", "あまりまで考える"],
-    divideSky: ["わり算マスター城", "大きい数のわり算に挑戦"],
-    mixAdventure: ["ミックスチャレンジ", "かけ算とわり算がいろいろ出る"],
+    autoAdventure: ["レベルアップチャレンジ", "おすすめ / できる問題から少しずつ難しくなる"],
+    starter: ["かけ算ならし", "Lv.1 / 1けた×1けたで筆算の順番に慣れる"],
+    multiplyFill: ["九九あなうめ", "テンポ練習 / かくれた数を見つける"],
+    multiplyForest: ["かけ算マスター 1", "Lv.2 / 2けた×1けた、くり上がり"],
+    multiplyMountain: ["かけ算マスター 2", "Lv.3 / 2けた×2けたに挑戦"],
+    multiplyCastle: ["かけ算マスター 3", "Lv.4 / 3けた×3けたを攻略"],
+    divideRiver: ["わり算マスター 1", "Lv.1 / あまりなしの基本"],
+    divideCave: ["わり算マスター 2", "Lv.2 / あまりまで考える"],
+    divideSky: ["わり算マスター 3", "Lv.3 / 大きい数のわり算に挑戦"],
+    mixAdventure: ["ミックス練習", "仕上げ / かけ算とわり算がいろいろ出る"],
   };
   Object.entries(courseLabels).forEach(([key, [title, text]]) => {
     setText(`.course-card[data-course="${key}"] strong`, title);
@@ -141,6 +164,7 @@ function applyJapaneseLabels() {
   setText(".parent-view .section-head .eyebrow", "親モード");
   setText(".parent-view .section-head h2", "今日の学習レポート");
   setText("#parentReviewButton", "復習へ");
+  setText(".parent-guide-panel .eyebrow", "保護者の方へ");
 
   setText("#stageUpOverlay .eyebrow", "ステージアップ");
   setText("#stageUpTitle", "新しいステージへ！");

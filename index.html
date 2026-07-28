@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>ひっさんパズル | 小学生向けの掛け算・割り算の筆算練習アプリ</title>
     <meta
       name="description"
@@ -20,8 +20,8 @@
     <meta property="og:image" content="assets/characters/character-main.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#fffaf1" />
-    <link rel="manifest" href="manifest.webmanifest?v=103" />
-    <link rel="stylesheet" href="styles.css?v=123" />
+    <link rel="manifest" href="manifest.webmanifest?v=124" />
+    <link rel="stylesheet" href="styles.css?v=124" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -193,6 +193,11 @@
             <p class="eyebrow">コース選択</p>
             <h1>どの練習をする？</h1>
             <p>迷ったらレベルアップチャレンジ。自分で選ぶ時は、かけ算・わり算・九九あなうめから選べます。</p>
+            <div class="course-route-badges" aria-label="練習の選び方">
+              <span>おまかせで進む</span>
+              <span>苦手だけ練習</span>
+              <span>九九でテンポよく</span>
+            </div>
           </div>
           <img class="character-avatar character-avatar-small" src="assets/characters/character-cheer.png" alt="" />
         </section>
@@ -204,6 +209,10 @@
               <p>クリアするほど、少しずつむずかしくなります。</p>
             </div>
             <button class="course-card featured active" type="button" data-course="autoAdventure"><strong>レベルアップチャレンジ</strong><span>今のステージから進みます</span></button>
+            <div class="course-progress-note" id="autoCourseNote">
+              <strong>迷ったらここ</strong>
+              <span>クリアするほど、かけ算・わり算が少しずつむずかしくなります。</span>
+            </div>
           </section>
           <section class="course-category">
             <div class="course-category-head"><p class="eyebrow">かけ算</p><h2>かけ算の筆算</h2></div>
@@ -326,6 +335,26 @@
           </section>
           <section class="parent-report-card"><p class="eyebrow">最近の学習</p><h3>解いた問題</h3><div id="historyList" class="history-list"></div></section>
         </section>
+        <section class="parent-guide-panel" aria-label="保護者向けの使い方">
+          <div>
+            <p class="eyebrow">保護者の方へ</p>
+            <h3>何を学べる？</h3>
+            <p>掛け算・割り算の筆算を、計算順に1マスずつ確認しながら練習します。答えだけでなく、途中のメモや繰り上がりも見える形にしています。</p>
+          </div>
+          <div>
+            <h3>どんな子に向いている？</h3>
+            <p>筆算の順番で迷う子、暗算だけでは途中で混乱しやすい子、ゲーム感覚なら少し続けられる子に向いています。</p>
+          </div>
+          <div>
+            <h3>1回どれくらい？</h3>
+            <p>まずは10〜15分、慣れてきたら休憩を入れながら30〜60分を目安にしてください。疲れてきたら九九あなうめに切り替えるのもおすすめです。</p>
+          </div>
+          <div>
+            <h3>広告について</h3>
+            <p>広告を入れる場合も、計算中の手元や答えの入力を邪魔しない位置に限定する方針です。</p>
+          </div>
+        </section>
+
         <section class="parent-tool-grid" aria-label="親向けメニュー">
           <details class="parent-box" open>
             <summary>学習設定</summary>
@@ -384,6 +413,6 @@
         <p id="rewardSpotlightText">次のごほうびへ進みます。</p>
       </div>
     </div>
-    <script src="script.js?v=123"></script>
+    <script src="script.js?v=124"></script>
   </body>
 </html>
