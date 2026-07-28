@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   color-scheme: light;
   --ink: #1f2a44;
   --muted: #52627a;
@@ -177,6 +177,32 @@ button {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 24px;
+}
+
+.start-button {
+  position: relative;
+  box-shadow:
+    0 14px 28px rgba(31, 122, 245, 0.22),
+    0 0 0 6px rgba(255, 212, 59, 0.2);
+}
+
+.start-button::after {
+  content: "????";
+  position: absolute;
+  top: -16px;
+  right: -10px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #ff9f1c;
+  color: #fff;
+  padding: 3px 8px;
+  font-size: 0.7rem;
+  font-weight: 950;
+  box-shadow: 0 8px 16px rgba(247, 144, 9, 0.22);
+}
+
+.mini-help-button {
+  min-width: 96px;
 }
 
 .home-dashboard {
@@ -4487,6 +4513,128 @@ select {
   line-height: 1.45;
 }
 
+.tutorial-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255, 212, 59, 0.32), transparent 32%),
+    rgba(31, 42, 68, 0.42);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.tutorial-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tutorial-card {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  width: min(520px, 100%);
+  border: 3px solid #ffcf75;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 90% 12%, rgba(255, 212, 59, 0.3), transparent 28%),
+    linear-gradient(135deg, #fffaf1, #f5fbff);
+  padding: 24px;
+  box-shadow:
+    0 26px 70px rgba(31, 42, 68, 0.28),
+    0 0 0 8px rgba(255, 255, 255, 0.35);
+  transform: translateY(10px) scale(0.98);
+  transition: transform 180ms ease;
+}
+
+.tutorial-overlay.show .tutorial-card {
+  transform: translateY(0) scale(1);
+}
+
+.tutorial-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font-size: 1.2rem;
+  font-weight: 950;
+}
+
+.tutorial-character {
+  display: grid;
+  place-items: center;
+  width: 86px;
+  height: 86px;
+  border: 2px solid #ffcf75;
+  border-radius: 999px;
+  background: #fff5d8;
+}
+
+.tutorial-character .character-avatar-small {
+  width: 78px;
+}
+
+.tutorial-card h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 4vw, 2rem);
+}
+
+.tutorial-steps {
+  display: grid;
+  gap: 10px;
+}
+
+.tutorial-steps div {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid #d8deea;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.86);
+  padding: 10px;
+}
+
+.tutorial-steps strong {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #1f7af5;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.tutorial-steps span,
+.tutorial-note {
+  color: var(--ink);
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.tutorial-note {
+  margin: 0;
+  color: var(--muted);
+}
+
+.tutorial-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .spark {
   position: absolute;
   top: -20px;
@@ -5105,6 +5253,34 @@ select {
 
   .reward-spotlight-visual {
     width: min(190px, 72vw);
+  }
+
+  .tutorial-overlay {
+    padding: 10px;
+  }
+
+  .tutorial-card {
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .tutorial-character {
+    width: 70px;
+    height: 70px;
+  }
+
+  .tutorial-character .character-avatar-small {
+    width: 64px;
+  }
+
+  .tutorial-steps div {
+    grid-template-columns: 36px 1fr;
+    padding: 8px;
+  }
+
+  .tutorial-steps strong {
+    width: 30px;
+    height: 30px;
   }
 
   .reward-prize {
