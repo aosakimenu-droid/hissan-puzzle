@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   color-scheme: light;
   --ink: #1f2a44;
   --muted: #52627a;
@@ -187,7 +187,7 @@ button {
 }
 
 .start-button::after {
-  content: "????";
+  content: "おすすめ";
   position: absolute;
   top: -16px;
   right: -10px;
