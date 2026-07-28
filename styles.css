@@ -3652,6 +3652,14 @@ select {
   cursor: text;
 }
 
+.digit-input.keypad-only {
+  caret-color: transparent;
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
 .digit-input.carry-input.active {
   border-color: #f97316;
   background: #ffedd5;

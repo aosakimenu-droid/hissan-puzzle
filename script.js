@@ -619,8 +619,8 @@ function showView(name, options = {}) {
   document.querySelectorAll(".view").forEach((view) => {
     view.classList.toggle("active", view.dataset.view === name);
   });
-  if (name === "challenge" && typeof state.steps[state.stepIndex]?.focus === "function") {
-    state.steps[state.stepIndex].focus();
+  if (name === "challenge") {
+    focusActiveInput(state.steps[state.stepIndex]);
   }
   if (options.scroll !== false) {
     requestAnimationFrame(() => {
@@ -1742,22 +1742,26 @@ function collectSteps() {
   );
 }
 
-function useTabletKeypadOnly() {
-  return window.matchMedia?.("(pointer: coarse) and (min-width: 700px)")?.matches;
-}
-
 function useCoarsePointer() {
   return window.matchMedia?.("(pointer: coarse)")?.matches;
 }
 
+function useTouchKeypadOnly() {
+  return useCoarsePointer() || window.innerWidth <= 699;
+}
+
 function focusActiveInput(input) {
-  if (!input || useTabletKeypadOnly()) return;
+  if (!input) return;
+  if (useTouchKeypadOnly()) {
+    input.blur();
+    return;
+  }
   input.focus();
 }
 
 function activateCurrentStep() {
   const inputs = state.steps;
-  const keypadOnly = useTabletKeypadOnly();
+  const keypadOnly = useTouchKeypadOnly();
   clearAssistHighlights();
   inputs.forEach((input, index) => {
     const isDone = index < state.stepIndex;
@@ -1765,6 +1769,12 @@ function activateCurrentStep() {
     input.disabled = keypadOnly ? true : !isCurrent && !isDone;
     input.readOnly = keypadOnly;
     input.inputMode = keypadOnly ? "none" : "numeric";
+    input.setAttribute("inputmode", keypadOnly ? "none" : "numeric");
+    if (keypadOnly) {
+      input.setAttribute("readonly", "readonly");
+    } else {
+      input.removeAttribute("readonly");
+    }
     input.tabIndex = keypadOnly || isDone ? -1 : 0;
     input.setAttribute("aria-disabled", keypadOnly ? "true" : String(!isCurrent && !isDone));
     input.classList.toggle("active", isCurrent);
@@ -1892,7 +1902,7 @@ function applyMistakeAssist(input) {
   els.feedback.textContent = mistakeFeedbackFor(input, stepMistakes);
   els.feedback.className = "feedback try";
   updateCompanion("mistake");
-  if (useTabletKeypadOnly()) {
+  if (useTouchKeypadOnly()) {
     input.blur();
   } else if (useCoarsePointer()) {
     try {
@@ -1917,7 +1927,7 @@ function wireInputFlow() {
   state.steps = [...els.problemArea.querySelectorAll(".digit-input")];
   state.steps.forEach((input) => {
     input.addEventListener("focus", () => {
-      if (useTabletKeypadOnly()) {
+      if (useTouchKeypadOnly()) {
         input.blur();
         return;
       }
@@ -1950,6 +1960,13 @@ function wireInputFlow() {
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter") checkCurrentStep();
     });
+    const keepNativeKeyboardClosed = (event) => {
+      if (!useTouchKeypadOnly()) return;
+      event.preventDefault();
+      input.blur();
+    };
+    input.addEventListener("pointerdown", keepNativeKeyboardClosed);
+    input.addEventListener("touchstart", keepNativeKeyboardClosed, { passive: false });
   });
 }
 
@@ -2108,7 +2125,7 @@ function showHint() {
     els.feedback.textContent = "同じ位を指で追って、もう一度考えてみよう。確認したい時は答えを見るを使えます。";
   }
   els.feedback.className = "feedback try";
-  current.focus();
+  focusActiveInput(current);
 }
 
 function showAnswer() {
