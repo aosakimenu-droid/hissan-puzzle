@@ -170,7 +170,7 @@ const TREASURE_INTERVAL = 3;
 const BACKGROUND_QUEST_STEP = 50;
 const STAGE_UP_BONUS = 50;
 const NEXT_PROBLEM_DELAY = 900;
-const REWARD_PROBLEM_DELAY = 1500;
+const REWARD_PROBLEM_DELAY = 2400;
 const STAGE_UP_PROBLEM_DELAY = 2700;
 
 const BACKGROUND_NAMES = [
@@ -261,6 +261,11 @@ const els = {
   rewardToastText: document.querySelector("#rewardToastText"),
   rewardToastPrize: document.querySelector("#rewardToastPrize"),
   rewardToastRoad: document.querySelector("#rewardToastRoad"),
+  rewardSpotlight: document.querySelector("#rewardSpotlight"),
+  rewardSpotlightVisual: document.querySelector("#rewardSpotlightVisual"),
+  rewardSpotlightLabel: document.querySelector("#rewardSpotlightLabel"),
+  rewardSpotlightTitle: document.querySelector("#rewardSpotlightTitle"),
+  rewardSpotlightText: document.querySelector("#rewardSpotlightText"),
   playRewardTitle: document.querySelector("#playRewardTitle"),
   playRewardText: document.querySelector("#playRewardText"),
   playRewardProgress: document.querySelector("#playRewardProgress"),
@@ -2009,6 +2014,7 @@ function completeProblem() {
         backgroundReward,
         nextStage,
       });
+      showCompletionRewardEffects({ treasure, backgroundReward, nextStage });
     } catch (error) {
       console.error(error);
     }
@@ -2318,18 +2324,59 @@ function showRewardToast({ coins = 0, comboHit = false, treasure = {}, backgroun
   }, backgroundReward || treasure.opened || coin.ready > 0 ? 2300 : 1550);
 }
 
+function showRewardSpotlight({ type = "treasure", title = "", text = "", label = "ごほうび発見", visual = "宝", image = "" } = {}) {
+  if (!els.rewardSpotlight || !els.rewardSpotlightVisual || !els.rewardSpotlightTitle || !els.rewardSpotlightText) return;
+  els.rewardSpotlight.className = `reward-spotlight show ${type}`;
+  els.rewardSpotlight.setAttribute("aria-hidden", "false");
+  if (els.rewardSpotlightLabel) els.rewardSpotlightLabel.textContent = label;
+  els.rewardSpotlightTitle.textContent = title;
+  els.rewardSpotlightText.textContent = text;
+  els.rewardSpotlightVisual.innerHTML = image
+    ? `<span class="spotlight-image" style="background-image:url('${escapeHtml(image)}')"></span>`
+    : `<span>${escapeHtml(visual)}</span>`;
+
+  window.clearTimeout(showRewardSpotlight.timer);
+  showRewardSpotlight.timer = window.setTimeout(() => {
+    els.rewardSpotlight.classList.remove("show");
+    els.rewardSpotlight.setAttribute("aria-hidden", "true");
+  }, type === "background" ? 2600 : 2100);
+}
+
+function showCompletionRewardEffects({ treasure = {}, backgroundReward = null, nextStage = null } = {}) {
+  if (backgroundReward) {
+    showRewardSpotlight({
+      type: "background",
+      label: "新しい背景",
+      title: `${backgroundReward.background.name}をゲット`,
+      text: `${backgroundReward.frame.name}フレームでホームが変わりました。`,
+      image: backgroundReward.background.image,
+    });
+    return;
+  }
+  if (treasure.opened) {
+    showRewardSpotlight({
+      type: "treasure",
+      label: "宝箱オープン",
+      title: `${treasure.bonus}コインを発見`,
+      text: nextStage ? "ステージアップも近づきました。" : "また3問進むと宝箱チャンスです。",
+      visual: "宝",
+    });
+  }
+}
+
 function showGachaParty(prize) {
   if (!els.gachaParty || !prize) return;
-  const symbols = [prize.icon, "星", "♪", "100", "コ", prize.duplicate ? "かけら" : "大当たり"];
+  const symbols = [prize.icon, "星", "♪", "100", "コ", "光", "金", prize.duplicate ? "かけら" : "大当たり"];
   els.gachaParty.className = `gacha-party-overlay show rarity-${prize.rarity}`;
   els.gachaParty.innerHTML = `
     <div class="party-burst"></div>
+    <div class="party-rainbow"></div>
     <div class="party-prize" data-rarity="${escapeHtml(prize.rarity)}">
       ${prizeVisualHtml(prize)}
       <strong>${escapeHtml(prize.duplicate ? "かけらゲット" : prize.name)}</strong>
       <small>${escapeHtml(rarityLabel(prize.rarity))} / ${escapeHtml(prize.duplicate ? `${prize.fragmentsEarned}かけら` : prize.kind)}</small>
     </div>
-    ${Array.from({ length: 46 }, (_, index) => {
+    ${Array.from({ length: prize.rarity === "UR" ? 78 : prize.rarity === "SR" ? 64 : 52 }, (_, index) => {
       const symbol = symbols[index % symbols.length];
       return `<span class="party-spark" style="--x:${randomInt(4, 96)}%; --delay:${randomInt(0, 420)}ms; --rot:${randomInt(-28, 28)}deg;">${escapeHtml(symbol)}</span>`;
     }).join("")}
@@ -2337,13 +2384,13 @@ function showGachaParty(prize) {
   window.clearTimeout(showGachaParty.timer);
   showGachaParty.timer = window.setTimeout(() => {
     els.gachaParty.classList.remove("show");
-  }, 1850);
+  }, prize.rarity === "UR" ? 2600 : prize.rarity === "SR" ? 2300 : 2000);
   window.setTimeout(() => {
     if (!els.gachaParty.classList.contains("show")) {
       els.gachaParty.innerHTML = "";
       els.gachaParty.className = "gacha-party-overlay";
     }
-  }, 2200);
+  }, prize.rarity === "UR" ? 3050 : 2600);
 }
 function renderGachaUi() {
   const coin = coinProgress();

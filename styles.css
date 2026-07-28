@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   color-scheme: light;
   --ink: #1f2a44;
   --muted: #52627a;
@@ -141,7 +141,7 @@ button {
 }
 
 .hero-panel::after {
-  content: "★";
+  content: "\2605";
   position: absolute;
   right: 26px;
   top: 20px;
@@ -1712,6 +1712,27 @@ button {
   animation: partyFlash 1850ms ease both;
 }
 
+.party-rainbow {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(96vmin, 720px);
+  height: min(96vmin, 720px);
+  border-radius: 999px;
+  background:
+    conic-gradient(from 90deg, rgba(255, 212, 59, 0), rgba(255, 212, 59, 0.46), rgba(139, 92, 246, 0.42), rgba(34, 211, 238, 0.4), rgba(52, 195, 143, 0.42), rgba(255, 212, 59, 0)),
+    radial-gradient(circle, rgba(255, 255, 255, 0.36), transparent 62%);
+  filter: blur(1px);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+  animation: partyRainbow 1900ms ease-out 120ms both;
+}
+
+.gacha-party-overlay.rarity-SR .party-rainbow,
+.gacha-party-overlay.rarity-UR .party-rainbow {
+  animation-duration: 2400ms;
+}
+
 .party-burst {
   position: absolute;
   left: 50%;
@@ -1778,6 +1799,16 @@ button {
   box-shadow:
     0 28px 90px rgba(124, 58, 237, 0.28),
     0 0 0 10px rgba(255, 255, 255, 0.62);
+}
+
+.party-prize[data-rarity="SR"]::before,
+.party-prize[data-rarity="UR"]::before {
+  content: "\2605  \2605  \2605";
+  position: absolute;
+  top: 10px;
+  color: rgba(247, 144, 9, 0.72);
+  font-size: 1rem;
+  letter-spacing: 0.28rem;
 }
 
 .party-prize img {
@@ -1938,6 +1969,22 @@ button {
   100% {
     transform: translate(-50%, -50%) scale(1.25) rotate(55deg);
     opacity: 0;
+  }
+}
+
+@keyframes partyRainbow {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.42) rotate(0deg);
+  }
+
+  28% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.18) rotate(180deg);
   }
 }
 
@@ -4034,7 +4081,7 @@ select {
 
 .stage-up-card::before,
 .stage-up-card::after {
-  content: "★";
+  content: "\2605";
   position: absolute;
   color: #f79009;
   font-size: 2rem;
@@ -4260,6 +4307,119 @@ select {
   border-radius: inherit;
   background: linear-gradient(90deg, #18b97d, #ffd43b, #ff8a00, #8b5cf6);
   transition: width 260ms ease;
+}
+
+.reward-spotlight {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 44;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 212, 59, 0.34), transparent 34%),
+    rgba(15, 23, 42, 0.16);
+  opacity: 0;
+  transform: scale(0.98);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.reward-spotlight.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.reward-spotlight-card {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  width: min(520px, calc(100vw - 28px));
+  border: 5px solid #ffcf75;
+  border-radius: 12px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.96), transparent 34%),
+    linear-gradient(135deg, #fff4d7, #ffffff);
+  padding: 20px;
+  text-align: center;
+  overflow: hidden;
+  box-shadow:
+    0 30px 90px rgba(37, 48, 68, 0.24),
+    0 0 0 10px rgba(255, 207, 117, 0.18);
+}
+
+.reward-spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  background: conic-gradient(from 0deg, transparent, rgba(255, 207, 117, 0.48), transparent, rgba(52, 195, 143, 0.28), transparent);
+  animation: stageSpin 3400ms linear infinite;
+}
+
+.reward-spotlight.background .reward-spotlight-card {
+  border-color: #8ec5ff;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.98), transparent 34%),
+    linear-gradient(135deg, #eff6ff, #fff4d7);
+}
+
+.reward-spotlight-visual,
+.reward-spotlight-card .eyebrow,
+.reward-spotlight-card h2,
+.reward-spotlight-card p {
+  position: relative;
+  z-index: 1;
+}
+
+.reward-spotlight-visual {
+  display: grid;
+  place-items: center;
+  width: min(220px, 62vw);
+  aspect-ratio: 16 / 9;
+  margin-bottom: 10px;
+  border: 4px solid #fff;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.94), transparent 32%),
+    linear-gradient(135deg, #ffd43b, #f79009);
+  color: #fff;
+  font-size: 2.3rem;
+  font-weight: 900;
+  overflow: hidden;
+  box-shadow:
+    0 18px 42px rgba(247, 144, 9, 0.24),
+    0 0 0 6px rgba(255, 255, 255, 0.48);
+}
+
+.reward-spotlight.treasure .reward-spotlight-visual {
+  width: 152px;
+  aspect-ratio: 1.18;
+  border-color: #78350f;
+  border-radius: 10px 10px 18px 18px;
+  background:
+    linear-gradient(#ffe7a3 0 38%, #f79009 38% 100%);
+}
+
+.spotlight-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+}
+
+.reward-spotlight-card h2 {
+  margin: 0 0 6px;
+  font-size: clamp(1.55rem, 4vw, 2.35rem);
+}
+
+.reward-spotlight-card p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 900;
+  line-height: 1.45;
 }
 
 .spark {
@@ -4863,6 +5023,18 @@ select {
     width: min(100%, 340px);
     column-gap: 10px;
     padding: 10px 12px;
+  }
+
+  .reward-spotlight {
+    padding: 12px;
+  }
+
+  .reward-spotlight-card {
+    padding: 16px;
+  }
+
+  .reward-spotlight-visual {
+    width: min(190px, 72vw);
   }
 
   .reward-prize {
