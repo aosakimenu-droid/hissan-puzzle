@@ -149,7 +149,6 @@ function applyJapaneseLabels() {
   setText(".stage-status-item:nth-child(2) span", "宝箱まで");
   setText(".stage-status-item:nth-child(3) span", "ガチャまで");
   setText(".play-reward-panel .eyebrow", "つぎのごほうび");
-  setText("#checkButton", "このマスを確認");
   setText("#showAnswerButton", "答えを見る");
   setText("[data-action='back']", "消す");
   setText("[data-action='hint']", "ヒント");
@@ -1385,7 +1384,6 @@ function renderProblem() {
   state.completed = false;
   els.feedback.textContent = "";
   els.feedback.className = "feedback";
-  els.checkButton.textContent = "このマスを確認";
   els.problemArea.closest(".problem-card")?.classList.toggle("fill-problem-card", state.problem.kind === "multiplyFill");
   document.querySelector(".challenge-view")?.classList.toggle("fill-challenge", state.problem.kind === "multiplyFill");
 
@@ -2992,7 +2990,7 @@ els.level?.addEventListener("change", () => {
 });
 
 els.hintButton.addEventListener("click", showHint);
-els.checkButton.addEventListener("click", checkAnswers);
+els.checkButton?.addEventListener("click", checkAnswers);
 els.showAnswerButton.addEventListener("click", showAnswer);
 els.gachaButton?.addEventListener("click", rollGacha);
 
