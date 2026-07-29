@@ -139,7 +139,6 @@ function applyJapaneseLabels() {
   setText(".course-head .eyebrow", "いまのコース");
   setText("#activeCourseTitle", "レベルアップチャレンジ");
   setText("#toggleCourses", "コース変更");
-  setText("#newProblem", "べつの問題");
   setText(".mission-panel h2", "コインメモ");
   setText(".combo-panel .eyebrow", "ノーミスボーナス");
   setText("#coachMessage", "オレンジのマスだけ見れば大丈夫。ゆっくり進もう。");
@@ -256,7 +255,6 @@ const els = {
   courseControls: document.querySelector(".course-controls"),
   toggleCourses: document.querySelector("#toggleCourses"),
   level: document.querySelector("#level"),
-  newProblem: document.querySelector("#newProblem"),
   hintButton: document.querySelector("#hintButton"),
   checkButton: document.querySelector("#checkButton"),
   showAnswerButton: document.querySelector("#showAnswerButton"),
@@ -2997,7 +2995,6 @@ els.level?.addEventListener("change", () => {
   renderProblem();
 });
 
-els.newProblem?.addEventListener("click", renderProblem);
 els.hintButton.addEventListener("click", showHint);
 els.checkButton.addEventListener("click", checkAnswers);
 els.showAnswerButton.addEventListener("click", showAnswer);
