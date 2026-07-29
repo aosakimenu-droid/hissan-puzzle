@@ -1382,8 +1382,12 @@ function renderProblem() {
   state.problemMistakes = 0;
   state.answerShown = false;
   state.completed = false;
-  els.feedback.textContent = "";
-  els.feedback.className = "feedback";
+  els.feedback.textContent = "";  els.feedback.className = "feedback";
+  if (els.showAnswerButton) {
+    els.showAnswerButton.textContent = "答えを見る";
+    els.showAnswerButton.classList.remove("primary-button");
+    els.showAnswerButton.classList.add("ghost-button");
+  }
   els.problemArea.closest(".problem-card")?.classList.toggle("fill-problem-card", state.problem.kind === "multiplyFill");
   document.querySelector(".challenge-view")?.classList.toggle("fill-challenge", state.problem.kind === "multiplyFill");
 
@@ -2147,6 +2151,19 @@ function showAnswer() {
   if (meter) meter.style.width = "100%";
   els.feedback.textContent = "答えを見ました。次は同じ順番でやってみよう。";
   els.feedback.className = "feedback";
+  if (els.showAnswerButton) {
+    els.showAnswerButton.textContent = "次の問題へ";
+    els.showAnswerButton.classList.remove("ghost-button");
+    els.showAnswerButton.classList.add("primary-button");
+  }
+}
+
+function handleShowAnswerButtonClick() {
+  if (state.answerShown) {
+    renderProblem();
+    return;
+  }
+  showAnswer();
 }
 
 function markInputCellSolved(input) {
@@ -2991,7 +3008,7 @@ els.level?.addEventListener("change", () => {
 
 els.hintButton.addEventListener("click", showHint);
 els.checkButton?.addEventListener("click", checkAnswers);
-els.showAnswerButton.addEventListener("click", showAnswer);
+els.showAnswerButton.addEventListener("click", handleShowAnswerButtonClick);
 els.gachaButton?.addEventListener("click", rollGacha);
 
 document.querySelectorAll("[data-nav]").forEach((button) => {
