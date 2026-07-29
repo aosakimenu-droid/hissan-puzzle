@@ -1724,9 +1724,6 @@ function guidePanelHtml() {
       <p class="eyebrow">いま考えるところ</p>
       <h3 id="stepTitle">オレンジのマスだけ入れよう</h3>
       <p id="stepText"></p>
-      <div class="carry-board">
-        <strong id="carryText">右の位から順番に進めます。</strong>
-      </div>
       <div id="multiplyAssistMemo" class="division-multiply-assist" hidden></div>
       <div class="step-meter"><span id="stepMeter"></span></div>
     </aside>
