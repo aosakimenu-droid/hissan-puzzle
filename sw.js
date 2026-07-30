@@ -1,4 +1,4 @@
-const CACHE_NAME = "hissan-puzzle-v137";
+const CACHE_NAME = "hissan-puzzle-v106";
 const rewardAssetPath = (folder, prefix, count) =>
   Array.from({ length: count }, (_, index) => `./assets/rewards/${folder}/${prefix}${String(index + 1).padStart(3, "0")}.png`);
 const backgroundAssetPath = (folder, count) =>
@@ -12,23 +12,20 @@ const BACKGROUND_ASSETS = [...backgroundAssetPath("quest-v1-16x9", 30)];
 const ASSETS = [
   "./",
   "./index.html",
-  "./404.html",
-  "./about.html",
-  "./privacy.html",
-  "./seo-hissan-weak.html",
+  "./robots.txt",
+  "./sitemap.xml",
   "./seo-multiplication.html",
   "./seo-division.html",
   "./seo-kuku-fill.html",
+  "./seo-hissan-weak.html",
   "./seo-division-confusing.html",
   "./seo-carry-multiplication.html",
   "./seo-kuku-usable.html",
   "./seo-calculation-mistakes.html",
   "./seo-free-practice.html",
-  "./sitemap.xml",
-  "./robots.txt",
   "./styles.css",
   "./script.js",
-  "./manifest.webmanifest?v=136",
+  "./manifest.webmanifest?v=103",
   "./assets/characters/character-main.png",
   "./assets/characters/character-happy.png",
   "./assets/characters/character-thinking.png",
