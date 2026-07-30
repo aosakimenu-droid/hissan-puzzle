@@ -2,45 +2,128 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>プライバシーポリシー | ひっさんパズル</title>
     <meta
       name="description"
-      content="ひっさんパズルのプライバシーポリシーです。学習記録の保存方法、広告の扱い、個人情報の入力不要について説明します。"
+      content="ひっさんパズルのプライバシーポリシーです。アクセス解析、広告、端末内の保存情報、個人情報の取り扱いについて説明しています。"
     />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://hissan-puzzle.pages.dev/privacy.html" />
-    <link rel="stylesheet" href="styles.css?v=129" />
+    <style>
+      :root {
+        --ink: #17213a;
+        --sub: #55647c;
+        --line: #d9e3f3;
+        --paper: rgba(255, 255, 255, 0.94);
+        --blue: #2f7de8;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          linear-gradient(90deg, rgba(47, 125, 232, 0.1) 1px, transparent 1px),
+          linear-gradient(rgba(47, 125, 232, 0.1) 1px, transparent 1px),
+          #fffaf1;
+        background-size: 34px 34px;
+      }
+      .page { width: min(920px, calc(100% - 28px)); margin: 0 auto; padding: 22px 0 46px; }
+      .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+      .brand { color: var(--blue); font-weight: 900; text-decoration: none; }
+      .home-link {
+        display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+        padding: 0 18px; border: 1px solid #b9c9e4; border-radius: 14px; background: #fff;
+        color: var(--ink); font-weight: 850; text-decoration: none;
+      }
+      header, section {
+        border: 1px solid var(--line); border-radius: 24px; background: var(--paper);
+        box-shadow: 0 16px 36px rgba(70, 90, 130, 0.1);
+      }
+      header { padding: clamp(26px, 5vw, 52px); }
+      section { margin-top: 18px; padding: 24px; }
+      .eyebrow { margin: 0 0 10px; color: var(--blue); font-weight: 900; }
+      h1 { margin: 0 0 16px; font-size: clamp(2rem, 5vw, 3.3rem); line-height: 1.12; }
+      h2 { margin: 0 0 12px; font-size: clamp(1.3rem, 3vw, 1.8rem); }
+      p, li { color: var(--sub); font-weight: 650; line-height: 1.9; }
+      ul { padding-left: 1.25em; }
+      .note { border-left: 5px solid #67d6a3; padding: 12px 16px; background: #f2fff8; border-radius: 12px; }
+      footer { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; margin-top: 22px; color: var(--sub); font-weight: 700; }
+      footer a { color: inherit; }
+    </style>
   </head>
   <body>
-    <main class="static-page">
-      <nav class="static-nav" aria-label="サイト内移動">
-        <a href="./index.html">ホームにもどる</a>
-        <a href="./about.html">保護者向け情報</a>
+    <main class="page">
+      <nav class="nav" aria-label="ページ移動">
+        <a class="brand" href="./">ひっさんパズル</a>
+        <a class="home-link" href="./">アプリへ戻る</a>
       </nav>
-      <section class="static-card">
-        <p class="eyebrow">ひっさんパズル</p>
-        <h1>プライバシーポリシー</h1>
+
+      <header>
+        <p class="eyebrow">プライバシーポリシー</p>
+        <h1>安心して使える学習サイトであるために。</h1>
         <p>
-          ひっさんパズルは、小学生が掛け算・割り算の筆算を練習するためのブラウザ学習アプリです。
-          お子さまが安心して使えるよう、個人情報の入力を求めない設計にしています。
+          ひっさんパズルは、小学生が掛け算・割り算の筆算を練習できる無料のブラウザ学習アプリです。
+          お子さんが学習する画面では、個人情報の入力を求めない方針で運営しています。
         </p>
-        <h2>保存される情報</h2>
+      </header>
+
+      <section>
+        <h2>取得する情報について</h2>
+        <p>本サイトでは、学習アプリとして必要な範囲で、次の情報を端末内に保存することがあります。</p>
+        <ul>
+          <li>コイン数、コレクション、背景の獲得状況</li>
+          <li>解いた問題数、ミス数、復習に使う学習状況</li>
+          <li>親モードでリセットするための学習データ</li>
+        </ul>
+        <p class="note">これらは基本的にお使いのブラウザ内に保存され、氏名・住所・電話番号などの入力は不要です。</p>
+      </section>
+
+      <section>
+        <h2>アクセス解析について</h2>
         <p>
-          コイン、クリア数、苦手記録、集めたキャラや背景などの学習記録は、利用している端末のブラウザ内に保存されます。
-          名前、メールアドレス、学校名、住所などを入力する必要はありません。
+          今後、サイト改善のためにCloudflare Web Analyticsなどのアクセス解析を利用する場合があります。
+          その場合は、ページの閲覧数、利用端末の種類、参照元など、サイト改善に必要な統計情報を確認します。
         </p>
+        <p>
+          アクセス解析は、どのページが役立っているか、スマホやタブレットで使いにくい画面がないかを知るために使います。
+        </p>
+      </section>
+
+      <section>
         <h2>広告について</h2>
         <p>
-          今後、サイト運営のために広告を表示する場合があります。広告を設置する場合も、計算中の入力欄や手順説明を邪魔しない位置に限定します。
-          広告配信事業者がCookieなどを利用する場合があります。
+          本サイトでは、将来的にGoogle AdSenseなどの広告を掲載する場合があります。
+          広告を掲載する場合でも、学習の邪魔になりにくい位置に置き、計算中の操作を妨げないよう配慮します。
         </p>
+        <p>
+          広告配信事業者がCookieなどを使用する場合があります。広告を正式に導入する際は、必要な説明をこのページに追記します。
+        </p>
+      </section>
+
+      <section>
         <h2>お問い合わせ</h2>
         <p>
-          お問い合わせ先は正式公開時に掲載予定です。改善要望や不具合報告を受け取れる連絡方法を用意してから、一般公開を広げます。
+          ご意見、不具合、掲載内容に関するお問い合わせは、以下のページからご確認ください。
         </p>
-        <p class="static-date">制定日: 2026年7月29日</p>
+        <p><a href="./contact.html">お問い合わせページへ</a></p>
       </section>
+
+      <section>
+        <h2>改定について</h2>
+        <p>
+          本ポリシーは、機能追加、アクセス解析、広告導入などに合わせて内容を更新することがあります。
+        </p>
+        <p>制定日: 2026年7月31日</p>
+      </section>
+
+      <footer>
+        <span>ひっさんパズル</span>
+        <a href="./about.html">運営者情報</a>
+        <a href="./contact.html">お問い合わせ</a>
+        <a href="./">アプリへ戻る</a>
+      </footer>
     </main>
   </body>
 </html>
