@@ -1,4 +1,4 @@
-function normalizeBackgroundQuest(value) {
+﻿function normalizeBackgroundQuest(value) {
   const source = value && typeof value === "object" ? value : {};
   return {
     progress: Math.max(0, Math.min(49, Number(source.progress || 0))),
@@ -32,7 +32,6 @@ const state = {
   gachaFragments: Number(localStorage.getItem("hp_gacha_fragments") || 0),
   selectedCompanion: localStorage.getItem("hp_selected_companion") || "main",
   rewardFilter: localStorage.getItem("hp_reward_filter") || "all",
-  rewardTab: localStorage.getItem("hp_reward_tab") || "characters",
   treasureProgress: Number(localStorage.getItem("hp_treasure_progress") || 0),
   autoProgress: loadJson("hp_auto_progress", { stage: 0, clears: 0, noMiss: 0, misses: 0 }),
   backgroundQuest: normalizeBackgroundQuest(loadJson("hp_background_quest", null)),
@@ -58,21 +57,21 @@ function applyJapaneseLabels() {
   document.title = "ひっさんパズル | 小学生向けの掛け算・割り算の筆算練習アプリ";
   document.querySelector('meta[name="description"]')?.setAttribute(
     "content",
-    "小学生が掛け算と割り算の筆算を1マスずつ穴埋めで練習できる無料の学習ゲーム。九九穴埋め、繰り上がり、割り算の手順も楽しく学べます。",
+    "掛け算と割り算の筆算を、穴埋め式で楽しく練習できる学習アプリ",
   );
 
   setText(".app-home .hero-copy .eyebrow", "ひっさんパズル");
   const homeTitle = document.querySelector(".app-home h1");
   if (homeTitle) homeTitle.innerHTML = "問題をといて、<span>コインをためよう</span>";
-  setText(".app-home .hero-copy > p:not(.eyebrow)", "3問で宝箱、100コインでガチャ。解くたびにごほうびへ近づくよ。");
+  setText(".app-home .hero-copy > p:not(.eyebrow)", "かけ算とわり算の筆算を、1マスずつ進めてガチャに挑戦する学習ゲーム。");
+  setText(".app-home [data-nav='challenge']", "レベルアップチャレンジ");
   setText(".app-home [data-nav='gacha']", "ガチャをまわす");
-  setText(".app-home [data-tutorial-open]", "あそび方");
   setText(".daily-card.soft .eyebrow", "いまのコイン");
   setText(".daily-card.reward-preview .eyebrow", "コレクション");
-  setText(".daily-card.reward-preview h2", "キャラを集めよう");
-  setText(".daily-card.reward-preview p:not(.eyebrow)", "ガチャで新しい仲間に出会えます。");
+  setText(".daily-card.reward-preview h2", "まだこれから");
+  setText(".daily-card.reward-preview p:not(.eyebrow)", "ガチャでキャラ景品を集めよう。");
   setText(".daily-card.reward-preview button", "ごほうびを見る");
-  setText(".journey-card .eyebrow", "背景チャレンジ");
+  setText(".journey-card .eyebrow", "九九とどけもの");
   setText(".journey-card button", "九九あなうめへ");
   setText(".home-secondary-actions [data-nav='review']", "ふくしゅう");
   setText(".home-secondary-actions [data-nav='parent']", "親モード");
@@ -80,49 +79,25 @@ function applyJapaneseLabels() {
   setAllText("[data-nav='home']", "ホームにもどる");
   setAllText("[data-nav='challenge']", "問題を解く");
   setAllText("[data-nav='rewards']", "コレクションを見る");
-  setText(".app-home [data-nav='challenge']", "まずはここから");
   setText(".gacha-copy .eyebrow", "コインガチャ");
-  setText(".gacha-copy h2", "コインをためて、キャラと出会おう");
-  setText(".gacha-copy .large-copy", "100コインで1回まわせます。レアな仲間が出たら、今日は大当たり。");
+  setText(".gacha-copy h2", "問題をといたコインで、キャラを集めよう");
+  setText(".gacha-copy .large-copy", "1問ごとにコインが増えます。100コインたまったら、ガチャでキャラをゲット。");
   setText("#gachaButton", "ガチャをまわす");
 
   setText(".course-select-hero .eyebrow", "コース選択");
-  setText(".course-select-hero h1", "今日はどこから進む？");
-  setText(".course-select-hero p:not(.eyebrow)", "迷ったら、いちばん上のおすすめ。苦手がある時だけ、かけ算・わり算・九九あなうめを選びます。");
-  const courseHeads = document.querySelectorAll(".course-category-head");
-  const courseHeadLabels = [
-    ["おすすめ", "レベルアップチャレンジ", "できる問題から始めて、少しずつレベルアップします。"],
-    ["かけ算", "かけ算マスター", "筆算の順番、くり上がり、大きいかけ算を練習します。"],
-    ["わり算", "わり算マスター", "たてる・かける・ひく・おろすを順番に練習します。"],
-    ["九九", "九九あなうめ", "短い問題で、かくれた数をテンポよく見つけます。"],
-  ];
-  courseHeadLabels.forEach(([eyebrow, title, text], index) => {
-    const head = courseHeads[index];
-    if (!head) return;
-    const eyebrowEl = head.querySelector(".eyebrow");
-    const titleEl = head.querySelector("h2");
-    const textEl = head.querySelector("p:last-child:not(.eyebrow)");
-    if (eyebrowEl) eyebrowEl.textContent = eyebrow;
-    if (titleEl) titleEl.textContent = title;
-    if (textEl) textEl.textContent = text;
-  });
-  setText("#autoCourseNote strong", "迷ったらここ");
-  setText("#autoCourseNote span", "クリアするほど、かけ算・わり算が少しずつむずかしくなります。");
-  const routeBadges = document.querySelectorAll(".course-route-badges span");
-  ["おすすめで進む", "苦手だけ練習", "九九でテンポよく"].forEach((text, index) => {
-    if (routeBadges[index]) routeBadges[index].textContent = text;
-  });
+  setText(".course-select-hero h1", "どの練習をする？");
+  setText(".course-select-hero p:not(.eyebrow)", "迷ったらレベルアップチャレンジ。自分で選ぶ時は、かけ算・わり算・九九あなうめから選べます。");
   const courseLabels = {
-    autoAdventure: ["レベルアップチャレンジ", "おすすめ。できる問題から少しずつ難しくなる"],
-    starter: ["かけ算ならし", "Lv.1  1けた×1けたで筆算の順番に慣れる"],
-    multiplyFill: ["九九あなうめ", "テンポ練習。かくれた数を見つける"],
-    multiplyForest: ["かけ算マスター 1", "Lv.2  2けた×1けた、くり上がり"],
-    multiplyMountain: ["かけ算マスター 2", "Lv.3  2けた×2けたに挑戦"],
-    multiplyCastle: ["かけ算マスター 3", "Lv.4  3けた×3けたに挑戦"],
-    divideRiver: ["わり算マスター 1", "Lv.1  あまりなしの基本"],
-    divideCave: ["わり算マスター 2", "Lv.2  あまりまで考える"],
-    divideSky: ["わり算マスター 3", "Lv.3  大きい数のわり算に挑戦"],
-    mixAdventure: ["ミックス練習", "仕上げ。かけ算とわり算がいろいろ出る"],
+    autoAdventure: ["レベルアップチャレンジ", "今のステージから進んで、かけ算もわり算もレベルアップ"],
+    starter: ["ひとけたスタート", "1けた×1けたから筆算に慣れる"],
+    multiplyFill: ["九九あなうめ", "かくれた数を見つけてコインをためる"],
+    multiplyForest: ["くり上がりの森", "2けた×1けた、くり上がり"],
+    multiplyMountain: ["二けた橋", "2けた×2けたに挑戦"],
+    multiplyCastle: ["かけ算マスター城", "3けた×3けたを攻略"],
+    divideRiver: ["わり算スタート", "あまりなしの基本"],
+    divideCave: ["あまりの池", "あまりまで考える"],
+    divideSky: ["わり算マスター城", "大きい数のわり算に挑戦"],
+    mixAdventure: ["ミックスチャレンジ", "かけ算とわり算がいろいろ出る"],
   };
   Object.entries(courseLabels).forEach(([key, [title, text]]) => {
     setText(`.course-card[data-course="${key}"] strong`, title);
@@ -139,7 +114,7 @@ function applyJapaneseLabels() {
   setText(".course-head .eyebrow", "いまのコース");
   setText("#activeCourseTitle", "レベルアップチャレンジ");
   setText("#toggleCourses", "コース変更");
-  setText(".mission-panel h2", "コイン");
+  setText(".mission-panel h2", "コインメモ");
   setText(".combo-panel .eyebrow", "ノーミスボーナス");
   setText("#coachMessage", "オレンジのマスだけ見れば大丈夫。ゆっくり進もう。");
   setText("#problemType", "かけ算");
@@ -148,14 +123,15 @@ function applyJapaneseLabels() {
   setText(".stage-status-main span", "いま");
   setText(".stage-status-item:nth-child(2) span", "宝箱まで");
   setText(".stage-status-item:nth-child(3) span", "ガチャまで");
-  setText(".play-reward-panel .eyebrow", "つぎのごほうび");
+  setText(".play-reward-panel .eyebrow", "ガチャまで");
+  setText("#checkButton", "このマスを確認");
   setText("#showAnswerButton", "答えを見る");
   setText("[data-action='back']", "消す");
   setText("[data-action='hint']", "ヒント");
 
   setText(".rewards-view .section-head .eyebrow", "コレクション");
   setText(".rewards-view .section-head h2", "キャラコレクションと練習シール");
-  setText("#nextRewardText", "問題を解くほど、キャラ・背景・シールが少しずつ増えていきます。");
+  setText("#nextRewardText", "問題を解いてコインをためると、ガチャでキャラ景品が増えていきます。");
   setText(".review-view .section-head .eyebrow", "ふくしゅう部屋");
   setText(".review-view .section-head h2", "苦手ステージに挑戦");
   setText("#weakPointText", "まだ苦手記録はありません。");
@@ -163,7 +139,6 @@ function applyJapaneseLabels() {
   setText(".parent-view .section-head .eyebrow", "親モード");
   setText(".parent-view .section-head h2", "今日の学習レポート");
   setText("#parentReviewButton", "復習へ");
-  setText(".parent-guide-panel .eyebrow", "保護者の方へ");
 
   setText("#stageUpOverlay .eyebrow", "ステージアップ");
   setText("#stageUpTitle", "新しいステージへ！");
@@ -172,11 +147,6 @@ function applyJapaneseLabels() {
   setText("#rewardToast .eyebrow", "コインをゲット");
   setText("#rewardToastTitle", "コインをもらえたよ");
   setText("#rewardToastText", "ガチャまで近づきました。");
-  setText("#tutorialOverlay .eyebrow", "はじめての人へ");
-  setText("#tutorialTitle", "オレンジのマスだけ入れよう");
-  setText("#tutorialStartButton", "はじめる");
-  setText("#tutorialSkipButton", "あとで見る");
-  setText("#showTutorialButton", "はじめの案内をもう一度見る");
 }
 
 const CHARACTER_IMAGES = {
@@ -198,8 +168,7 @@ const TREASURE_INTERVAL = 3;
 const BACKGROUND_QUEST_STEP = 50;
 const STAGE_UP_BONUS = 50;
 const NEXT_PROBLEM_DELAY = 900;
-const REWARD_PROBLEM_DELAY = 2400;
-const BACKGROUND_REWARD_DELAY = 3600;
+const REWARD_PROBLEM_DELAY = 1500;
 const STAGE_UP_PROBLEM_DELAY = 2700;
 
 const BACKGROUND_NAMES = [
@@ -289,11 +258,6 @@ const els = {
   rewardToastText: document.querySelector("#rewardToastText"),
   rewardToastPrize: document.querySelector("#rewardToastPrize"),
   rewardToastRoad: document.querySelector("#rewardToastRoad"),
-  rewardSpotlight: document.querySelector("#rewardSpotlight"),
-  rewardSpotlightVisual: document.querySelector("#rewardSpotlightVisual"),
-  rewardSpotlightLabel: document.querySelector("#rewardSpotlightLabel"),
-  rewardSpotlightTitle: document.querySelector("#rewardSpotlightTitle"),
-  rewardSpotlightText: document.querySelector("#rewardSpotlightText"),
   playRewardTitle: document.querySelector("#playRewardTitle"),
   playRewardText: document.querySelector("#playRewardText"),
   playRewardProgress: document.querySelector("#playRewardProgress"),
@@ -348,11 +312,6 @@ const els = {
   resetRewardButton: document.querySelector("#resetRewardButton"),
   resetAllButton: document.querySelector("#resetAllButton"),
   parentResetMessage: document.querySelector("#parentResetMessage"),
-  tutorialOverlay: document.querySelector("#tutorialOverlay"),
-  tutorialStartButton: document.querySelector("#tutorialStartButton"),
-  tutorialSkipButton: document.querySelector("#tutorialSkipButton"),
-  tutorialCloseButton: document.querySelector("#tutorialCloseButton"),
-  showTutorialButton: document.querySelector("#showTutorialButton"),
   historyList: document.querySelector("#historyList"),
   numpad: document.querySelector(".numpad"),
 };
@@ -376,11 +335,11 @@ window.setCharacterMood = setCharacterMood;
 
 const WORLDS = [
   { name: "ひみつの森", text: "まずは筆算の順番に慣れよう。", target: 0, icon: "森", image: "assets/stages/stage-forest.png" },
-  { name: "すうじの川", text: "くり上がりの小さい数を見ながら進もう。", target: 5, icon: "川", image: "assets/stages/stage-river.png" },
+  { name: "すうじの川", text: "くり上がりと途中メモを見ながら進もう。", target: 5, icon: "川", image: "assets/stages/stage-river.png" },
   { name: "くり上がり山", text: "少し長い計算も、1マスずつなら大丈夫。", target: 10, icon: "山", image: "assets/stages/stage-mountain.png" },
-  { name: "わり算どうくつ", text: "商、かける、ひく、おろすを順番に進めよう。", target: 15, icon: "洞", image: "assets/stages/stage-cave.png" },
+  { name: "わり算どうくつ", text: "商、かける、ひく、おろすを順番に攻略しよう。", target: 15, icon: "洞", image: "assets/stages/stage-cave.png" },
   { name: "100の位キャッスル", text: "3けたのかけ算に挑戦しよう。", target: 25, icon: "城", image: "assets/stages/stage-castle.png" },
-  { name: "わり算マスター城", text: "大きな数のわり算に挑戦しよう。", target: 40, icon: "星", image: "assets/stages/stage-starland.png" },
+  { name: "わり算マスター城", text: "大きな数のわり算を攻略しよう。", target: 40, icon: "星", image: "assets/stages/stage-starland.png" },
 ];
 const REWARDS = [
   { at: 3, name: "森のバッジ", note: "3問クリア", icon: "森" },
@@ -616,8 +575,8 @@ function showView(name, options = {}) {
   document.querySelectorAll(".view").forEach((view) => {
     view.classList.toggle("active", view.dataset.view === name);
   });
-  if (name === "challenge") {
-    focusActiveInput(state.steps[state.stepIndex]);
+  if (name === "challenge" && typeof state.steps[state.stepIndex]?.focus === "function") {
+    state.steps[state.stepIndex].focus();
   }
   if (options.scroll !== false) {
     requestAnimationFrame(() => {
@@ -803,46 +762,6 @@ function exchangeTargets() {
       if (a.cost !== b.cost) return a.cost - b.cost;
       return RARITY_ORDER.indexOf(a.rarity) - RARITY_ORDER.indexOf(b.rarity);
     });
-}
-
-function nextCharacterGoal() {
-  const targets = exchangeTargets();
-  return targets.find((prize) => prize.canExchange) || targets.find((prize) => prize.rarity === "UR") || targets.find((prize) => prize.rarity === "SR") || targets[0] || null;
-}
-
-function nextRewardGoalInfo() {
-  const coin = coinProgress();
-  const treasure = treasureProgressInfo();
-  const background = nextBackgroundQuestInfo();
-  const character = nextCharacterGoal();
-  if (coin.ready > 0) {
-    return {
-      label: "ガチャチャンス",
-      title: `いま${coin.ready}回まわせます`,
-      text: character ? `次は「${character.name}」みたいな仲間に会えるかも。` : "コレクションを見に行こう。",
-      progress: 100,
-      className: "is-gacha-ready",
-    };
-  }
-  if (state.problem?.kind === "multiplyFill" || state.mode === "multiplyFill") {
-    const leftText = background.left === 1 ? "あと1問で新しい背景！" : `背景まであと${background.left}問`;
-    return {
-      label: "背景チャレンジ",
-      title: background.complete ? "背景コンプリート" : leftText,
-      text: background.complete
-        ? "すべての景色を集めました。好きな背景を選べます。"
-        : `次は「${background.next.background.name}」。クリアするとホームが変わります。`,
-      progress: background.complete ? 100 : Math.max(6, background.progress),
-      className: "is-background",
-    };
-  }
-  return {
-    label: "つぎのごほうび",
-    title: treasure.left === 1 ? "次の1問で宝箱" : `宝箱まであと${treasure.left}問`,
-    text: `ガチャは${gachaProblemEstimate(coin)}。宝箱とコインをためよう。`,
-    progress: treasure.percent,
-    className: "is-treasure",
-  };
 }
 
 function selectCompanion(key) {
@@ -1126,43 +1045,34 @@ function carryLine(name, width, metas = {}) {
 }
 
 function guideForInput(input) {
-  const step = input.dataset.step || "";
-  const carry = input.dataset.carry || "";
-  if (step || carry) {
-    return {
-      text: step || "オレンジのマスに数字を1つ入れましょう。",
-      carry: carry || "次のマスへ進みます。",
-    };
-  }
-
   if (input.classList.contains("carry-input")) {
     return {
-      text: "くり上がりを小さいマスに入れよう。",
-      carry: "次の計算で、上に書いた数も足します。",
+      text: "くり上がりを小さいマスにメモします。",
+      carry: "次の位の計算で、この小さいメモを足します。",
     };
   }
   if (input.closest(".quotient-row")) {
     return {
-      text: "何回入るかな。上のマスに入れよう。",
-      carry: "次は、かけ算でたしかめます。",
+      text: "商を書くマスです。左から順番に、割る数が何回入るか考えます。",
+      carry: "まだ答えは見えません。頭の中で『何回入るかな』と試します。",
     };
   }
   if (input.closest(".division-product-row")) {
     return {
-      text: "かけ算の答えを下に入れよう。",
-      carry: "右から順番に進めます。",
+      text: "かけ戻した数を書くマスです。掛け算の筆算と同じ順番で進めます。",
+      carry: "右のかけ算メモを見ながら、繰り上がりも使って書きます。",
     };
   }
   if (input.closest(".division-remainder-row")) {
     return {
-      text: "ひいた答えを入れよう。",
-      carry: "できたら、次の数字をおろします。",
+      text: "ひいた後の数を書きます。次の数字をおろす時は、同じ行の右に続けます。",
+      carry: "ひいてから、次の位へ進みます。",
     };
   }
   if (input.closest(".division-final-row")) {
     return {
-      text: "最後のあまりを入れよう。",
-      carry: "割る数より小さいかな。",
+      text: "最後のあまりを書きます。割る数より小さいか確認しましょう。",
+      carry: "ここでわり算の最後を整えます。",
     };
   }
   if (input.closest(".fill-equation")) {
@@ -1170,14 +1080,14 @@ function guideForInput(input) {
     const shown = input.dataset.shown;
     const side = input.dataset.side === "left" ? "左" : "右";
     return {
-      text: `${side}のかくれた数をさがそう。`,
-      carry: `${shown}の段で、${product}になるところを見つけよう。`,
+      text: `${side}のかくれた数を考えます。${product}は${shown}がいくつ分かを探そう。`,
+      carry: `${shown}の段を思い出して、${product}になるところを見つけます。`,
     };
   }
   if (input.closest(".guided-row")) {
     return {
-      text: "右から順番に入れよう。",
-      carry: "上の数字を見て考えよう。",
+      text: "この段の答えを書くマスです。右の位から順番に、計算した数字を入れよう。",
+      carry: "答えはここには出しません。筆算の中の数字を見て考えます。",
     };
   }
   return {
@@ -1214,9 +1124,9 @@ function divisionMultiplyMemoHtml(divisor, quotientDigit) {
   if (multiplier === 0) {
     return `
       <div class="division-multiply-memo">
-        <span>かけ算の途中</span>
-        <strong>${divisor} × 0</strong>
-        <p>右から順番に入れよう。</p>
+        <span>かけ算メモ</span>
+        <strong>${divisor} × 0 = 0</strong>
+        <p>0回なので、下に書く数は0です。</p>
       </div>
     `;
   }
@@ -1227,16 +1137,16 @@ function divisionMultiplyMemoHtml(divisor, quotientDigit) {
     const writeDigit = total % 10;
     const nextCarry = Math.floor(total / 10);
     const place = placeNameFromRight(reverseIndex);
-    const carryText = carry ? "上に書いた数も足そう" : "計算しよう";
-    const nextText = nextCarry ? "上に小さく書く数があるよ。" : "そのまま次へ。";
-    steps.push(`${place}: ${multiplier} × ${digit}。${carryText}。${nextText}`);
+    const carryText = carry ? ` + メモ${carry}` : "";
+    const nextText = nextCarry ? `、${nextCarry}を小さくメモ` : "";
+    steps.push(`${place}: ${multiplier} × ${digit}${carryText} = ${total} → ${writeDigit}を書く${nextText}`);
     carry = nextCarry;
   });
-  if (carry > 0) steps.push("最後の上に書いた数も忘れずに。");
+  if (carry > 0) steps.push(`最後にメモ${carry}を書く`);
   return `
     <div class="division-multiply-memo">
-      <span>かけ算の途中</span>
-      <strong>${divisor} × ${multiplier}</strong>
+      <span>かけ算メモ</span>
+      <strong>${divisor} × ${multiplier} = ${divisor * multiplier}</strong>
       ${steps.map((step) => `<p>${step}</p>`).join("")}
     </div>
   `;
@@ -1257,16 +1167,15 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
     const nextCarry = Math.floor(total / 10);
     const pos = endIndex - digitIndex;
     const hasNextDivisorDigit = digitIndex < divisorDigits.length - 1;
-    const place = placeNameFromRight(digitIndex);
     const formula = carry
-      ? `${quotientDigit} × ${divisorDigit} に、上に書いた数も足そう。`
-      : `${quotientDigit} × ${divisorDigit} を考えよう。`;
+      ? `${quotientDigit} × ${divisorDigit} + ${carry} = ${total}`
+      : `${quotientDigit} × ${divisorDigit} = ${total}`;
 
     if (nextCarry > 0 && hasNextDivisorDigit) {
       carryMetas[pos - 1] = {
         answer: nextCarry,
-        step: `${formula}くり上がりを小さいマスに入れよう。`,
-        carry: "次で、上に書いた数も足します。",
+        step: `${formula}。${total}の十の位${nextCarry}を小さくメモします。`,
+        carry: `次の位で、このメモ${nextCarry}を足します。`,
         multiplyMemo: memoHtml,
         seq,
       };
@@ -1275,8 +1184,8 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
 
     if (nextCarry > 0 && !hasNextDivisorDigit) {
       productMetas[pos - 1] = {
-        step: `${formula}くり上がりの数を入れよう。`,
-        carry: "次のマスで、この行が完成します。",
+        step: `${formula}。左にもう掛ける数がないので、${nextCarry}を大きいマスに書きます。`,
+        carry: `次に${resultDigit}を書けば、${divisor}×${quotientDigit}が完成です。`,
         multiplyMemo: memoHtml,
         seq,
       };
@@ -1284,8 +1193,8 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
     }
 
     productMetas[pos] = {
-      step: `${formula}答えを入れよう。`,
-      carry: nextCarry ? "上に書いた数も忘れずに。" : "そのまま次へ進みます。",
+      step: `${formula}。このマスには${resultDigit}を書きます。`,
+      carry: nextCarry ? `${nextCarry}を次の位へ使います。` : "繰り上がりはありません。",
       multiplyMemo: memoHtml,
       seq,
     };
@@ -1382,12 +1291,9 @@ function renderProblem() {
   state.problemMistakes = 0;
   state.answerShown = false;
   state.completed = false;
-  els.feedback.textContent = "";  els.feedback.className = "feedback";
-  if (els.showAnswerButton) {
-    els.showAnswerButton.textContent = "答えを見る";
-    els.showAnswerButton.classList.remove("primary-button");
-    els.showAnswerButton.classList.add("ghost-button");
-  }
+  els.feedback.textContent = "";
+  els.feedback.className = "feedback";
+  els.checkButton.textContent = "このマスを確認";
   els.problemArea.closest(".problem-card")?.classList.toggle("fill-problem-card", state.problem.kind === "multiplyFill");
   document.querySelector(".challenge-view")?.classList.toggle("fill-challenge", state.problem.kind === "multiplyFill");
 
@@ -1403,9 +1309,6 @@ function renderProblem() {
   activateCurrentStep();
   updateCompanion();
   updateStageStatusPanel();
-  if (els.coachMessage && state.history.length === 0 && localStorage.getItem("hp_tutorial_seen") !== "1") {
-    els.coachMessage.textContent = "はじめはオレンジのマスだけ見よう。数字を入れたら自動で次へ進みます。";
-  }
   if (state.problem.kind === "multiplyFill") {
     window.setTimeout(() => {
       els.problemArea?.scrollIntoView({ block: "center", inline: "nearest", behavior: "smooth" });
@@ -1434,16 +1337,15 @@ function multiplyMetas(problem) {
       const nextCarry = Math.floor(total / 10);
       const pos = problem.width - 1 - rowIndex - topIndex;
       const hasNextTopDigit = topIndex < topDigits.length - 1;
-      const place = placeNameFromRight(topIndex);
       const formula = carry
-        ? `${bottomDigit} × ${topDigit} に、上に書いた数も足そう。`
-        : `${bottomDigit} × ${topDigit} を考えよう。`;
+        ? `${bottomDigit} × ${topDigit} + ${carry} = ${total}`
+        : `${bottomDigit} × ${topDigit} = ${total}`;
 
       if (nextCarry > 0 && hasNextTopDigit) {
         carryMetas[pos - 1] = {
           answer: nextCarry,
-          step: `${formula}くり上がりを小さいマスに入れよう。`,
-          carry: "次で、上に書いた数も足します。",
+          step: `${formula}。${total}の十の位${nextCarry}を小さくメモします。`,
+          carry: `次の位で、このメモ${nextCarry}を足します。`,
           seq,
         };
         seq += 1;
@@ -1451,16 +1353,16 @@ function multiplyMetas(problem) {
 
       if (nextCarry > 0 && !hasNextTopDigit) {
         rowMetas[pos - 1] = {
-          step: `${formula}くり上がりの数を入れよう。`,
-          carry: "次のマスで、この段が完成します。",
+          step: `${formula}。左にもう掛ける数がないので、${nextCarry}を大きいマスに書きます。`,
+          carry: `次に${resultDigit}を書けば、この段が完成です。`,
           seq,
         };
         seq += 1;
       }
 
       rowMetas[pos] = {
-        step: `${formula}答えを入れよう。`,
-        carry: nextCarry ? "上に書いた数も忘れずに。" : "そのまま次へ進みます。",
+        step: `${formula}。このマスには${resultDigit}を書きます。`,
+        carry: nextCarry ? `${nextCarry}を次の位へ使います。` : "繰り上がりはありません。",
         seq,
       };
       seq += 1;
@@ -1479,8 +1381,8 @@ function multiplyMetas(problem) {
     const resultDigit = sum % 10;
     const nextCarry = Math.floor(sum / 10);
     metas.answer[pos] = {
-      step: `${columnDigits.join(" + ")}${carry ? " と上に書いた数" : ""}をたそう。`,
-      carry: nextCarry ? "くり上がりを左の小さいマスに書きます。" : "次へ進もう。",
+      step: `${columnDigits.join(" + ")}${carry ? ` + 繰り上がり${carry}` : ""} = ${sum}。答えのこの位は${resultDigit}です。`,
+      carry: nextCarry ? `${nextCarry}を左の位へ繰り上げます。` : "次へ進みましょう。",
       seq,
     };
     seq += 1;
@@ -1640,8 +1542,8 @@ function divideWork(problem, width) {
     const remainder = current - product;
     quotientCells[index] = String(quotientDigit);
     quotientMetas[index] = {
-      step: `${current}に${problem.divisor}は何回入るかな。`,
-      carry: "上に入れたら、次はかけ算です。",
+      step: `${current}の中に${problem.divisor}は何回入るかな。${quotientDigit}回なので、商に${quotientDigit}を書きます。`,
+      carry: `次は ${problem.divisor} × ${quotientDigit} を掛け算の筆算と同じ順番で下に書きます。`,
       seq,
     };
     seq += 1;
@@ -1651,7 +1553,7 @@ function divideWork(problem, width) {
     seq = productWork.seq;
     if (Object.keys(productWork.carryMetas).length > 0) {
       rows.push({
-        label: "上に書く数",
+        label: "メモ",
         name: "かけ算の繰り上がり",
         text: "",
         metas: productWork.carryMetas,
@@ -1680,12 +1582,12 @@ function divideWork(problem, width) {
       .reverse()
       .forEach(({ cellIndex }) => {
         remainderMetas[cellIndex] = {
-          step: `${current}から下の数をひこう。`,
+          step: `${current} - ${product} = ${remainder}。ひき算なので右の位から書きます。`,
           carry: hasNextDigit
-            ? "できたら、次の数字をおろします。"
+            ? `引いた答えを書けたら、同じ行の右に${digits[index + 1]}をおろします。`
             : remainder < problem.divisor
-              ? "あまりは小さいかな。"
-              : "あまりが大きすぎないかな。",
+              ? `あまり${remainder}は${problem.divisor}より小さいのでOKです。`
+              : "あまりが割る数より小さいか見直しましょう。",
           seq,
         };
         seq += 1;
@@ -1694,8 +1596,8 @@ function divideWork(problem, width) {
       combinedRemainderText.split("").forEach((char, cellIndex) => {
         if (char !== " " && !remainderMetas[cellIndex]) {
           remainderMetas[cellIndex] = {
-            step: "次の数字をおろそう。",
-            carry: `次も、${problem.divisor}が何回入るか考えます。`,
+            step: `${remainder}の右に、次の数字${digits[index + 1]}をおろして${nextCurrent}にします。`,
+            carry: `次は ${nextCurrent}の中に${problem.divisor}が何回入るか考えます。`,
             seq,
           };
           seq += 1;
@@ -1726,6 +1628,10 @@ function guidePanelHtml() {
       <p class="eyebrow">いま考えるところ</p>
       <h3 id="stepTitle">オレンジのマスだけ入れよう</h3>
       <p id="stepText"></p>
+      <div class="carry-board">
+        <span>途中メモ</span>
+        <strong id="carryText">右の位から順番に進めます。</strong>
+      </div>
       <div id="multiplyAssistMemo" class="division-multiply-assist" hidden></div>
       <div class="step-meter"><span id="stepMeter"></span></div>
     </aside>
@@ -1738,44 +1644,16 @@ function collectSteps() {
   );
 }
 
-function useCoarsePointer() {
-  return window.matchMedia?.("(pointer: coarse)")?.matches;
-}
-
-function useTouchKeypadOnly() {
-  return useCoarsePointer() || window.innerWidth <= 699;
-}
-
-function focusActiveInput(input) {
-  if (!input) return;
-  if (useTouchKeypadOnly()) {
-    input.blur();
-    return;
-  }
-  input.focus();
-}
-
 function activateCurrentStep() {
   const inputs = state.steps;
-  const keypadOnly = useTouchKeypadOnly();
   clearAssistHighlights();
   inputs.forEach((input, index) => {
     const isDone = index < state.stepIndex;
     const isCurrent = index === state.stepIndex;
-    input.disabled = keypadOnly ? true : !isCurrent && !isDone;
-    input.readOnly = keypadOnly;
-    input.inputMode = keypadOnly ? "none" : "numeric";
-    input.setAttribute("inputmode", keypadOnly ? "none" : "numeric");
-    if (keypadOnly) {
-      input.setAttribute("readonly", "readonly");
-    } else {
-      input.removeAttribute("readonly");
-    }
-    input.tabIndex = keypadOnly || isDone ? -1 : 0;
-    input.setAttribute("aria-disabled", keypadOnly ? "true" : String(!isCurrent && !isDone));
+    input.disabled = !isCurrent && !isDone;
+    input.tabIndex = isDone ? -1 : 0;
     input.classList.toggle("active", isCurrent);
     input.classList.toggle("locked", !isCurrent && !isDone);
-    input.classList.toggle("keypad-only", keypadOnly);
   });
 
   const current = inputs[state.stepIndex];
@@ -1798,7 +1676,7 @@ function activateCurrentStep() {
     return;
   }
 
-  focusActiveInput(current);
+  current.focus();
   const guide = guideForInput(current);
   if (title) title.textContent = `ステップ ${state.stepIndex + 1} / ${inputs.length}`;
   if (text) text.textContent = guide.text;
@@ -1898,17 +1776,7 @@ function applyMistakeAssist(input) {
   els.feedback.textContent = mistakeFeedbackFor(input, stepMistakes);
   els.feedback.className = "feedback try";
   updateCompanion("mistake");
-  if (useTouchKeypadOnly()) {
-    input.blur();
-  } else if (useCoarsePointer()) {
-    try {
-      input.setSelectionRange(input.value.length, input.value.length);
-    } catch (error) {
-      input.blur();
-    }
-  } else {
-    input.select();
-  }
+  input.select();
 }
 
 function recordWeakness(input) {
@@ -1923,12 +1791,8 @@ function wireInputFlow() {
   state.steps = [...els.problemArea.querySelectorAll(".digit-input")];
   state.steps.forEach((input) => {
     input.addEventListener("focus", () => {
-      if (useTouchKeypadOnly()) {
-        input.blur();
-        return;
-      }
       if (!input.classList.contains("active")) {
-        focusActiveInput(state.steps[state.stepIndex]);
+        state.steps[state.stepIndex]?.focus();
       }
     });
     input.addEventListener("beforeinput", (event) => {
@@ -1947,7 +1811,7 @@ function wireInputFlow() {
         if (extraDigits) {
           enterDigits(extraDigits);
         } else {
-          focusActiveInput(state.steps[state.stepIndex]);
+          state.steps[state.stepIndex]?.focus();
         }
         return;
       }
@@ -1956,13 +1820,6 @@ function wireInputFlow() {
     input.addEventListener("keydown", (event) => {
       if (event.key === "Enter") checkCurrentStep();
     });
-    const keepNativeKeyboardClosed = (event) => {
-      if (!useTouchKeypadOnly()) return;
-      event.preventDefault();
-      input.blur();
-    };
-    input.addEventListener("pointerdown", keepNativeKeyboardClosed);
-    input.addEventListener("touchstart", keepNativeKeyboardClosed, { passive: false });
   });
 }
 
@@ -1973,12 +1830,11 @@ function checkCurrentStep() {
   if (!input.value) {
     els.feedback.textContent = "オレンジのマスに数字を入れてみよう。";
     els.feedback.className = "feedback try";
-    focusActiveInput(input);
+    input.focus();
     return;
   }
 
   if (input.value === input.dataset.answer) {
-    markInputCellSolved(input);
     input.classList.add("correct");
     input.classList.remove("wrong", "active");
     input.disabled = true;
@@ -2010,83 +1866,60 @@ function scheduleNextProblem(delay = NEXT_PROBLEM_DELAY) {
 function completeProblem() {
   if (state.completed || !state.problem) return;
   state.completed = true;
-  let nextDelay = NEXT_PROBLEM_DELAY;
 
+  const cleanClear = state.problemMistakes === 0 && !state.answerShown;
+  const comboHit = cleanClear && (state.streak + 1) % 3 === 0;
+  let earnedCoins = coinsForCompletedProblem(comboHit);
+  const treasure = updateTreasureProgress();
+  if (treasure.opened) earnedCoins += treasure.bonus;
+
+  const backgroundReward = advanceBackgroundQuest();
+  const nextStage = updateAutoStageProgress(cleanClear);
+  if (nextStage) earnedCoins += STAGE_UP_BONUS;
+
+  state.streak = cleanClear ? state.streak + 1 : 0;
+  state.stars = Number(state.stars || 0) + 3;
+  state.coins = Number(state.coins || 0) + earnedCoins;
+  state.solvedToday = Number(state.solvedToday || 0) + 1;
+
+  const kind = state.problem.kind || "multiply";
+  if (kind === "multiplyFill") {
+    state.stickers.fill = Number(state.stickers.fill || 0) + 1;
+  } else if (kind === "divide") {
+    state.stickers.divide = Number(state.stickers.divide || 0) + 1;
+  } else {
+    state.stickers.multiply = Number(state.stickers.multiply || 0) + 1;
+  }
+
+  state.lastPraise = praiseForCompletedProblem(comboHit);
+  state.history.unshift({
+    title: els.problemTitle?.textContent || courseDisplayName(),
+    kind,
+    mistakes: state.problemMistakes,
+    coins: earnedCoins,
+    at: new Date().toISOString(),
+  });
+  state.history = state.history.slice(0, 30);
+
+  saveProgress();
+  celebrate();
+  setCharacterMood("happy", 2400);
+  if (nextStage) showStageUpParty(nextStage, STAGE_UP_BONUS);
+
+  const extras = [];
+  if (comboHit) extras.push("フィーバーボーナス");
+  if (treasure.opened) extras.push(`宝箱+${treasure.bonus}`);
+  if (backgroundReward) extras.push(`背景「${backgroundReward.background.name}」`);
+  if (nextStage) extras.push("ステージアップ");
+
+  els.feedback.textContent = `${state.lastPraise} ${earnedCoins}コインをゲット。${extras.length ? extras.join(" / ") : "つぎの問題へ進みます。"}`;
+  els.feedback.className = "feedback good";
   try {
-    const cleanClear = state.problemMistakes === 0 && !state.answerShown;
-    const comboHit = cleanClear && (state.streak + 1) % 3 === 0;
-    let earnedCoins = coinsForCompletedProblem(comboHit);
-    const treasure = updateTreasureProgress();
-    if (treasure.opened) earnedCoins += treasure.bonus;
-
-    const backgroundReward = advanceBackgroundQuest();
-    const nextStage = updateAutoStageProgress(cleanClear);
-    if (nextStage) earnedCoins += STAGE_UP_BONUS;
-
-    state.streak = cleanClear ? state.streak + 1 : 0;
-    state.stars = Number(state.stars || 0) + 3;
-    state.coins = Number(state.coins || 0) + earnedCoins;
-    state.solvedToday = Number(state.solvedToday || 0) + 1;
-
-    const kind = state.problem.kind || "multiply";
-    if (kind === "multiplyFill") {
-      state.stickers.fill = Number(state.stickers.fill || 0) + 1;
-    } else if (kind === "divide") {
-      state.stickers.divide = Number(state.stickers.divide || 0) + 1;
-    } else {
-      state.stickers.multiply = Number(state.stickers.multiply || 0) + 1;
-    }
-
-    state.lastPraise = praiseForCompletedProblem(comboHit);
-    state.history.unshift({
-      title: els.problemTitle?.textContent || courseDisplayName(),
-      kind,
-      mistakes: state.problemMistakes,
-      coins: earnedCoins,
-      at: new Date().toISOString(),
-    });
-    state.history = state.history.slice(0, 30);
-
-    saveProgress();
-    celebrate();
-    setCharacterMood("happy", 2400);
-    if (nextStage) showStageUpParty(nextStage, STAGE_UP_BONUS);
-
-    const extras = [];
-    if (comboHit) extras.push("フィーバーボーナス");
-    if (treasure.opened) extras.push(`宝箱+${treasure.bonus}`);
-    if (backgroundReward) extras.push(`背景「${backgroundReward.background.name}」`);
-    if (nextStage) extras.push("ステージアップ");
-
-    els.feedback.textContent = `${state.lastPraise} ${earnedCoins}コインをゲット。${extras.length ? extras.join(" / ") : "つぎの問題へ進みます。"}`;
-    els.feedback.className = "feedback good";
-    try {
-      updateProgress();
-      showRewardToast({
-        coins: earnedCoins,
-        comboHit,
-        treasure,
-        backgroundReward,
-        nextStage,
-      });
-      showCompletionRewardEffects({ treasure, backgroundReward, nextStage });
-    } catch (error) {
-      console.error(error);
-    }
-    nextDelay = backgroundReward
-      ? BACKGROUND_REWARD_DELAY
-      : nextStage
-        ? STAGE_UP_PROBLEM_DELAY
-        : treasure.opened
-          ? REWARD_PROBLEM_DELAY
-          : NEXT_PROBLEM_DELAY;
+    updateProgress();
   } catch (error) {
     console.error(error);
-    els.feedback.textContent = "完成です。つぎの問題へ進みます。";
-    els.feedback.className = "feedback good";
-  } finally {
-    scheduleNextProblem(nextDelay);
   }
+  scheduleNextProblem(nextStage ? STAGE_UP_PROBLEM_DELAY : treasure.opened || backgroundReward ? REWARD_PROBLEM_DELAY : NEXT_PROBLEM_DELAY);
 }
 
 function praiseForCompletedProblem(comboHit = false) {
@@ -2121,7 +1954,7 @@ function showHint() {
     els.feedback.textContent = "同じ位を指で追って、もう一度考えてみよう。確認したい時は答えを見るを使えます。";
   }
   els.feedback.className = "feedback try";
-  focusActiveInput(current);
+  current.focus();
 }
 
 function showAnswer() {
@@ -2130,7 +1963,6 @@ function showAnswer() {
   state.problemMistakes += 1;
   state.steps.forEach((input) => {
     input.value = input.dataset.answer;
-    markInputCellSolved(input);
     input.disabled = true;
     input.classList.add("correct");
     input.classList.remove("wrong", "active", "locked");
@@ -2151,30 +1983,6 @@ function showAnswer() {
   if (meter) meter.style.width = "100%";
   els.feedback.textContent = "答えを見ました。次は同じ順番でやってみよう。";
   els.feedback.className = "feedback";
-  if (els.showAnswerButton) {
-    els.showAnswerButton.textContent = "次の問題へ";
-    els.showAnswerButton.classList.remove("ghost-button");
-    els.showAnswerButton.classList.add("primary-button");
-  }
-}
-
-function handleShowAnswerButtonClick() {
-  if (state.answerShown) {
-    renderProblem();
-    return;
-  }
-  showAnswer();
-}
-
-function markInputCellSolved(input) {
-  const cell = input.closest(".digit-cell");
-  if (!cell) return;
-  cell.dataset.value = input.dataset.answer || input.value || "";
-  if (input.classList.contains("carry-input")) {
-    cell.classList.add("carry-solved-cell");
-    return;
-  }
-  cell.classList.add("solved-cell");
 }
 function saveProgress() {
   localStorage.setItem("hp_streak", state.streak);
@@ -2190,7 +1998,6 @@ function saveProgress() {
   localStorage.setItem("hp_gacha_fragments", state.gachaFragments);
   localStorage.setItem("hp_selected_companion", state.selectedCompanion);
   localStorage.setItem("hp_reward_filter", state.rewardFilter);
-  localStorage.setItem("hp_reward_tab", state.rewardTab);
   localStorage.setItem("hp_treasure_progress", state.treasureProgress);
   localStorage.setItem("hp_auto_progress", JSON.stringify(state.autoProgress));
   localStorage.setItem("hp_background_quest", JSON.stringify(state.backgroundQuest));
@@ -2265,14 +2072,14 @@ function updateProgress() {
   const missionText = document.querySelector("#missionText");
   if (missionText) {
     missionText.textContent =
-      coin.ready > 0 ? `ガチャを${coin.ready}回まわせます。いまがチャンス。` : `あと${coin.need}コインでガチャ。まずは1問進めよう。`;
+      coin.ready > 0 ? `ガチャを${coin.ready}回まわせます。` : `あと${coin.need}コインでガチャ。1問ずつためよう。`;
   }
   if (els.homeCoinText) els.homeCoinText.textContent = `${state.coins}コイン`;
   if (els.homeGachaText) {
     els.homeGachaText.textContent =
       coin.ready > 0
-        ? `いま${coin.ready}回ガチャをまわせます。新しい仲間を見に行こう。`
-        : `あと${coin.need}コイン。${gachaProblemEstimate(coin)}でガチャが近づきます。`;
+        ? `いま${coin.ready}回ガチャをまわせます。かけら${state.gachaFragments}こ。`
+        : `あと${coin.need}コイン。${gachaProblemEstimate(coin)}でガチャに近づきます。かけら${state.gachaFragments}こ。`;
   }
   els.badgeList.innerHTML =
     coin.ready > 0 ? '<span class="badge">ガチャOK</span>' : '<span class="badge">あと' + coin.need + 'コイン</span>';
@@ -2297,7 +2104,7 @@ function updateBackgroundQuestUi() {
   if (els.homeJourneyText) {
     els.homeJourneyText.textContent = next.complete
       ? `全${BACKGROUND_REWARDS.length}背景とフレームを集めました。好きな背景を選べます。`
-      : `九九あなうめを進めると、ホームが新しい景色に変わります。`;
+      : `九九あなうめをあと${next.left}問クリアすると、新しいホーム背景がもらえます。`;
   }
   if (els.homeJourneyProgress) els.homeJourneyProgress.style.width = `${next.complete ? 100 : Math.max(4, next.progress)}%`;
 }
@@ -2307,19 +2114,31 @@ function updateComboPanel() {
   const fever = state.streak > 0 && combo === 0;
   const remaining = combo === 0 ? 3 : 3 - combo;
   if (els.comboProgress) els.comboProgress.style.width = `${(fever ? 1 : combo / 3) * 100}%`;
-  if (els.comboText) els.comboText.textContent = fever ? `${state.streak}れんぞく。フィーバー中` : `あと${remaining}問で宝箱チャンス`;
+  if (els.comboText) els.comboText.textContent = fever ? `${state.streak}れんぞく。フィーバー中` : `あと${remaining}問でフィーバー`;
   if (els.comboPanel) els.comboPanel.classList.toggle("fever", fever);
 }
 
 function updatePlayRewardPanel() {
   if (!els.playRewardTitle || !els.playRewardText || !els.playRewardProgress) return;
-  const goal = nextRewardGoalInfo();
-  const panel = document.querySelector(".play-reward-panel");
-  panel?.classList.remove("is-gacha-ready", "is-background", "is-treasure");
-  panel?.classList.add(goal.className);
-  els.playRewardTitle.textContent = goal.title;
-  els.playRewardText.textContent = goal.text;
-  els.playRewardProgress.style.width = `${Math.max(8, goal.progress)}%`;
+  const coin = coinProgress();
+  if (state.problem?.kind === "multiplyFill" || state.mode === "multiplyFill") {
+    const next = nextBackgroundQuestInfo();
+    els.playRewardTitle.textContent = next.complete ? "背景コンプリート" : `背景まであと${next.left}問`;
+    els.playRewardText.textContent = next.complete
+      ? "すべてのホーム背景とフレームを集めました。"
+      : `次は「${next.next.background.name}」${next.next.frame.level > 1 ? `の${next.next.frame.name}` : ""}がもらえます。`;
+    els.playRewardProgress.style.width = `${next.complete ? 100 : Math.max(6, next.progress)}%`;
+    return;
+  }
+  if (coin.ready > 0) {
+    els.playRewardTitle.textContent = `ガチャ${coin.ready}回ぶん`;
+    els.playRewardText.textContent = "ホームかガチャ画面でキャラ景品をゲットできます。";
+    els.playRewardProgress.style.width = "100%";
+    return;
+  }
+  els.playRewardTitle.textContent = `あと${coin.need}コイン`;
+  els.playRewardText.textContent = `${gachaProblemEstimate(coin)}でガチャに届きます。1問ごとにゲージが進みます。`;
+  els.playRewardProgress.style.width = `${Math.max(8, coin.percent)}%`;
 }
 
 function updateStageStatusPanel() {
@@ -2364,118 +2183,18 @@ function showStageUpParty(stage, bonus = STAGE_UP_BONUS) {
   }, 2600);
 }
 
-function showRewardToast({ coins = 0, comboHit = false, treasure = {}, backgroundReward = null, nextStage = null } = {}) {
-  if (!els.rewardToast || !els.rewardToastTitle || !els.rewardToastText || !els.rewardToastPrize) return;
-  const coin = coinProgress();
-  const nextGoal = nextRewardGoalInfo();
-  const type = backgroundReward ? "background" : treasure.opened ? "treasure" : coin.ready > 0 ? "gacha-ready" : "coin";
-  const prizeLabel = backgroundReward ? "景" : treasure.opened ? "宝" : coin.ready > 0 ? "玉" : "コ";
-  const title = backgroundReward
-    ? `背景「${backgroundReward.background.name}」をゲット`
-    : treasure.opened
-      ? `宝箱から${treasure.bonus}コイン`
-      : coin.ready > 0
-        ? "ガチャをまわせます"
-        : `${coins}コインをゲット`;
-  const extras = [];
-  if (comboHit) extras.push("宝箱チャンス");
-  if (nextStage) extras.push("ステージアップ");
-  const text = backgroundReward
-    ? "ホームに新しい景色が増えました。あとでコレクションから選べます。"
-    : coin.ready > 0
-      ? `新しい仲間に会いに行けます。${extras.join(" / ")}`
-      : `${nextGoal.title}。${extras.length ? extras.join(" / ") : nextGoal.text}`;
-
-  els.rewardToast.className = `reward-toast show ${type}`;
-  els.rewardToast.setAttribute("aria-hidden", "false");
-  els.rewardToastPrize.innerHTML = `<span>${escapeHtml(prizeLabel)}</span>`;
-  els.rewardToastTitle.textContent = title;
-  els.rewardToastText.textContent = text.trim();
-  if (els.rewardToastRoad) els.rewardToastRoad.style.width = `${Math.max(8, nextGoal.progress)}%`;
-
-  window.clearTimeout(showRewardToast.timer);
-  showRewardToast.timer = window.setTimeout(() => {
-    els.rewardToast.classList.remove("show");
-    els.rewardToast.setAttribute("aria-hidden", "true");
-  }, backgroundReward ? 3200 : treasure.opened || coin.ready > 0 ? 2300 : 1550);
-}
-
-function showRewardSpotlight({ type = "treasure", title = "", text = "", label = "ごほうび発見", visual = "宝", image = "" } = {}) {
-  if (!els.rewardSpotlight || !els.rewardSpotlightVisual || !els.rewardSpotlightTitle || !els.rewardSpotlightText) return;
-  els.rewardSpotlight.className = `reward-spotlight show ${type}`;
-  els.rewardSpotlight.setAttribute("aria-hidden", "false");
-  if (els.rewardSpotlightLabel) els.rewardSpotlightLabel.textContent = label;
-  els.rewardSpotlightTitle.textContent = title;
-  els.rewardSpotlightText.textContent = text;
-  els.rewardSpotlightVisual.innerHTML = image
-    ? `<span class="spotlight-image" style="background-image:url('${escapeHtml(image)}')"></span>`
-    : `<span>${escapeHtml(visual)}</span>`;
-
-  window.clearTimeout(showRewardSpotlight.timer);
-  showRewardSpotlight.timer = window.setTimeout(() => {
-    els.rewardSpotlight.classList.remove("show");
-    els.rewardSpotlight.setAttribute("aria-hidden", "true");
-  }, type === "background" ? 2600 : 2100);
-}
-
-function showCompletionRewardEffects({ treasure = {}, backgroundReward = null, nextStage = null } = {}) {
-  if (backgroundReward) {
-    showRewardSpotlight({
-      type: "background",
-      label: "50問クリア",
-      title: `${backgroundReward.background.name}をゲット！`,
-      text: `${backgroundReward.frame.name}フレームでホームが変わりました。次の景色へ進もう。`,
-      image: backgroundReward.background.image,
-    });
-    return;
-  }
-  if (treasure.opened) {
-    showRewardSpotlight({
-      type: "treasure",
-      label: "宝箱オープン",
-      title: `${treasure.bonus}コインを発見`,
-      text: nextStage ? "ステージアップも近づきました。" : "また3問進むと宝箱チャンスです。",
-      visual: "宝",
-    });
-  }
-}
-
-function markTutorialSeen() {
-  localStorage.setItem("hp_tutorial_seen", "1");
-}
-
-function showTutorial(force = false) {
-  if (!els.tutorialOverlay) return;
-  if (!force && localStorage.getItem("hp_tutorial_seen") === "1") return;
-  els.tutorialOverlay.classList.add("show");
-  els.tutorialOverlay.setAttribute("aria-hidden", "false");
-  setCharacterMood("cheer");
-}
-
-function hideTutorial({ start = false } = {}) {
-  if (!els.tutorialOverlay) return;
-  markTutorialSeen();
-  els.tutorialOverlay.classList.remove("show");
-  els.tutorialOverlay.setAttribute("aria-hidden", "true");
-  setCharacterMood("main");
-  if (start) {
-    showView("challenge");
-  }
-}
-
 function showGachaParty(prize) {
   if (!els.gachaParty || !prize) return;
-  const symbols = [prize.icon, "星", "♪", "100", "コ", "光", "金", prize.duplicate ? "かけら" : "大当たり"];
+  const symbols = [prize.icon, "星", "♪", "100", "コ", prize.duplicate ? "かけら" : "大当たり"];
   els.gachaParty.className = `gacha-party-overlay show rarity-${prize.rarity}`;
   els.gachaParty.innerHTML = `
     <div class="party-burst"></div>
-    <div class="party-rainbow"></div>
     <div class="party-prize" data-rarity="${escapeHtml(prize.rarity)}">
       ${prizeVisualHtml(prize)}
       <strong>${escapeHtml(prize.duplicate ? "かけらゲット" : prize.name)}</strong>
       <small>${escapeHtml(rarityLabel(prize.rarity))} / ${escapeHtml(prize.duplicate ? `${prize.fragmentsEarned}かけら` : prize.kind)}</small>
     </div>
-    ${Array.from({ length: prize.rarity === "UR" ? 78 : prize.rarity === "SR" ? 64 : 52 }, (_, index) => {
+    ${Array.from({ length: 46 }, (_, index) => {
       const symbol = symbols[index % symbols.length];
       return `<span class="party-spark" style="--x:${randomInt(4, 96)}%; --delay:${randomInt(0, 420)}ms; --rot:${randomInt(-28, 28)}deg;">${escapeHtml(symbol)}</span>`;
     }).join("")}
@@ -2483,13 +2202,13 @@ function showGachaParty(prize) {
   window.clearTimeout(showGachaParty.timer);
   showGachaParty.timer = window.setTimeout(() => {
     els.gachaParty.classList.remove("show");
-  }, prize.rarity === "UR" ? 2600 : prize.rarity === "SR" ? 2300 : 2000);
+  }, 1850);
   window.setTimeout(() => {
     if (!els.gachaParty.classList.contains("show")) {
       els.gachaParty.innerHTML = "";
       els.gachaParty.className = "gacha-party-overlay";
     }
-  }, prize.rarity === "UR" ? 3050 : 2600);
+  }, 2200);
 }
 function renderGachaUi() {
   const coin = coinProgress();
@@ -2502,7 +2221,7 @@ function renderGachaUi() {
   if (els.gachaTicketText) els.gachaTicketText.textContent = `${coin.ready}回`;
   if (els.gachaNeedText) els.gachaNeedText.textContent = canRoll ? "OK" : `${coin.need}`;
   if (els.gachaProgressText) {
-    els.gachaProgressText.textContent = hasCoin ? `いま${coin.ready}回まわせます` : `${gachaProblemEstimate(coin)}でチャンス / あと${coin.need}コイン`;
+    els.gachaProgressText.textContent = hasCoin ? `いま${coin.ready}回まわせます` : `${gachaProblemEstimate(coin)} / あと${coin.need}コイン`;
   }
   if (els.gachaProgress) els.gachaProgress.style.width = `${hasCoin ? 100 : Math.max(8, coin.percent)}%`;
   if (els.gachaButton) {
@@ -2531,37 +2250,12 @@ function renderGachaUi() {
         els.gachaResultRarity.textContent = "";
         els.gachaResultRarity.className = "rarity-badge";
       }
-      els.gachaResultTitle.textContent = "次の仲間が待っています";
-      els.gachaResultText.textContent = "100コインためると、ガチャに挑戦できます。";
+      els.gachaResultTitle.textContent = "まだまわしていません";
+      els.gachaResultText.textContent = "100コインためるとガチャに挑戦できます。";
     }
   }
   if (els.gachaPrizePreview) {
-    const target = nextCharacterGoal();
-    const exchange = exchangeTargets().slice(0, 3);
-    const targetCards = RARITY_ORDER.map((rarity) => {
-      const prize = GACHA_PRIZES.find((item) => item.rarity === rarity && !ownedPrize(item)) || GACHA_PRIZES.find((item) => item.rarity === rarity);
-      const owned = ownedPrize(prize);
-      return `
-        <div class="gacha-target-card ${owned ? "owned" : ""}" data-rarity="${escapeHtml(rarity)}">
-          <span>${prizeVisualHtml(prize, !owned)}</span>
-          <div><strong>${owned ? "出会い済み" : escapeHtml(rarityLabel(rarity))}</strong><small>${owned ? `${rarity}は集まり中` : "まだ見ぬ仲間"}</small></div>
-        </div>
-      `;
-    }).join("");
-    const exchangeHtml = exchange.length
-      ? exchange
-          .map(
-            (prize) => `
-              <div class="exchange-card ${prize.canExchange ? "ready" : ""}" data-rarity="${escapeHtml(prize.rarity)}">
-                <span class="exchange-icon">${prizeVisualHtml(prize, true)}</span>
-                <div><strong>${escapeHtml(rarityLabel(prize.rarity))}の仲間</strong><small>${prize.canExchange ? "交換できます" : `あと${prize.cost - state.gachaFragments}かけら`}</small></div>
-                <button class="mini-action-button exchange-button" type="button" data-exchange="${prize.key}" ${prize.canExchange ? "" : "disabled"}>${prize.canExchange ? "交換" : prize.cost}</button>
-              </div>
-            `,
-          )
-          .join("")
-      : '<p class="mini-copy">まだ見ぬ仲間はぜんぶ集まりました。</p>';
-    const prizeCards = GACHA_PRIZES.slice(0, 12)
+    els.gachaPrizePreview.innerHTML = GACHA_PRIZES.slice(0, 8)
       .map((prize) => {
         const owned = ownedPrize(prize);
         return `
@@ -2573,25 +2267,6 @@ function renderGachaUi() {
         `;
       })
       .join("");
-    els.gachaPrizePreview.innerHTML = `
-      <section class="gacha-focus-panel">
-        <div class="focus-prize" data-rarity="${escapeHtml(target?.rarity || "N")}">${target ? prizeVisualHtml(target, !ownedPrize(target)) : "★"}</div>
-        <div>
-          <p class="eyebrow">つぎに会いたい仲間</p>
-          <h3>${target ? (ownedPrize(target) ? "コレクションを見に行こう" : `${rarityLabel(target.rarity)}の仲間をねらおう`) : "ぜんぶ集まりました"}</h3>
-          <p>${target ? `かけらは${state.gachaFragments}こ。ガチャでも交換でも、少しずつ仲間が増えます。` : "すごい。今ある仲間はぜんぶ集まりました。"}</p>
-          <div class="gacha-target-grid">${targetCards}</div>
-        </div>
-      </section>
-      <section class="gacha-exchange-teaser">
-        <div><p class="eyebrow">かけら交換</p><h3>ダブっても前に進む</h3><p>同じキャラはかけらになります。あと少しの仲間を交換できます。</p></div>
-        <div class="exchange-card-grid">${exchangeHtml}</div>
-      </section>
-      <section class="gacha-prize-list">
-        <div class="gacha-list-head"><h3>仲間ずかん</h3><button class="compact-button ghost-button" type="button" data-nav="rewards">ぜんぶ見る</button></div>
-        <div class="gacha-prize-grid">${prizeCards}</div>
-      </section>
-    `;
   }
 }
 function rollGacha() {
@@ -2656,12 +2331,7 @@ function updateCompanion(event = "") {
   }
   if (els.homeNextReward) els.homeNextReward.textContent = `${ownedPrizeCount()} / ${GACHA_PRIZES.length}こ`;
   if (els.homeRewardText) {
-    const nextCharacter = nextCharacterGoal();
-    els.homeRewardText.textContent = coin.ready > 0
-      ? `ガチャを${coin.ready}回まわせます。新しい仲間に会いに行こう。`
-      : nextCharacter
-        ? `${gachaProblemEstimate(coin)}でガチャ。集めたかけらでも仲間に近づきます。`
-        : `${gachaProblemEstimate(coin)}でガチャ。コレクションを見に行こう。`;
+    els.homeRewardText.textContent = coin.ready > 0 ? `ガチャを${coin.ready}回まわせます。かけら${state.gachaFragments}こ。` : `${gachaProblemEstimate(coin)}でガチャ。かけら${state.gachaFragments}こ。`;
   }
   if (els.nextRewardText) {
     els.nextRewardText.textContent = `キャラ${ownedPrizeCount()} / ${GACHA_PRIZES.length}体、称号${titleBadgeCount()} / ${TITLE_BADGES.length}こ。`;
@@ -2687,21 +2357,8 @@ function updateCompanion(event = "") {
     }).join("");
   }
   if (els.rewardShelf) {
-    const validTabs = ["characters", "backgrounds", "stickers", "titles"];
-    const activeTab = validTabs.includes(state.rewardTab) ? state.rewardTab : "characters";
     const activeFilter = RARITY_ORDER.includes(state.rewardFilter) ? state.rewardFilter : "all";
     const filteredRewards = GACHA_PRIZES.filter((reward) => activeFilter === "all" || reward.rarity === activeFilter);
-    const rewardTabHtml = [
-      ["characters", "キャラ", `${ownedPrizeCount()}/${GACHA_PRIZES.length}`],
-      ["backgrounds", "背景", `${state.backgroundQuest.unlockedStage}/${BACKGROUND_REWARDS.length * BACKGROUND_FRAMES.length}`],
-      ["stickers", "シール", `${Object.values(state.stickers).reduce((sum, count) => sum + Number(count || 0), 0)}枚`],
-      ["titles", "称号", `${titleBadgeCount()}/${TITLE_BADGES.length}`],
-    ]
-      .map(
-        ([tab, label, count]) =>
-          `<button class="reward-tab-button ${activeTab === tab ? "active" : ""}" type="button" data-reward-tab="${tab}"><strong>${label}</strong><span>${count}</span></button>`,
-      )
-      .join("");
     const filterHtml = ["all", ...RARITY_ORDER].map((filter) => {
       const label = filter === "all" ? "ぜんぶ" : filter;
       const count = filter === "all" ? ownedPrizeCount() : GACHA_PRIZES.filter((prize) => prize.rarity === filter && ownedPrize(prize)).length;
@@ -2729,20 +2386,6 @@ function updateCompanion(event = "") {
     }).join("");
     const titleHtml = titleBadgeStatus().map((badge) => `<div class="title-card ${badge.isUnlocked ? "owned" : "empty"}"><span>${titleBadgeVisualHtml(badge)}</span><strong>${badge.isUnlocked ? badge.name : "？？？"}</strong><small>${badge.note}</small></div>`).join("");
     const backgroundNext = nextBackgroundQuestInfo();
-    const nextGoal = nextRewardGoalInfo();
-    const nextCharacter = nextCharacterGoal();
-    const nextGoalVisual = nextCharacter ? prizeVisualHtml(nextCharacter, !ownedPrize(nextCharacter)) : '<span class="prize-mark">★</span>';
-    const collectionGoalHtml = `
-      <section class="reward-section collection-goal-card ${escapeHtml(nextGoal.className)}">
-        <div class="collection-goal-prize" data-rarity="${escapeHtml(nextCharacter?.rarity || "N")}">${nextGoalVisual}</div>
-        <div>
-          <p class="eyebrow">${escapeHtml(nextGoal.label)}</p>
-          <h3>${escapeHtml(nextGoal.title)}</h3>
-          <p>${escapeHtml(nextGoal.text)}</p>
-          <div class="collection-goal-track" aria-hidden="true"><span style="width:${Math.max(8, nextGoal.progress)}%"></span></div>
-        </div>
-      </section>
-    `;
     const backgroundHtml = BACKGROUND_REWARDS.map((background) => {
       const frameLevel = unlockedFrameLevelForBackground(background.id);
       const unlocked = frameLevel > 0;
@@ -2750,17 +2393,12 @@ function updateCompanion(event = "") {
       const frame = BACKGROUND_FRAMES.find((item) => item.level === frameLevel) || BACKGROUND_FRAMES[0];
       return `<div class="background-card ${unlocked ? "owned" : "locked"} ${selected ? "selected" : ""} ${frame.className}"><span class="background-thumb" style="background-image:url('${background.image}')"></span><strong>${unlocked ? background.name : "？？？"}</strong><small>${unlocked ? frame.name : "まだ見つかっていません"}</small><button class="mini-action-button" type="button" data-background-select="${background.id}" ${unlocked && !selected ? "" : "disabled"}>${selected ? "ホーム背景" : unlocked ? "背景にする" : "ロック中"}</button></div>`;
     }).join("");
-    const activeSectionHtml = {
-      backgrounds: `<section class="reward-section background-book"><h3>ホーム背景 <span>${state.backgroundQuest.unlockedStage} / ${BACKGROUND_REWARDS.length * BACKGROUND_FRAMES.length}こ・次まで${backgroundNext.complete ? 0 : backgroundNext.left}問</span></h3><p class="background-book-note">九九あなうめを50問クリアするたびに、背景やフレームがふえます。</p><div class="background-grid">${backgroundHtml}</div></section>`,
-      stickers: `<section class="reward-section sticker-book"><h3>練習シール</h3><div class="sticker-grid">${stickerHtml}</div></section>`,
-      titles: `<section class="reward-section title-book"><h3>称号バッジ <span>${titleBadgeCount()} / ${TITLE_BADGES.length}こ</span></h3><div class="title-grid">${titleHtml}</div></section>`,
-      characters: `<section class="reward-section"><h3>キャラコレクション <span>${ownedPrizeCount()} / ${GACHA_PRIZES.length}体・かけら${state.gachaFragments}こ</span></h3><div class="reward-filter-bar">${filterHtml}</div><div class="treasure-grid">${treasureHtml}</div></section>`,
-    }[activeTab];
     els.rewardShelf.innerHTML = `
-      ${collectionGoalHtml}
       <section class="reward-section reward-overview"><div class="reward-summary-grid"><div><p class="eyebrow">キャラ</p><strong>${ownedPrizeCount()} / ${GACHA_PRIZES.length}体</strong><span>相棒にしたいキャラを選べます。</span></div><div><p class="eyebrow">かけら</p><strong>${state.gachaFragments}こ</strong><span>重複したキャラはかけらになります。</span></div><div><p class="eyebrow">称号</p><strong>${titleBadgeCount()} / ${TITLE_BADGES.length}こ</strong><span>続けると解放されます。</span></div><div class="rarity-chip-row">${raritySummaryHtml()}</div></div></section>
-      <nav class="reward-tab-bar" aria-label="コレクションの種類">${rewardTabHtml}</nav>
-      ${activeSectionHtml}
+      <section class="reward-section background-book"><h3>ホーム背景 <span>${state.backgroundQuest.unlockedStage} / ${BACKGROUND_REWARDS.length * BACKGROUND_FRAMES.length}こ・次まで${backgroundNext.complete ? 0 : backgroundNext.left}問</span></h3><p class="background-book-note">九九あなうめを50問クリアするたびに、背景やフレームがふえます。</p><div class="background-grid">${backgroundHtml}</div></section>
+      <section class="reward-section"><h3>キャラコレクション <span>${ownedPrizeCount()} / ${GACHA_PRIZES.length}体・かけら${state.gachaFragments}こ</span></h3><div class="reward-filter-bar">${filterHtml}</div><div class="treasure-grid">${treasureHtml}</div></section>
+      <section class="reward-section sticker-book"><h3>練習シール</h3><div class="sticker-grid">${stickerHtml}</div></section>
+      <section class="reward-section title-book"><h3>称号バッジ <span>${titleBadgeCount()} / ${TITLE_BADGES.length}こ</span></h3><div class="title-grid">${titleHtml}</div></section>
     `;
   }
   renderParentDashboard();
@@ -2772,7 +2410,7 @@ function updateCompanion(event = "") {
       mistake: "間違いは発見です。どの手順で迷ったか見つけよう。",
       weak: "苦手ポイントを記録しました。あとで復習できます。",
     };
-    els.coachMessage.textContent = messages[event] || (weak ? `今日は「${weak[0]}」を一緒に練習しよう。` : "オレンジのマスだけ見れば大丈夫。ゆっくり進もう。");
+    els.coachMessage.textContent = messages[event] || (weak ? `今日は「${weak[0]}」を一緒に攻略しよう。` : "オレンジのマスだけ見れば大丈夫。ゆっくり進もう。");
   }
 }
 function parseCustomProblem(text) {
@@ -2865,8 +2503,8 @@ function showParentResetMessage(message) {
 function resetRewardData(type) {
   const messages = {
     coins: "コインを0に戻します。学習履歴は残ります。よろしいですか？",
-    gacha: "集めたキャラを空に戻します。学習履歴は残ります。よろしいですか？",
-    all: "コインとキャラをリセットします。学習履歴は残ります。よろしいですか？",
+    gacha: "キャラ景品を空に戻します。学習履歴は残ります。よろしいですか？",
+    all: "コインとキャラ景品をリセットします。学習履歴は残ります。よろしいですか？",
   };
   if (!window.confirm(messages[type] || messages.all)) return;
 
@@ -2887,8 +2525,8 @@ function resetRewardData(type) {
     type === "coins"
       ? "コインを0に戻しました。"
       : type === "gacha"
-        ? "集めたキャラを空に戻しました。"
-        : "コインとキャラをリセットしました。";
+        ? "キャラ景品を空に戻しました。"
+        : "コインとキャラ景品をリセットしました。";
   showParentResetMessage(doneMessage);
 }
 
@@ -3007,37 +2645,12 @@ els.level?.addEventListener("change", () => {
 });
 
 els.hintButton.addEventListener("click", showHint);
-els.checkButton?.addEventListener("click", checkAnswers);
-els.showAnswerButton.addEventListener("click", handleShowAnswerButtonClick);
+els.checkButton.addEventListener("click", checkAnswers);
+els.showAnswerButton.addEventListener("click", showAnswer);
 els.gachaButton?.addEventListener("click", rollGacha);
 
 document.querySelectorAll("[data-nav]").forEach((button) => {
-  button.dataset.navBound = "true";
   button.addEventListener("click", () => showView(button.getAttribute("data-nav")));
-});
-
-document.querySelectorAll("[data-tutorial-open]").forEach((button) => {
-  button.addEventListener("click", () => showTutorial(true));
-});
-
-els.showTutorialButton?.addEventListener("click", () => showTutorial(true));
-els.tutorialStartButton?.addEventListener("click", () => hideTutorial({ start: true }));
-els.tutorialSkipButton?.addEventListener("click", () => hideTutorial());
-els.tutorialCloseButton?.addEventListener("click", () => hideTutorial());
-els.tutorialOverlay?.addEventListener("click", (event) => {
-  if (event.target === els.tutorialOverlay) hideTutorial();
-});
-
-document.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-nav]");
-  if (!button || button.dataset.navBound === "true") return;
-  showView(button.getAttribute("data-nav"));
-});
-
-els.gachaPrizePreview?.addEventListener("click", (event) => {
-  const exchangeButton = event.target.closest("[data-exchange]");
-  if (!exchangeButton) return;
-  exchangePrize(exchangeButton.dataset.exchange);
 });
 
 els.customForm?.addEventListener("submit", (event) => {
@@ -3075,20 +2688,13 @@ els.numpad?.addEventListener("click", (event) => {
     enterDigit(button.dataset.num);
   } else if (button.dataset.action === "back") {
     current.value = "";
-    focusActiveInput(current);
+    current.focus();
   } else if (button.dataset.action === "hint") {
     showHint();
   }
 });
 
 els.rewardShelf?.addEventListener("click", (event) => {
-  const tabButton = event.target.closest("[data-reward-tab]");
-  if (tabButton) {
-    state.rewardTab = tabButton.dataset.rewardTab || "characters";
-    saveProgress();
-    updateProgress();
-    return;
-  }
   const filterButton = event.target.closest("[data-reward-filter]");
   if (filterButton) {
     state.rewardFilter = filterButton.dataset.rewardFilter || "all";
@@ -3118,7 +2724,6 @@ setCharacterMood("main");
 updateProgress();
 registerOffline();
 renderProblem();
-window.setTimeout(() => showTutorial(false), 450);
 
 
 
