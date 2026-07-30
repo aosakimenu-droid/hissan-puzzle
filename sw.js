@@ -1,4 +1,4 @@
-const CACHE_NAME = "hissan-puzzle-v112";
+const CACHE_NAME = "hissan-puzzle-v113";
 const rewardAssetPath = (folder, prefix, count) =>
   Array.from({ length: count }, (_, index) => `./assets/rewards/${folder}/${prefix}${String(index + 1).padStart(3, "0")}.png`);
 const backgroundAssetPath = (folder, count) =>
@@ -17,6 +17,7 @@ const ASSETS = [
   "./about.html",
   "./privacy.html",
   "./contact.html",
+  "./parent-guide.html",
   "./seo-multiplication.html",
   "./seo-division.html",
   "./seo-kuku-fill.html",
@@ -26,6 +27,11 @@ const ASSETS = [
   "./seo-kuku-usable.html",
   "./seo-calculation-mistakes.html",
   "./seo-free-practice.html",
+  "./seo-parent-hissan-reluctant.html",
+  "./seo-parent-division-help.html",
+  "./seo-parent-carry-help.html",
+  "./seo-parent-kuku-division.html",
+  "./seo-summer-math-practice.html",
   "./styles.css",
   "./script.js",
   "./manifest.webmanifest?v=103",
