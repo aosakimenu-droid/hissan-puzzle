@@ -2,20 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://hissan-puzzle.pages.dev/</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
   </url>
   <url>
     <loc>https://hissan-puzzle.pages.dev/about.html</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://hissan-puzzle.pages.dev/privacy.html</loc>
-    <lastmod>2026-07-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hissan-puzzle.pages.dev/seo-multiplication.html</loc>
+  </url>
+  <url>
+    <loc>https://hissan-puzzle.pages.dev/seo-division.html</loc>
+  </url>
+  <url>
+    <loc>https://hissan-puzzle.pages.dev/seo-kuku-fill.html</loc>
+  </url>
+  <url>
+    <loc>https://hissan-puzzle.pages.dev/seo-hissan-weak.html</loc>
   </url>
 </urlset>
