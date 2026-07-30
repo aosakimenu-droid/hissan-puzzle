@@ -3,111 +3,32 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>掛け算の筆算練習 | 小学生の繰り上がりをやさしく学ぶ</title>
-    <meta
-      name="description"
-      content="小学生向けの掛け算の筆算練習ページ。2けた、3けたの掛け算や繰り上がりでつまずく子に、1マスずつ順番に解く練習方法を紹介します。"
-    />
+    <title>掛け算の筆算練習 | 小学生の繰り上がりをやさしく練習</title>
+    <meta name="description" content="小学生向けの掛け算の筆算練習ページ。繰り上がりや書く場所で迷いやすい子が、1マスずつ順番に練習できます。" />
     <link rel="canonical" href="https://hissan-puzzle.pages.dev/seo-multiplication.html" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"掛け算の筆算練習","inLanguage":"ja","audience":{"@type":"EducationalAudience","educationalRole":"parent"},"teaches":["掛け算の筆算","割り算の筆算","九九","筆算の手順"],"educationalLevel":"小学生","isAccessibleForFree":true,"url":"https://hissan-puzzle.pages.dev/seo-multiplication.html"}</script>
+    
     <style>
-      :root {
-        color-scheme: light;
-        --ink: #17213a;
-        --sub: #55647c;
-        --blue: #2f7de8;
-        --orange: #ff941a;
-        --mint: #dff8ec;
-        --paper: rgba(255, 255, 255, 0.92);
-        --line: #d9e3f3;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        color: var(--ink);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background:
-          linear-gradient(90deg, rgba(92, 196, 154, 0.12) 1px, transparent 1px),
-          linear-gradient(rgba(92, 196, 154, 0.12) 1px, transparent 1px),
-          #fff7de;
-        background-size: 34px 34px;
-      }
-      a { color: inherit; }
-      .page { width: min(1040px, calc(100% - 28px)); margin: 0 auto; padding: 22px 0 44px; }
-      .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
-      .brand { font-weight: 900; color: #1f63c7; text-decoration: none; }
-      .home-link, .cta {
-        display: inline-flex; align-items: center; justify-content: center;
-        min-height: 44px; padding: 0 18px; border-radius: 14px; text-decoration: none; font-weight: 800;
-        border: 1px solid #b9c9e4; background: #fff;
-      }
-      .hero {
-        display: grid; grid-template-columns: 1.12fr 0.88fr; gap: 28px; align-items: center;
-        padding: clamp(24px, 5vw, 52px); border: 1px solid var(--line); border-radius: 28px;
-        background: linear-gradient(120deg, rgba(255, 255, 255, 0.94), rgba(232, 249, 239, 0.9));
-        box-shadow: 0 18px 42px rgba(70, 90, 130, 0.12); overflow: hidden;
-      }
-      .eyebrow { color: #1f63c7; font-weight: 900; letter-spacing: 0; margin: 0 0 10px; }
-      h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.08; margin: 0 0 18px; letter-spacing: 0; }
-      .lead { color: var(--sub); font-size: 1.08rem; line-height: 1.9; margin: 0 0 22px; font-weight: 700; }
-      .cta { background: linear-gradient(180deg, #3b8cff, #1767dd); color: #fff; border: 0; box-shadow: 0 12px 24px rgba(47, 125, 232, 0.25); }
-      .hero-card { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 20px; }
-      .mini-board { font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 900; text-align: right; line-height: 1.25; font-variant-numeric: tabular-nums; }
-      .mini-board .orange { color: var(--orange); border: 3px solid var(--orange); border-radius: 12px; padding: 0 8px; }
-      section { margin-top: 22px; padding: 26px; border: 1px solid var(--line); border-radius: 22px; background: var(--paper); }
-      h2 { font-size: clamp(1.45rem, 3vw, 2rem); margin: 0 0 14px; letter-spacing: 0; }
-      p, li { line-height: 1.9; color: var(--sub); font-weight: 650; }
-      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-      .card { border: 1px solid var(--line); border-radius: 18px; padding: 18px; background: #fff; }
-      .card strong { display: block; margin-bottom: 8px; font-size: 1.05rem; }
-      .footer { display: flex; flex-wrap: wrap; gap: 14px; justify-content: space-between; margin-top: 22px; color: var(--sub); font-weight: 700; }
-      @media (max-width: 760px) { .hero, .grid { grid-template-columns: 1fr; } .page { width: min(100% - 20px, 1040px); } }
+      :root{--ink:#17213a;--sub:#55647c;--accent:#2f7de8;--accent2:#1767dd;--paper:rgba(255,255,255,.94);--line:#d9e3f3;--soft:rgba(232,244,255,.92)}*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(90deg,rgba(47,125,232,.12) 1px,transparent 1px),linear-gradient(rgba(47,125,232,.12) 1px,transparent 1px),#fff7de;background-size:34px 34px}.page{width:min(1080px,calc(100% - 28px));margin:0 auto;padding:22px 0 44px}.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.brand{font-weight:900;color:var(--accent);text-decoration:none}.home-link,.cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:14px;text-decoration:none;font-weight:850;border:1px solid #b9c9e4;background:#fff;color:var(--ink)}.hero{display:grid;grid-template-columns:1.08fr .92fr;gap:28px;align-items:center;padding:clamp(24px,5vw,52px);border:1px solid var(--line);border-radius:28px;background:linear-gradient(120deg,rgba(255,255,255,.96),var(--soft));box-shadow:0 18px 42px rgba(70,90,130,.13);overflow:hidden}.eyebrow{color:var(--accent);font-weight:900;margin:0 0 10px}h1{font-size:clamp(2rem,5vw,4rem);line-height:1.08;margin:0 0 18px;letter-spacing:0}.lead{color:var(--sub);font-size:1.08rem;line-height:1.9;margin:0 0 22px;font-weight:700}.cta{background:linear-gradient(180deg,var(--accent),var(--accent2));color:#fff;border:0;box-shadow:0 12px 24px rgba(47,125,232,.22)}section,.hero-card{background:var(--paper);border:1px solid var(--line);border-radius:22px}.hero-card{padding:22px}.visual{display:grid;place-items:center;min-height:300px}.mini-caption{margin:16px 0 0;text-align:center;color:var(--sub);font-weight:800;line-height:1.7;font-size:.92rem}.mini-board{position:relative;font-size:clamp(2.4rem,6vw,4.2rem);font-weight:900;line-height:1.2;text-align:right;font-variant-numeric:tabular-nums;min-width:260px}.mini-board .operator{padding-right:6px}.mini-board .rule{height:4px;background:var(--ink);margin:8px 0 18px}.carry-box{position:relative;top:-38px;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:4px solid #ff941a;border-radius:12px;color:#ff941a;font-size:1.8rem;margin:0 2px}.answer{display:inline-block;min-width:48px;text-align:center}.formula{display:flex;align-items:center;justify-content:center;gap:22px;font-size:clamp(2.4rem,6vw,4.4rem);font-weight:900}.blank{width:74px;height:74px;border:5px solid #ff941a;border-radius:18px;background:#fff7df}.blue-num{color:#2f7de8}.step-list,.check-list{display:grid;gap:14px;width:min(320px,100%)}.step-list div,.check-list div,.free-panel{display:flex;align-items:center;gap:14px;padding:18px;border:1px solid var(--line);border-radius:18px;background:#fff;font-weight:900}.step-list b{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:rgba(125,97,255,.12);color:var(--accent)}.free-panel{display:grid;text-align:center;gap:8px}.free-panel strong{font-size:1.4rem}.free-panel span{color:var(--sub);font-weight:800}.mini-division{--d:48px;--inset:21px;width:min(360px,100%);margin:0 auto;font-weight:900;font-variant-numeric:tabular-nums;color:var(--ink)}.mini-division .qrow{display:grid;grid-template-columns:78px calc(var(--d)*3 + var(--inset));justify-content:center;margin-bottom:4px}.mini-division .quotient{grid-column:2;display:grid;grid-template-columns:repeat(3,var(--d));justify-items:center;padding-left:var(--inset)}.mini-division .box{grid-column:1;display:inline-flex;align-items:center;justify-content:center;width:50px;height:62px;border:4px solid var(--accent);border-radius:14px;color:var(--accent);background:#fff;font-size:2.7rem}.mini-division .main{display:grid;grid-template-columns:78px calc(var(--d)*3 + var(--inset));justify-content:center;align-items:start}.mini-division .divisor{font-size:2rem;line-height:1;padding-top:28px;text-align:center}.mini-division .work{border-top:3px solid var(--ink);border-left:3px solid var(--ink);padding:20px 0 0 18px;min-height:226px}.mini-division .digits{display:grid;grid-template-columns:repeat(3,var(--d));font-size:2.35rem;line-height:1.08}.mini-division .digits span{text-align:center}.mini-division .dividend{margin-bottom:28px}.mini-division .product{margin-bottom:8px}.mini-division .bar{width:calc(var(--d)*3);height:3px;background:var(--ink);margin:0 0 16px}.mini-division .remainder span:first-child{visibility:hidden}section{margin-top:22px;padding:26px}h2{font-size:clamp(1.45rem,3vw,2rem);margin:0 0 14px}.grid,.path,.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.steps{grid-template-columns:repeat(4,1fr)}.card,.step,.path a{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px}.card strong,.path strong,.step strong{display:block;margin-bottom:8px;font-size:1.05rem;color:var(--ink)}.path a{text-decoration:none}.step b{display:grid;place-items:center;width:34px;height:34px;border-radius:12px;background:rgba(125,97,255,.12);color:var(--accent);margin-bottom:10px}p,li{line-height:1.9;color:var(--sub);font-weight:650}.footer{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;margin-top:22px;color:var(--sub);font-weight:700}.footer a{color:inherit}@media(max-width:760px){.hero,.grid,.path,.steps{grid-template-columns:1fr}.page{width:min(100% - 20px,1080px)}.visual{min-height:240px}.formula{gap:12px}.blank{width:60px;height:60px}.mini-division{--d:42px;--inset:17px;max-width:310px}.mini-division .qrow,.mini-division .main{grid-template-columns:58px calc(var(--d)*3 + var(--inset))}.mini-division .work{padding-left:14px;min-height:205px}.mini-division .box{width:46px;height:56px;font-size:2.35rem}.mini-division .divisor{font-size:1.7rem;padding-top:25px}.mini-division .digits{font-size:2rem}}
     </style>
   </head>
   <body>
     <main class="page">
-      <nav class="nav" aria-label="ページ移動">
-        <a class="brand" href="./">ひっさんパズル</a>
-        <a class="home-link" href="./">アプリへ戻る</a>
-      </nav>
+      <nav class="nav" aria-label="ページ移動"><a class="brand" href="./">ひっさんパズル</a><a class="home-link" href="./">アプリへ戻る</a></nav>
       <header class="hero">
         <div>
           <p class="eyebrow">小学生の掛け算の筆算</p>
           <h1>繰り上がりで止まる子に、順番が見える練習を。</h1>
-          <p class="lead">掛け算の筆算は、九九ができても「どこに書くか」「繰り上がりをいつ足すか」でつまずきやすい学習です。ひっさんパズルでは、オレンジのマスを1つずつ埋めながら、筆算の順番を自然に練習できます。</p>
+          <p class="lead">掛け算の筆算は、九九ができても「どこに書くか」「繰り上がりをいつ足すか」で迷いやすい学習です。ひっさんパズルでは、オレンジのマスを1つずつうめながら、筆算の順番を自然に練習できます。</p>
           <a class="cta" href="./">掛け算の練習をはじめる</a>
         </div>
-        <div class="hero-card" aria-label="掛け算の例">
-          <div class="mini-board">3 4<br />× 6<br />──<br /><span class="orange">2</span> 0 4</div>
-        </div>
+        <div class="hero-card visual"><div class="mini-board"><div>1 9</div><div class="operator">× 7</div><div class="rule"></div><div><span class="answer">1</span><span class="carry-box">6</span><span class="answer">3</span></div></div><p class="mini-caption">7×9=63。3を書いて、6は十の位の上に小さく残します。</p></div>
       </header>
-      <section>
-        <h2>掛け算の筆算でよくあるつまずき</h2>
-        <div class="grid">
-          <div class="card"><strong>繰り上がりを忘れる</strong><p>一の位で出た十の位を、次の計算に足し忘れることがあります。</p></div>
-          <div class="card"><strong>書く場所がずれる</strong><p>2けた×2けたになると、位の位置が分からなくなりやすいです。</p></div>
-          <div class="card"><strong>頭の中だけで急いでしまう</strong><p>途中を書かずに進めると、どこで間違えたか見直しにくくなります。</p></div>
-        </div>
-      </section>
-      <section>
-        <h2>おすすめの練習方法</h2>
-        <p>最初から速く解く必要はありません。まずは「一の位から順番に計算する」「繰り上がりを小さいマスに書く」「次の位で足す」の3つを、声に出しながらゆっくり確認するのがおすすめです。</p>
-        <p>ひっさんパズルでは、入力する場所が順番にオレンジになるため、子どもが「次はどこ？」で迷う負担を減らせます。</p>
-      </section>
-      <section>
-        <h2>このページが向いている子</h2>
-        <ul>
-          <li>九九は言えるけれど、筆算になると手が止まる</li>
-          <li>繰り上がりをどこに書くか分からない</li>
-          <li>プリント練習だとすぐ飽きてしまう</li>
-        </ul>
-      </section>
-      <footer class="footer">
-        <span>ひっさんパズル</span>
-        <a href="./seo-division.html">割り算の筆算練習</a>
-        <a href="./seo-kuku-fill.html">九九穴埋め練習</a>
-        <a href="./seo-hissan-weak.html">筆算が苦手な子へ</a>
-      </footer>
+      <section><h2>掛け算の筆算でよくあるつまずき</h2><div class="grid"><div class="card"><strong>繰り上がりを忘れる</strong><p>一の位で出た十の位を、次の計算に足し忘れることがあります。</p></div><div class="card"><strong>書く場所がずれる</strong><p>2けた×2けたになると、位の位置が分からなくなりやすいです。</p></div><div class="card"><strong>頭の中だけで急いでしまう</strong><p>途中を書かずに進めると、どこで間違えたか見直しにくくなります。</p></div></div></section>
+      <section><h2>おすすめの練習方法</h2><p>最初から速く解く必要はありません。まずは「一の位から順番に計算する」「繰り上がりを小さいマスに書く」「次の位で足す」の3つを、声に出しながらゆっくり確認するのがおすすめです。</p></section>
+      <section><h2>このページが向いている子</h2><ul><li>九九は言えるけれど、筆算になると手が止まる</li><li>繰り上がりをどこに書くか分からない</li><li>プリント練習だとすぐ飽きてしまう</li></ul></section>
+      <section><h2>保護者の方へ</h2><p>「速く解けたか」よりも、「同じ順番で最後まで進められたか」を見てあげると、苦手意識がやわらぎます。繰り上がりを小さく残す練習は、暗算だけに頼らないための助けになります。</p></section>
+      <footer class="footer"><span>ひっさんパズル</span><a href="./seo-carry-multiplication.html">繰り上がりの練習</a><a href="./seo-hissan-weak.html">筆算が苦手な子へ</a><a href="./seo-kuku-fill.html">九九あなうめ</a></footer>
     </main>
-  <!-- copy-refresh: 2026-07-30 -->
   </body>
 </html>
