@@ -23,6 +23,7 @@
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   color: var(--ink);
   font-family:
     "Yu Gothic", "Hiragino Kaku Gothic ProN", "Meiryo", system-ui, sans-serif;
@@ -713,6 +714,8 @@ button {
 }
 
 .gacha-view {
+  max-width: 100%;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 85% 18%, rgba(255, 207, 117, 0.42), transparent 24%),
     radial-gradient(circle at 12% 88%, rgba(52, 195, 143, 0.2), transparent 24%),
@@ -1005,6 +1008,7 @@ button {
 
 .gacha-hero {
   position: relative;
+  max-width: 100%;
   display: grid;
   grid-template-columns: minmax(360px, 1fr) minmax(300px, 410px);
   gap: 24px;
@@ -1093,6 +1097,7 @@ button {
   position: relative;
   justify-self: center;
   width: min(350px, 100%);
+  max-width: 100%;
   filter: drop-shadow(0 24px 30px rgba(37, 48, 68, 0.2));
 }
 
@@ -1394,6 +1399,7 @@ button {
 }
 
 .gacha-result-prize {
+  position: relative;
   display: grid;
   place-items: center;
   width: 88px;
@@ -1420,6 +1426,10 @@ button {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.gacha-view img {
+  max-width: 100%;
 }
 
 .gacha-result-prize img {
@@ -1487,7 +1497,9 @@ button {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
   gap: 10px;
+  max-width: 100%;
   margin-top: 18px;
+  overflow: hidden;
 }
 
 .gacha-focus-panel,
@@ -1728,6 +1740,7 @@ button {
   display: none;
   pointer-events: none;
   overflow: hidden;
+  contain: paint;
 }
 
 .gacha-party-overlay.show {
@@ -1769,6 +1782,7 @@ button {
   place-items: center;
   gap: 6px;
   width: min(260px, 58vw);
+  max-width: calc(100vw - 32px);
   min-height: 250px;
   border: 5px solid #ffcf75;
   border-radius: 8px;
@@ -1806,6 +1820,8 @@ button {
 .party-prize img {
   width: 138px;
   height: 138px;
+  max-width: min(138px, 44vw);
+  max-height: min(138px, 44vw);
 }
 
 .party-prize strong {
@@ -4478,6 +4494,7 @@ select {
   .gacha-view {
     min-height: auto;
     padding: 12px 16px 4px;
+    overflow-x: hidden;
   }
 
   .gacha-view .page-nav {
@@ -4485,7 +4502,7 @@ select {
   }
 
   .gacha-hero {
-    grid-template-columns: minmax(420px, 1fr) 250px;
+    grid-template-columns: minmax(0, 1fr) 250px;
     min-height: 280px;
     padding: 14px 18px;
   }
@@ -4511,6 +4528,7 @@ select {
 
   .gacha-machine {
     width: 250px;
+    max-width: 100%;
   }
 
   .gacha-dome {
@@ -4601,9 +4619,7 @@ select {
   }
 
   .gacha-prize-preview {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    margin-top: 6px;
+    display: none;
   }
 
   .gacha-focus-panel,
@@ -4650,6 +4666,43 @@ select {
 
   .gacha-footer-actions {
     display: none;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 700px) and (max-width: 1100px) and (max-height: 820px) {
+  .gacha-view {
+    max-height: calc(100vh - 12px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .gacha-view .ad-slot {
+    display: none;
+  }
+
+  .gacha-hero,
+  .gacha-action-panel,
+  .gacha-result {
+    max-width: 100%;
+  }
+
+  .party-prize {
+    top: 50%;
+    width: min(220px, 42vw);
+    min-height: 210px;
+  }
+
+  .party-prize img {
+    width: 112px;
+    height: 112px;
+    max-width: min(112px, 32vw);
+    max-height: min(112px, 32vw);
+  }
+
+  .party-spark {
+    max-width: 58px;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 
