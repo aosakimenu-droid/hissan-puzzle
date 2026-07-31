@@ -114,7 +114,7 @@ function applyJapaneseLabels() {
   setText(".course-head .eyebrow", "いまのコース");
   setText("#activeCourseTitle", "レベルアップチャレンジ");
   setText("#toggleCourses", "コース変更");
-  setText(".mission-panel h2", "コインメモ");
+  setText(".mission-panel h2", "コインのきろく");
   setText(".combo-panel .eyebrow", "ノーミスボーナス");
   setText("#coachMessage", "オレンジのマスだけ見れば大丈夫。ゆっくり進もう。");
   setText("#problemType", "かけ算");
@@ -335,7 +335,7 @@ window.setCharacterMood = setCharacterMood;
 
 const WORLDS = [
   { name: "ひみつの森", text: "まずは筆算の順番に慣れよう。", target: 0, icon: "森", image: "assets/stages/stage-forest.png" },
-  { name: "すうじの川", text: "くり上がりと途中メモを見ながら進もう。", target: 5, icon: "川", image: "assets/stages/stage-river.png" },
+  { name: "すうじの川", text: "くり上がりを小さいマスに残しながら進もう。", target: 5, icon: "川", image: "assets/stages/stage-river.png" },
   { name: "くり上がり山", text: "少し長い計算も、1マスずつなら大丈夫。", target: 10, icon: "山", image: "assets/stages/stage-mountain.png" },
   { name: "わり算どうくつ", text: "商、かける、ひく、おろすを順番に攻略しよう。", target: 15, icon: "洞", image: "assets/stages/stage-cave.png" },
   { name: "100の位キャッスル", text: "3けたのかけ算に挑戦しよう。", target: 25, icon: "城", image: "assets/stages/stage-castle.png" },
@@ -1047,8 +1047,8 @@ function carryLine(name, width, metas = {}) {
 function guideForInput(input) {
   if (input.classList.contains("carry-input")) {
     return {
-      text: "くり上がりを小さいマスにメモします。",
-      carry: "次の位の計算で、この小さいメモを足します。",
+      text: "くり上がりを小さいマスに入れます。",
+      carry: "次の位の計算で、この小さい数を足します。",
     };
   }
   if (input.closest(".quotient-row")) {
@@ -1060,7 +1060,7 @@ function guideForInput(input) {
   if (input.closest(".division-product-row")) {
     return {
       text: "かけ戻した数を書くマスです。掛け算の筆算と同じ順番で進めます。",
-      carry: "右のかけ算メモを見ながら、繰り上がりも使って書きます。",
+      carry: "右のかけ算の手順を見ながら、繰り上がりも使って書きます。",
     };
   }
   if (input.closest(".division-remainder-row")) {
@@ -1124,7 +1124,7 @@ function divisionMultiplyMemoHtml(divisor, quotientDigit) {
   if (multiplier === 0) {
     return `
       <div class="division-multiply-memo">
-        <span>かけ算メモ</span>
+        <span>かけ算の手順</span>
         <strong>${divisor} × 0 = 0</strong>
         <p>0回なので、下に書く数は0です。</p>
       </div>
@@ -1137,15 +1137,15 @@ function divisionMultiplyMemoHtml(divisor, quotientDigit) {
     const writeDigit = total % 10;
     const nextCarry = Math.floor(total / 10);
     const place = placeNameFromRight(reverseIndex);
-    const carryText = carry ? ` + メモ${carry}` : "";
-    const nextText = nextCarry ? `、${nextCarry}を小さくメモ` : "";
+    const carryText = carry ? ` + くり上がり${carry}` : "";
+    const nextText = nextCarry ? `、${nextCarry}を小さいマスへ` : "";
     steps.push(`${place}: ${multiplier} × ${digit}${carryText} = ${total} → ${writeDigit}を書く${nextText}`);
     carry = nextCarry;
   });
-  if (carry > 0) steps.push(`最後にメモ${carry}を書く`);
+  if (carry > 0) steps.push(`最後にくり上がりの${carry}を書く`);
   return `
     <div class="division-multiply-memo">
-      <span>かけ算メモ</span>
+        <span>かけ算の手順</span>
       <strong>${divisor} × ${multiplier} = ${divisor * multiplier}</strong>
       ${steps.map((step) => `<p>${step}</p>`).join("")}
     </div>
@@ -1174,8 +1174,8 @@ function divisionProductWork(divisor, quotientDigit, width, endIndex, startSeq, 
     if (nextCarry > 0 && hasNextDivisorDigit) {
       carryMetas[pos - 1] = {
         answer: nextCarry,
-        step: `${formula}。${total}の十の位${nextCarry}を小さくメモします。`,
-        carry: `次の位で、このメモ${nextCarry}を足します。`,
+        step: `${formula}。${total}の十の位${nextCarry}を小さいマスに入れます。`,
+        carry: `次の位で、この${nextCarry}を足します。`,
         multiplyMemo: memoHtml,
         seq,
       };
@@ -1344,8 +1344,8 @@ function multiplyMetas(problem) {
       if (nextCarry > 0 && hasNextTopDigit) {
         carryMetas[pos - 1] = {
           answer: nextCarry,
-          step: `${formula}。${total}の十の位${nextCarry}を小さくメモします。`,
-          carry: `次の位で、このメモ${nextCarry}を足します。`,
+          step: `${formula}。${total}の十の位${nextCarry}を小さいマスに入れます。`,
+          carry: `次の位で、この${nextCarry}を足します。`,
           seq,
         };
         seq += 1;
@@ -1553,7 +1553,7 @@ function divideWork(problem, width) {
     seq = productWork.seq;
     if (Object.keys(productWork.carryMetas).length > 0) {
       rows.push({
-        label: "メモ",
+        label: "くり上がり",
         name: "かけ算の繰り上がり",
         text: "",
         metas: productWork.carryMetas,
@@ -1629,7 +1629,7 @@ function guidePanelHtml() {
       <h3 id="stepTitle">オレンジのマスだけ入れよう</h3>
       <p id="stepText"></p>
       <div class="carry-board">
-        <span>途中メモ</span>
+        <span>考え方のヒント</span>
         <strong id="carryText">右の位から順番に進めます。</strong>
       </div>
       <div id="multiplyAssistMemo" class="division-multiply-assist" hidden></div>
