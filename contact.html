@@ -4,61 +4,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>お問い合わせ | ひっさんパズル</title>
-    <meta name="description" content="ひっさんパズルへのお問い合わせページです。不具合、ご意見、掲載内容に関する連絡方法を案内しています。" />
+    <meta name="description" content="ひっさんパズルへのお問い合わせページです。不具合、ご意見、掲載内容に関する連絡方法と、連絡時に書いてほしい内容を案内します。" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://hissan-puzzle.pages.dev/contact.html" />
-    <style>
-      :root { --ink:#17213a; --sub:#55647c; --line:#d9e3f3; --paper:rgba(255,255,255,.94); --green:#2fae7a; }
-      *{box-sizing:border-box} body{margin:0;color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(90deg,rgba(47,174,122,.1) 1px,transparent 1px),linear-gradient(rgba(47,174,122,.1) 1px,transparent 1px),#fffaf1;background-size:34px 34px}
-      .page{width:min(860px,calc(100% - 28px));margin:0 auto;padding:22px 0 46px}.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.brand{color:var(--green);font-weight:900;text-decoration:none}.home-link,.button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid #b9c9e4;border-radius:14px;background:#fff;color:var(--ink);font-weight:850;text-decoration:none}.button{background:linear-gradient(180deg,#35c78d,#1e9f6e);color:#fff;border:0;box-shadow:0 12px 24px rgba(47,174,122,.22)}
-      header,section{border:1px solid var(--line);border-radius:24px;background:var(--paper);box-shadow:0 16px 36px rgba(70,90,130,.1)}header{padding:clamp(26px,5vw,52px)}section{margin-top:18px;padding:24px}.eyebrow{margin:0 0 10px;color:var(--green);font-weight:900}h1{margin:0 0 16px;font-size:clamp(2rem,5vw,3.2rem);line-height:1.12}h2{margin:0 0 12px;font-size:clamp(1.3rem,3vw,1.75rem)}p,li{color:var(--sub);font-weight:650;line-height:1.9}.box{display:grid;gap:8px;border:1px solid var(--line);border-radius:18px;background:#fff;padding:18px}.box strong{font-size:1.08rem}footer{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;margin-top:22px;color:var(--sub);font-weight:700}footer a{color:inherit}
-    </style>
+    <link rel="stylesheet" href="parent-pages.css?v=2" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"ContactPage","name":"お問い合わせ","inLanguage":"ja","url":"https://hissan-puzzle.pages.dev/contact.html"}</script>
   </head>
   <body>
     <main class="page">
-      <nav class="nav" aria-label="ページ移動">
-        <a class="brand" href="./">ひっさんパズル</a>
-        <a class="home-link" href="./">アプリへ戻る</a>
-      </nav>
-      <header>
+      <nav class="nav"><a class="brand" href="./">ひっさんパズル</a><a class="home-link" href="./">アプリへ戻る</a></nav>
+      <header class="hero">
         <p class="eyebrow">お問い合わせ</p>
-        <h1>ご意見や不具合の連絡先について。</h1>
-        <p>
-          ひっさんパズルをより使いやすい学習サイトにしていくため、不具合や改善のご意見を受け付けています。
-        </p>
+        <h1>ご意見や不具合の連絡について。</h1>
+        <p class="lead">ひっさんパズルをより使いやすい学習サイトにするため、不具合や改善のご意見を受け付けています。</p>
+        <p class="lead">正式な専用フォームは準備中です。現在はGitHubのIssuesで、不具合や改善のご意見を受け付けています。</p>
+        <a class="cta" href="https://github.com/aosakimenu-droid/hissan-puzzle/issues">不具合・ご意見を送る</a>
       </header>
       <section>
-        <h2>お問い合わせ方法</h2>
-        <div class="box">
-          <strong>現在、専用フォームを準備中です。</strong>
-          <p>
-            正式公開に向けて、お問い合わせフォームまたは連絡用メールアドレスを設置予定です。
-            連絡先を公開するまでは、試用中の方から直接いただいたご意見をもとに改善しています。
-          </p>
+        <h2>連絡いただきたい内容</h2>
+        <div class="grid">
+          <div class="card"><strong>表示の不具合</strong><p>画面が崩れる、文字が読めない、ボタンが押せないなど。</p></div>
+          <div class="card"><strong>計算の不具合</strong><p>答えや順番がおかしい、次の問題に進まないなど。</p></div>
+          <div class="card"><strong>説明のわかりにくさ</strong><p>子どもにとって難しい言葉、保護者向けページの表現など。</p></div>
+          <div class="card"><strong>追加してほしい内容</strong><p>学年、問題の種類、ごほうび、保護者向け情報など。</p></div>
         </div>
       </section>
       <section>
-        <h2>連絡いただきたい内容</h2>
-        <ul>
-          <li>問題が表示されない、入力できないなどの不具合</li>
-          <li>スマホ・タブレットで画面が見づらい箇所</li>
-          <li>説明文が分かりにくい箇所</li>
-          <li>保護者向けページに追加してほしい内容</li>
-        </ul>
+        <h2>お子さんの個人情報について</h2>
+        <p>連絡の際は、お子さんの氏名、学校名、住所、電話番号などの個人情報は送らないでください。</p>
+        <p>「スマホで見た」「タブレット横向きで見た」「割り算マスターで起きた」のように、状況だけで確認できる形が安全です。</p>
       </section>
       <section>
-        <h2>お子さんの個人情報について</h2>
-        <p>
-          お問い合わせの際も、お子さんの氏名、学校名、住所、電話番号などの個人情報は送らないでください。
-          画面の状況や使っている端末の種類だけで確認できるようにします。
-        </p>
+        <h2>正式公開に向けて</h2>
+        <p>GitHubでの連絡が難しい方にも使いやすいよう、今後はお問い合わせフォームまたは連絡用メールアドレスの設置を予定しています。設置後、このページに追記します。</p>
+        <p>現在は、公開前後の試用フィードバックを優先して改善しています。</p>
       </section>
-      <footer>
-        <span>ひっさんパズル</span>
-        <a href="./privacy.html">プライバシーポリシー</a>
-        <a href="./about.html">運営者情報</a>
-        <a href="./">アプリへ戻る</a>
-      </footer>
+      <footer class="footer"><span>ひっさんパズル</span><a href="./privacy.html">プライバシーポリシー</a><a href="./about.html">運営者情報</a><a href="./">アプリへ戻る</a></footer>
     </main>
   </body>
 </html>
