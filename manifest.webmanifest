@@ -1,12 +1,12 @@
 {
-  "name": "\u3072\u3063\u3055\u3093\u30d1\u30ba\u30eb",
-  "short_name": "\u3072\u3063\u3055\u3093",
+  "name": "ひっさんパズル - 筆算パズル",
+  "short_name": "筆算パズル",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#fffaf1",
   "theme_color": "#fffaf1",
-  "description": "\u5c0f\u5b66\u751f\u304c\u639b\u3051\u7b97\u3068\u5272\u308a\u7b97\u306e\u7b46\u7b97\u3092\u9806\u756a\u306b\u7df4\u7fd2\u3059\u308b\u7121\u6599\u30a2\u30d7\u30ea",
+  "description": "小学生が掛け算と割り算の筆算を順番に練習する無料の筆算パズルゲーム",
   "icons": [
     {
       "src": "./assets/characters/character-main.png",
