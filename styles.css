@@ -581,6 +581,32 @@ button {
   line-height: 1.7;
 }
 
+.search-intent-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0 18px;
+}
+
+.search-intent-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(187, 201, 221, 0.9);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.search-intent-links a:hover {
+  border-color: #8bc6ff;
+  background: rgba(239, 246, 255, 0.95);
+}
+
 .parent-guide-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
