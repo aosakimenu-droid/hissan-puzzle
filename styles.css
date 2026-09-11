@@ -5611,3 +5611,52 @@ select {
 .entry-practice { margin: 28px 0; }
 .entry-practice .home-actions { margin-top: 12px; }
 @media (max-width: 700px) { .entry-benefits { grid-template-columns: 1fr; gap: 12px; } .entry-practice .home-actions { display: grid; } .app-home .hero-panel { min-height: auto; } }
+
+/* Tablet practice: comfortable touch controls without clipping long problems. */
+@media (min-width: 701px) and (max-width: 1366px) {
+  html:has(.challenge-view.active) { scroll-padding-bottom: 170px; }
+  .challenge-view { max-height: none; overflow: visible; }
+  .challenge-view .top-bar { margin-bottom: 6px; }
+  .challenge-view .score-board > div { min-height: 48px; padding: 6px 10px; }
+  .challenge-view .score-board strong { font-size: 1.2rem; }
+  .challenge-view .course-controls.compact { margin: 6px 0; padding: 6px; }
+  .challenge-view .course-head > div:first-child, .challenge-view .problem-head .eyebrow { display: none; }
+  .challenge-view .digit-input { scroll-margin-bottom: 170px; }
+  .challenge-view .workspace { grid-template-columns: minmax(0, 1fr); }
+  .challenge-view .mission-panel, .challenge-view .play-reward-panel,
+  .challenge-view .top-bar > div:first-child { display: none; }
+  .challenge-view .problem-card { padding: 12px 12px 164px; }
+  .challenge-view.session-finished .problem-card { padding-bottom: 20px; }
+  .challenge-view .problem-area, .challenge-view .problem-area:has(.fill-layout),
+  .challenge-view .step-guide, .challenge-view .wide-division-layout .step-guide {
+    max-height: none; overflow: visible;
+  }
+  .challenge-view .course-controls.compact .course-actions { flex-wrap: wrap; gap: 8px; }
+  .challenge-view .course-controls.compact .course-actions button,
+  .challenge-view .problem-head .ghost-button, .challenge-view .actions button {
+    min-height: 48px; padding: 8px 16px; font-size: 1rem;
+  }
+  .challenge-view .problem-head h2 { font-size: 1.2rem; }
+  .challenge-view .step-guide p, .challenge-view .carry-board,
+  .challenge-view .wide-division-layout .step-guide p,
+  .challenge-view .wide-division-layout .carry-board { font-size: 1rem; line-height: 1.6; }
+  .challenge-view .numpad {
+    position: fixed; z-index: 30; bottom: max(8px, env(safe-area-inset-bottom));
+    left: 50%; transform: translateX(-50%); width: min(1000px, calc(100% - 24px));
+    padding: 10px; margin: 0; border: 1px solid var(--line); border-radius: 14px;
+    background: #fffaf1; box-shadow: 0 -3px 16px #0002;
+    grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px;
+  }
+  .challenge-view .numpad button { min-height: 52px; font-size: 1.2rem; touch-action: manipulation; }
+  .challenge-view .paper-board { min-width: 0; overflow-x: auto; }
+}
+@media (min-width: 701px) and (max-width: 1366px) and (orientation: landscape) {
+  .challenge-view .guided-layout, .challenge-view .fill-layout,
+  .challenge-view .wide-division-layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, 1fr); gap: 16px; align-items: start;
+  }
+}
+@media (min-width: 701px) and (max-width: 1366px) and (orientation: portrait) {
+  .challenge-view .guided-layout, .challenge-view .fill-layout,
+  .challenge-view .wide-division-layout { grid-template-columns: minmax(0, 1fr); }
+}
