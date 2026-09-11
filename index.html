@@ -9,6 +9,8 @@
       content="ひっさんパズルは、筆算が苦手な小学生向けの無料筆算パズルゲームです。掛け算の筆算、割り算の筆算、九九穴埋めを1マスずつ順番に練習できます。"
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://hissan-puzzle.pages.dev/" />
+    <meta property="og:url" content="https://hissan-puzzle.pages.dev/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="ひっさんパズル" />
@@ -17,12 +19,12 @@
       property="og:description"
       content="ひっさんパズルは、掛け算・割り算の筆算、九九穴埋めを無料で練習できる筆算パズルゲームです。オレンジのマスを順番に埋めながら進めます。"
     />
-    <meta property="og:image" content="assets/characters/character-main.png" />
+    <meta property="og:image" content="https://hissan-puzzle.pages.dev/assets/characters/character-main.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#fffaf1" />
     <meta name="google-site-verification" content="7TQ9q4ZuUlLCsvgE9iTifmCu4NqHRTqEV0qFZP7REwU" />
     <link rel="manifest" href="manifest.webmanifest?v=103" />
-    <link rel="stylesheet" href="styles.css?v=107" />
+    <link rel="stylesheet" href="styles.css?v=108" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -48,18 +50,37 @@
         <div class="hero-panel">
           <div class="hero-copy">
             <p class="eyebrow">ひっさんパズル</p>
-            <h1>問題をといて、<span>コインをためよう</span></h1>
-            <p>かけ算とわり算の筆算を、1マスずつ進めてガチャに挑戦する学習ゲーム。</p>
+            <h1>筆算の「次はどこ？」を、<span>ひとマスずつ。</span></h1>
+            <p>かけ算・わり算の途中計算を、順番に練習。わからない時はヒントを見ながら、自分のペースで進められます。</p>
+            <p class="entry-note">無料・登録不要 ／ 小学生のかけ算・わり算・九九に</p>
             <div class="home-actions">
-              <button class="primary-button" type="button" data-nav="challenge">レベルアップチャレンジ</button>
-              <button class="ghost-button" type="button" data-nav="gacha">ガチャをまわす</button>
+              <button class="primary-button" type="button" id="tryOneProblem">まずは1問やってみる</button>
+              <button class="ghost-button" type="button" data-nav="courseSelect">練習をえらぶ・つづける</button>
             </div>
+            <p class="entry-note">できたらコインをゲット。お気に入りのキャラも集めよう！</p>
           </div>
           <div class="hero-teacher" aria-hidden="true">
             <img class="character-avatar character-avatar-main" src="assets/characters/character-main.png" alt="" />
           </div>
         </div>
 
+        <section class="entry-benefits" aria-label="おうちの方へ">
+          <div><p class="eyebrow">おうちの方へ</p><h2>答えだけでなく、途中を練習。</h2><p>まずはお子さんと1問。次に書くマスを確かめながら、進めてみてください。</p></div>
+          <div><h3>迷ったらヒント</h3><p>一度でできなくても大丈夫。手順を確かめながら取り組めます。</p></div>
+          <div><h3>取り組みをふり返る</h3><p>親モードで学習履歴を確認。ふくしゅう機能も使えます。</p><button class="parent-link" type="button" data-nav="parent">親モードを見る</button></div>
+        </section>
+        <section class="entry-practice" aria-label="練習への近道">
+          <div class="daily-mission">
+            <div><p class="eyebrow">小さな「できた」を、今日も。</p><h2 id="dailyLearningTitle">きょうの目標は3問</h2><p id="dailyLearningText">1問からでも大丈夫。自分のペースで進めよう。</p><progress id="dailyLearningProgress" value="0" max="3" aria-label="今日の学習目標"></progress></div>
+            <button class="primary-button" type="button" id="startMission">3問ミッションに挑戦</button>
+          </div>
+          <h2>きょうは、どれに挑戦する？</h2>
+          <div class="home-actions">
+            <button class="ghost-button" type="button" data-home-course="multiplyFill">九九のかくれた数をさがす</button>
+            <button class="ghost-button" type="button" data-home-course="multiplyForest">かけ算・くり上がり</button>
+            <button class="ghost-button" type="button" data-home-course="divideRiver">わり算の手順</button>
+          </div>
+        </section>
         <section class="home-dashboard home-dashboard-simple" aria-label="学習の進み具合">
           <div class="daily-card soft">
             <p class="eyebrow">いまのコイン</p>
@@ -81,11 +102,6 @@
             <button class="ghost-button" type="button" data-home-course="multiplyFill">九九あなうめへ</button>
           </div>
         </section>
-
-        <aside class="ad-slot home-ad-slot" aria-label="広告スペース">
-          <span>広告スペース</span>
-          <strong>Google AdSense 予定枠</strong>
-        </aside>
 
         <div class="home-secondary-actions">
           <button class="ghost-button" type="button" data-nav="review">ふくしゅう</button>
@@ -199,7 +215,6 @@
         </section>
         <div id="gachaParty" class="gacha-party-overlay" aria-hidden="true"></div>
         <div class="gacha-prize-preview" id="gachaPrizePreview" aria-label="景品一覧"></div>
-        <aside class="ad-slot" aria-label="広告スペース"><span>広告スペース</span><strong>Google AdSense 予定枠</strong></aside>
         <div class="gacha-footer-actions">
           <button class="ghost-button" type="button" data-nav="challenge">問題を解く</button>
           <button class="ghost-button" type="button" data-nav="rewards">コレクションを見る</button>
@@ -265,7 +280,7 @@
         <section class="controls course-controls compact" aria-label="チャレンジコース">
           <div class="course-head">
             <div><p class="eyebrow">いまのコース</p><h2 id="activeCourseTitle">レベルアップチャレンジ</h2></div>
-            <div class="course-actions"><button id="toggleCourses" class="ghost-button" type="button">コース変更</button></div>
+            <div class="course-actions"><span id="sessionStatus" role="status"></span><button class="ghost-button" type="button" data-nav="home">ホームにもどる</button><button id="toggleCourses" class="ghost-button" type="button">コース変更</button></div>
           </div>
         </section>
         <section class="workspace">
@@ -300,21 +315,19 @@
               <button id="checkButton" class="primary-button" type="button">このマスを確認</button>
               <button id="showAnswerButton" class="ghost-button" type="button">答えを見る</button>
             </div>
-            <p id="feedback" class="feedback" aria-live="assertive"></p>
+            <div id="feedback" class="feedback" aria-live="polite"></div>
             <div class="numpad" aria-label="数字パッド">
               <button type="button" data-num="1">1</button><button type="button" data-num="2">2</button><button type="button" data-num="3">3</button><button type="button" data-num="4">4</button><button type="button" data-num="5">5</button><button type="button" data-num="6">6</button>
               <button type="button" data-num="7">7</button><button type="button" data-num="8">8</button><button type="button" data-num="9">9</button><button type="button" data-action="back">消す</button><button type="button" data-num="0">0</button><button type="button" data-action="hint">ヒント</button>
             </div>
           </section>
         </section>
-        <aside class="ad-slot challenge-ad-slot" aria-label="広告スペース"><span>広告スペース</span><strong>Google AdSense 予定枠</strong></aside>
       </section>
 
       <section class="view rewards-view" data-view="rewards" aria-label="コレクション">
         <div class="page-nav"><button class="home-button" type="button" data-nav="home">ホームにもどる</button></div>
         <div class="section-head"><div><p class="eyebrow">コレクション</p><h2>キャラコレクションと練習シール</h2><p id="nextRewardText" class="large-copy">問題を解いてコインをためると、ガチャでキャラ景品が増えていきます。</p></div></div>
         <div id="rewardShelf" class="reward-room" aria-live="polite"></div>
-        <aside class="ad-slot" aria-label="広告スペース"><span>広告スペース</span><strong>Google AdSense 予定枠</strong></aside>
       </section>
 
       <section class="view review-view" data-view="review" aria-label="ふくしゅう部屋">
@@ -367,7 +380,6 @@
             <p id="parentResetMessage" class="parent-reset-message" aria-live="polite"></p>
           </details>
         </section>
-        <aside class="ad-slot parent-ad-slot" aria-label="広告スペース"><span>広告スペース</span><strong>Google AdSense 予定枠</strong></aside>
       </section>
 
       <footer class="site-footer" aria-label="サイト情報">
@@ -401,6 +413,6 @@
         <div class="toast-road" aria-hidden="true"><span id="rewardToastRoad"></span></div>
       </div>
     </div>
-    <script src="script.js?v=104"></script>
+    <script src="script.js?v=105"></script>
   </body>
 </html>

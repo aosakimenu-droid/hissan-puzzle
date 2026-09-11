@@ -8,6 +8,9 @@
 }
 
 const state = {
+  trialMode: false,
+  sessionRemaining: 0,
+  sessionCoins: 0,
   mode: "auto",
   level: 1,
   course: "autoAdventure",
@@ -54,18 +57,6 @@ function setAllText(selector, text) {
 }
 
 function applyJapaneseLabels() {
-  document.title = "ひっさんパズル | 小学生向けの掛け算・割り算の筆算練習アプリ";
-  document.querySelector('meta[name="description"]')?.setAttribute(
-    "content",
-    "掛け算と割り算の筆算を、穴埋め式で楽しく練習できる学習アプリ",
-  );
-
-  setText(".app-home .hero-copy .eyebrow", "ひっさんパズル");
-  const homeTitle = document.querySelector(".app-home h1");
-  if (homeTitle) homeTitle.innerHTML = "問題をといて、<span>コインをためよう</span>";
-  setText(".app-home .hero-copy > p:not(.eyebrow)", "かけ算とわり算の筆算を、1マスずつ進めてガチャに挑戦する学習ゲーム。");
-  setText(".app-home [data-nav='challenge']", "レベルアップチャレンジ");
-  setText(".app-home [data-nav='gacha']", "ガチャをまわす");
   setText(".daily-card.soft .eyebrow", "いまのコイン");
   setText(".daily-card.reward-preview .eyebrow", "コレクション");
   setText(".daily-card.reward-preview h2", "まだこれから");
@@ -569,6 +560,12 @@ const AUTO_STAGES = [
 function showView(name, options = {}) {
   const currentView = document.querySelector(".view.active")?.dataset.view || "home";
   if (name === currentView) return;
+  if (currentView === "challenge") {
+    window.clearTimeout(scheduleNextProblem.timer);
+    state.trialMode = false;
+    state.sessionRemaining = 0;
+    state.sessionCoins = 0;
+  }
   if (options.push !== false && currentView) {
     viewHistory.push(currentView);
   }
@@ -1045,6 +1042,11 @@ function carryLine(name, width, metas = {}) {
 }
 
 function guideForInput(input) {
+  if (state.trialMode) {
+    return state.stepIndex === 0
+      ? { text: "まずは右のマス。1の位の「2」と「3」をかけよう。", carry: "2 × 3 はいくつ？ 下の数字ボタンで入れてみよう。" }
+      : { text: "つぎは左のマス。10の位の「1」と「3」をかけよう。", carry: "1 × 3 はいくつ？ 右に書いた数字は、そのままで大丈夫。" };
+  }
   if (input.classList.contains("carry-input")) {
     return {
       text: "くり上がりを小さいマスに入れます。",
@@ -1085,9 +1087,12 @@ function guideForInput(input) {
     };
   }
   if (input.closest(".guided-row")) {
+    const calculation = (input.dataset.step || '').split(' = ')[0];
     return {
-      text: "この段の答えを書くマスです。右の位から順番に、計算した数字を入れよう。",
-      carry: "答えはここには出しません。筆算の中の数字を見て考えます。",
+      text: /^\d+(?: [×+] \d+)+$/.test(calculation)
+        ? `${calculation} を計算して、オレンジのマスの位の数字を書こう。`
+        : "この段の答えを書くマスです。オレンジのマスの位を確かめて、数字を入れよう。",
+      carry: "答えが2けたになったら、十の位と一の位を分けて考えよう。",
     };
   }
   return {
@@ -1274,6 +1279,8 @@ function makeDivideProblem() {
 
 function renderProblem() {
   window.clearTimeout(scheduleNextProblem.timer);
+  document.querySelector('.challenge-view')?.classList.remove('session-finished');
+  setText('#sessionStatus', state.trialMode ? 'まずは1問おためし' : state.sessionRemaining > 0 ? `3問ミッション：あと${state.sessionRemaining}問` : '');
   const mode = state.mode === "mix" ? sample(["multiply", "divide"]) : state.mode;
   state.problem =
     state.customProblem ||
@@ -1881,6 +1888,10 @@ function completeProblem() {
   state.stars = Number(state.stars || 0) + 3;
   state.coins = Number(state.coins || 0) + earnedCoins;
   state.solvedToday = Number(state.solvedToday || 0) + 1;
+  if (state.sessionRemaining > 0) {
+    state.sessionRemaining -= 1;
+    state.sessionCoins += earnedCoins;
+  }
 
   const kind = state.problem.kind || "multiply";
   if (kind === "multiplyFill") {
@@ -1919,6 +1930,30 @@ function completeProblem() {
   } catch (error) {
     console.error(error);
   }
+  if (state.trialMode || (state.sessionRemaining === 0 && state.sessionCoins > 0)) {
+    const wasTrial = state.trialMode;
+    state.trialMode = false;
+    els.feedback.textContent = wasTrial ? `1問できたね！ ${earnedCoins}コインをゲット。` : `3問ミッション達成！ 合計${state.sessionCoins}コインをゲット。`;
+    state.sessionCoins = 0;
+    document.querySelector('.challenge-view')?.classList.add('session-finished');
+    setText('#sessionStatus', wasTrial ? 'おためしクリア！' : '3問クリア！');
+    setText('#carryText', 'ここでおしまいでも大丈夫。またいっしょに練習しよう。');
+    const choices = document.createElement('div');
+    choices.className = 'home-actions';
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'primary-button';
+    next.textContent = 'つぎは3問に挑戦';
+    next.addEventListener('click', startMission);
+    const home = document.createElement('button');
+    home.type = 'button';
+    home.className = 'ghost-button';
+    home.textContent = 'きょうはここまで';
+    home.addEventListener('click', () => showView('home'));
+    choices.append(next, home);
+    els.feedback.append(choices);
+    return;
+  }
   scheduleNextProblem(nextStage ? STAGE_UP_PROBLEM_DELAY : treasure.opened || backgroundReward ? REWARD_PROBLEM_DELAY : NEXT_PROBLEM_DELAY);
 }
 
@@ -1944,10 +1979,7 @@ function showHint() {
   setCharacterMood("thinking", 2600);
   state.hintLevel += 1;
   if (state.hintLevel === 1) {
-    els.feedback.textContent =
-      state.problem?.kind === "multiplyFill"
-        ? "答えはまだ見せません。右の説明を読んで、何の段かを見つけよう。"
-        : "まず、右の説明を声に出して読んでみよう。";
+    els.feedback.textContent = guideForInput(current).text;
   } else if (state.hintLevel === 2) {
     els.feedback.textContent = guideForInput(current).carry || "オレンジのマスを見て、順番に考えよう。";
   } else {
@@ -1958,6 +1990,7 @@ function showHint() {
 }
 
 function showAnswer() {
+  if (state.completed) return;
   setCharacterMood("thinking", 2600);
   state.answerShown = true;
   state.problemMistakes += 1;
@@ -1983,6 +2016,15 @@ function showAnswer() {
   if (meter) meter.style.width = "100%";
   els.feedback.textContent = "答えを見ました。次は同じ順番でやってみよう。";
   els.feedback.className = "feedback";
+  const retry = document.createElement('button');
+  retry.type = 'button';
+  retry.className = 'primary-button answer-retry';
+  retry.textContent = '同じ問題をやってみる';
+  retry.addEventListener('click', () => {
+    state.customProblem = state.problem;
+    renderProblem();
+  });
+  els.feedback.append(retry);
 }
 function saveProgress() {
   localStorage.setItem("hp_streak", state.streak);
@@ -2006,7 +2048,7 @@ function saveProgress() {
 function renderParentDashboard() {
   const goal = Number(state.settings.dailyGoal || 3);
   const solvedToday = Number(state.solvedToday || 0);
-  const solvedTotal = state.history.length || Math.floor(Number(state.stars || 0) / 3);
+  const solvedTotal = Math.floor(Number(state.stars || 0) / 3);
   const left = Math.max(0, goal - solvedToday);
   const focusLabels = {
     all: "ぜんぶ",
@@ -2061,6 +2103,12 @@ function topWeakness() {
 }
 
 function updateProgress() {
+  const goal = Math.max(1, Number(state.settings.dailyGoal) || 3);
+  const done = Number(state.solvedToday) || 0;
+  setText('#dailyLearningTitle', done >= goal ? 'きょうの目標、達成！' : `きょうの目標は${goal}問`);
+  setText('#dailyLearningText', done > 0 ? `きょうは${done}問できたね。${done >= goal ? 'がんばった自分に拍手！' : `あと${goal - done}問。1問ずつ進めよう。`}` : '1問からでも大丈夫。自分のペースで進めよう。');
+  const dailyProgress = document.querySelector('#dailyLearningProgress');
+  if (dailyProgress) { dailyProgress.max = goal; dailyProgress.value = Math.min(done, goal); }
   els.streak.textContent = state.streak;
   els.stars.textContent = state.coins;
   const solvedTotal = Math.floor(state.stars / 3);
@@ -2607,6 +2655,9 @@ els.modeButtons.forEach((button) => {
 
 els.courseButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    state.trialMode = false;
+    state.sessionRemaining = 0;
+    state.sessionCoins = 0;
     const course = COURSES[button.dataset.course] || COURSES.starter;
     els.courseButtons.forEach((item) => item.classList.remove("active"));
     button.classList.add("active");
@@ -2622,6 +2673,9 @@ els.courseButtons.forEach((button) => {
 
 document.querySelectorAll("[data-home-course]").forEach((button) => {
   button.addEventListener("click", () => {
+    state.trialMode = false;
+    state.sessionRemaining = 0;
+    state.sessionCoins = 0;
     const key = button.dataset.homeCourse;
     const course = COURSES[key] || COURSES.multiplyFill;
     const courseButton = document.querySelector(`.course-card[data-course="${key}"]`);
@@ -2716,6 +2770,21 @@ els.rewardShelf?.addEventListener("click", (event) => {
   if (exchangeButton) {
     exchangePrize(exchangeButton.dataset.exchange);
   }
+});
+
+function startMission() {
+  document.querySelector('.course-card[data-course="autoAdventure"]')?.click();
+  state.sessionRemaining = 3;
+  state.sessionCoins = 0;
+  renderProblem();
+}
+
+document.querySelector('#startMission')?.addEventListener('click', startMission);
+document.querySelector('#tryOneProblem')?.addEventListener('click', () => {
+  document.querySelector('.course-card[data-course="multiplyForest"]')?.click();
+  state.trialMode = true;
+  state.customProblem = buildMultiplyProblem(12, 3);
+  renderProblem();
 });
 
 applyJapaneseLabels();

@@ -5579,3 +5579,35 @@ select {
     font-size: 0.9rem;
   }
 }
+
+/* First visit: a clear learning promise and direct practice choices. */
+.daily-mission { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 28px; padding: 24px; background: #eaf7ef; border: 2px solid #add8bb; border-radius: 16px; }
+.daily-mission progress { display: block; width: min(100%, 320px); height: 14px; margin-top: 12px; accent-color: #238354; }
+.challenge-view #sessionStatus { font-weight: 800; color: #215f48; align-self: center; }
+.challenge-view.session-finished .numpad, .challenge-view.session-finished .actions, .challenge-view.session-finished #hintButton { display: none; }
+.challenge-view.session-finished .feedback { margin-top: 16px; padding: 20px; border: 2px solid #add8bb; border-radius: 16px; background: #f0fff3; font-size: 1.1rem; line-height: 1.7; }
+.answer-retry { display: block; margin: 12px auto; }
+@media (max-width: 700px) { .daily-mission { flex-direction: column; align-items: stretch; } .challenge-view .course-actions { flex-wrap: wrap; } }
+@media (prefers-reduced-motion: reduce) { .spark, .party-spark { display: none; } }
+.challenge-view > .page-nav { display: none; }
+@media (max-width: 700px) {
+  .challenge-view .top-bar > div:first-child, .challenge-view .play-reward-panel { display: none; }
+  .challenge-view .problem-head { flex-direction: row; align-items: center; }
+  .challenge-view .course-actions { display: flex; width: 100%; gap: 8px; }
+  .challenge-view #sessionStatus { flex-basis: 100%; }
+  .challenge-view .course-actions button { white-space: nowrap; }
+  .challenge-view .problem-card { padding-bottom: 150px; }
+  .challenge-view .numpad { position: fixed; z-index: 30; left: 8px; right: 8px; bottom: max(8px, env(safe-area-inset-bottom)); padding: 8px; margin: 0; background: #fffaf1; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 -3px 16px #0002; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; }
+  .challenge-view .numpad button { min-height: 48px; min-width: 0; padding: 0; }
+  .challenge-view.session-finished .problem-card { padding-bottom: 16px; }
+}
+.app-home .hero-panel { min-height: 400px; }
+.app-home .hero-copy h1 { font-size: clamp(2rem, 4.2vw, 3.8rem); overflow-wrap: anywhere; }
+.app-home .hero-copy .entry-note { font-size: .9rem; font-weight: 600; }
+.entry-benefits { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 24px; margin: 24px 0; padding: clamp(20px, 3vw, 32px); background: #fffdf7; border: 1px solid var(--line); border-radius: 16px; }
+.entry-benefits h2, .entry-practice h2 { font-size: 1.35rem; }
+.entry-benefits h3 { font-size: 1.1rem; }
+.entry-benefits p { line-height: 1.8; }
+.entry-practice { margin: 28px 0; }
+.entry-practice .home-actions { margin-top: 12px; }
+@media (max-width: 700px) { .entry-benefits { grid-template-columns: 1fr; gap: 12px; } .entry-practice .home-actions { display: grid; } .app-home .hero-panel { min-height: auto; } }
