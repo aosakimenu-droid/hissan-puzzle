@@ -1841,6 +1841,8 @@ function checkCurrentStep() {
     return;
   }
 
+  window.learningUsage?.start(state.problem?.kind || 'multiply');
+
   if (input.value === input.dataset.answer) {
     input.classList.add("correct");
     input.classList.remove("wrong", "active");
@@ -1873,6 +1875,7 @@ function scheduleNextProblem(delay = NEXT_PROBLEM_DELAY) {
 function completeProblem() {
   if (state.completed || !state.problem) return;
   state.completed = true;
+  window.learningUsage?.complete(state.problem.kind || 'multiply');
 
   const cleanClear = state.problemMistakes === 0 && !state.answerShown;
   const comboHit = cleanClear && (state.streak + 1) % 3 === 0;
@@ -1932,6 +1935,7 @@ function completeProblem() {
   }
   if (state.trialMode || (state.sessionRemaining === 0 && state.sessionCoins > 0)) {
     const wasTrial = state.trialMode;
+    if (!wasTrial) window.learningUsage?.missionComplete();
     state.trialMode = false;
     els.feedback.textContent = wasTrial ? `1問できたね！ ${earnedCoins}コインをゲット。` : `3問ミッション達成！ 合計${state.sessionCoins}コインをゲット。`;
     state.sessionCoins = 0;
@@ -2776,6 +2780,7 @@ function startMission() {
   document.querySelector('.course-card[data-course="autoAdventure"]')?.click();
   state.sessionRemaining = 3;
   state.sessionCoins = 0;
+  window.learningUsage?.missionStart();
   renderProblem();
 }
 
@@ -2793,6 +2798,15 @@ setCharacterMood("main");
 updateProgress();
 registerOffline();
 renderProblem();
+
+// A guide's practice button opens its matching worked example directly.
+const practiceLink = new URLSearchParams(window.location.search).get('practice');
+if (practiceLink === 'multiply' || practiceLink === 'divide') {
+  const course = practiceLink === 'multiply' ? 'multiplyForest' : 'divideRiver';
+  document.querySelector(`.course-card[data-course="${course}"]`)?.click();
+  state.customProblem = practiceLink === 'multiply' ? buildMultiplyProblem(23, 4) : buildDivideProblem(3, 28);
+  renderProblem();
+}
 
 
 

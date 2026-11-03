@@ -33,6 +33,13 @@
         <h2>アクセス解析について</h2>
         <p>サイト改善のため、Cloudflare Web Analyticsなどのアクセス解析を利用する場合があります。</p>
         <p>どのページがよく読まれているか、どの端末で使われているかなど、サイト改善に必要な範囲で確認します。</p>
+        <h3>学習機能の利用状況の集計</h3>
+        <p>2026年11月3日以降、練習の開始、そのページを開いてから最初の1問の完了、3問ミッションの開始・達成、別の日の再利用を、件数として集計します。日付、問題の種類、トップページ・掛け算ガイド・割り算ガイドのいずれから始めたかを、Cloudflare内のデータベースに最長90日間保存します。</p>
+        <p>氏名、解答内容、ミスの内容、IPアドレス、閲覧したURL全体は、この学習集計のデータベースに保存しません。再送による二重計上を防ぐため、送信ごとにランダムな番号を付けます。この番号は利用者を識別するためのものではありません。</p>
+        <p>別の日の再利用は、このブラウザ内に残した前回の利用日で判断します。利用者を追跡するIDやCookieは発行しません。同じ人が複数回使ったり、端末を共有したりするため、集計の件数は利用人数と同じではありません。</p>
+        <p>この集計は次のボタンから停止できます。ブラウザのDo Not TrackやGlobal Privacy Controlが有効な場合も、学習イベントは送信しません。端末内の学習記録とCloudflareのページ閲覧解析は、この設定の対象外です。</p>
+        <p id="usageSettingStatus" role="status"></p>
+        <button id="toggleUsageAnalytics" class="home-link" type="button">匿名の学習集計を停止する</button>
       </section>
       <section>
         <h2>広告について</h2>
@@ -47,9 +54,27 @@
         <h2>改定について</h2>
         <p>機能追加、アクセス解析、広告導入などに合わせて内容を更新することがあります。</p>
         <p>制定日: 2026年7月31日</p>
-        <p>最終更新日: 2026年8月1日</p>
+        <p>最終更新日: 2026年11月3日</p>
       </section>
       <footer class="footer"><span>ひっさんパズル</span><a href="./about">運営者情報</a><a href="./contact">お問い合わせ</a><a href="./">アプリへ戻る</a></footer>
     </main>
+    <script>
+      (() => {
+        const button = document.querySelector('#toggleUsageAnalytics');
+        const status = document.querySelector('#usageSettingStatus');
+        function render() {
+          try {
+            const disabled = localStorage.getItem('hp_usage_disabled') === '1';
+            status.textContent = disabled ? 'このブラウザの学習イベントの送信は停止しています。' : '学習イベントの匿名集計は有効です（ブラウザのプライバシー設定が優先されます）。';
+            button.textContent = disabled ? '匿名の学習集計を有効にする' : '匿名の学習集計を停止する';
+          } catch { status.textContent = 'ブラウザの保存機能が無効なため、学習イベントは送信されません。'; button.disabled = true; }
+        }
+        button.addEventListener('click', () => {
+          try { localStorage.setItem('hp_usage_disabled', localStorage.getItem('hp_usage_disabled') === '1' ? '0' : '1'); render(); }
+          catch { status.textContent = '設定を保存できませんでした。'; }
+        });
+        render();
+      })();
+    </script>
   </body>
 </html>

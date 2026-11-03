@@ -1,4 +1,4 @@
-const CACHE_NAME = "hissan-puzzle-v127";
+const CACHE_NAME = "hissan-puzzle-v128";
 const rewardAssetPath = (folder, prefix, count) =>
   Array.from({ length: count }, (_, index) => `./assets/rewards/${folder}/${prefix}${String(index + 1).padStart(3, "0")}.png`);
 const backgroundAssetPath = (folder, count) =>
@@ -37,6 +37,7 @@ const ASSETS = [
   "./seo-summer-math-practice",
   "./styles.css",
   "./script.js",
+  "./learning-usage.js",
   "./manifest.webmanifest?v=103",
   "./assets/characters/character-main.png",
   "./assets/characters/character-happy.png",
@@ -69,6 +70,7 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
+  if (request.method !== 'GET' || url.pathname.startsWith('/api/')) return;
   const isLocalAsset = ["script", "style", "image", "font"].includes(request.destination);
   const isVersionedAsset = url.searchParams.has("v");
   if (request.mode === "navigate" || request.headers.get("accept")?.includes("text/html") || isVersionedAsset) {
