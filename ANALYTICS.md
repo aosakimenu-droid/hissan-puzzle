@@ -2,7 +2,7 @@
 
 Counts start at deployment in November 2026. No historical learning events can be reconstructed from page-view analytics.
 
-`functions/api/learning-events.js` accepts only five event types with an enum problem kind and enum entry source. No answer, name, IP, full URL, persistent visitor ID or cookie is stored. Every individual event has an independent random UUID solely to make request retries idempotent. The server assigns a Tokyo calendar date, discards extra properties, keeps events for at most 90 days, and offers no public read endpoint. Cloudflare platform request handling is separate from this application's stored event schema.
+`functions/api/learning-events.js` accepts only five event types with an enum problem kind and enum entry source. No answer, name, IP, full URL, persistent visitor ID or cookie is stored. Every individual event has an independent random UUID solely to make request retries idempotent. The server assigns a Tokyo calendar date, discards extra properties, purges events older than 90 days on the next event receipt, and offers no public read endpoint. Cloudflare platform request handling is separate from this application's stored event schema.
 
 Production Pages binding: `LEARNING_DB` → `hissan-puzzle-learning` (D1). Initial schema: `migrations/0001_learning_events.sql`. Use the authenticated Cloudflare D1 Console to read counts. The database is not exposed to visitors. `_routes.json` restricts Functions invocations to the event endpoint; all educational pages remain static.
 
