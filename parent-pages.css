@@ -50,6 +50,9 @@ a {
   text-decoration: none;
 }
 
+.breadcrumbs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-top: 20px; color: var(--sub); font-size: .9rem; line-height: 1.8; }
+.breadcrumbs a { color: #175dac; text-underline-offset: 3px; }
+
 .home-link,
 .cta,
 .sub-cta {
