@@ -54,6 +54,10 @@ a {
 .breadcrumbs a { color: #175dac; text-underline-offset: 3px; }
 .practice-starts { display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px; margin-top: 18px; }
 .practice-starts a { padding: 12px 18px; line-height: 1.6; text-align: center; }
+.lesson-index { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); }
+.lesson-index a { display: inline-flex; align-items: center; min-height: 44px; color: #175dac; font-size: .9rem; font-weight: 750; text-underline-offset: 4px; }
+.exercise-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 10px; color: #175dac; font-weight: 800; text-underline-offset: 4px; }
+section[id] { scroll-margin-top: 20px; }
 .app-preview { margin: 20px 0; }
 .app-preview img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 16px; }
 .app-preview figcaption { margin-top: 12px; color: var(--sub); line-height: 1.8; }

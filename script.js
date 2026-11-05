@@ -2808,13 +2808,21 @@ registerOffline();
 renderProblem();
 
 // A guide's practice button opens its matching worked example directly.
-const practiceLink = new URLSearchParams(window.location.search).get('practice');
+const practiceParams = new URLSearchParams(window.location.search);
+const practiceLink = practiceParams.get('practice');
 if (practiceLink === 'kuku') {
   document.querySelector('.course-card[data-course="multiplyFill"]')?.click();
 } else if (practiceLink === 'multiply' || practiceLink === 'divide') {
   const course = practiceLink === 'multiply' ? 'multiplyForest' : 'divideRiver';
   document.querySelector(`.course-card[data-course="${course}"]`)?.click();
-  state.customProblem = practiceLink === 'multiply' ? buildMultiplyProblem(23, 4) : buildDivideProblem(3, 28);
+  const guideExamples = practiceLink === 'multiply'
+    ? { '19x7': [19, 7], '23x4': [23, 4], '26x3': [26, 3] }
+    : { '72d3': [3, 24], '84d3': [3, 28], '306d3': [3, 102] };
+  const exampleKey = practiceParams.get('example');
+  const example = guideExamples[Object.hasOwn(guideExamples, exampleKey)
+    ? exampleKey : practiceLink === 'multiply' ? '23x4' : '84d3'];
+  state.customProblem = practiceLink === 'multiply'
+    ? buildMultiplyProblem(...example) : buildDivideProblem(...example);
   renderProblem();
 }
 
