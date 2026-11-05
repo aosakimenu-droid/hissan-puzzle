@@ -70,9 +70,9 @@ function applyJapaneseLabels() {
   setAllText("[data-nav='home']", "ホームにもどる");
   setAllText("[data-nav='challenge']", "問題を解く");
   setAllText("[data-nav='rewards']", "コレクションを見る");
-  setText(".gacha-copy .eyebrow", "コインガチャ");
-  setText(".gacha-copy h2", "問題をといたコインで、キャラを集めよう");
-  setText(".gacha-copy .large-copy", "1問ごとにコインが増えます。100コインたまったら、ガチャでキャラをゲット。");
+  setText(".gacha-copy .eyebrow", "キャラガチャ");
+  setText(".gacha-copy h2", "どの子が出るかな？");
+  setText(".gacha-copy .large-copy", "問題をといてためたコインで、キャラをおむかえ。どの子が出るかは、お楽しみ！");
   setText("#gachaButton", "ガチャをまわす");
 
   setText(".course-select-hero .eyebrow", "コース選択");

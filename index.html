@@ -25,7 +25,7 @@
     <meta name="theme-color" content="#fffaf1" />
     <meta name="google-site-verification" content="7TQ9q4ZuUlLCsvgE9iTifmCu4NqHRTqEV0qFZP7REwU" />
     <link rel="manifest" href="manifest.webmanifest?v=103" />
-    <link rel="stylesheet" href="styles.css?v=110" />
+    <link rel="stylesheet" href="styles.css?v=111" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -87,26 +87,24 @@
         <div class="page-nav"><button class="home-button" type="button" data-nav="home">ホームにもどる</button></div>
         <section class="gacha-hero">
           <div class="gacha-copy">
-            <p class="eyebrow">コインガチャ</p>
-            <h2>問題をといたコインで、キャラを集めよう</h2>
-            <p class="large-copy">1問ごとにコインが増えます。100コインたまったら、ガチャでキャラをゲット。</p>
+            <p class="eyebrow">キャラガチャ</p>
+            <h2>どの子が出るかな？</h2>
+            <p class="large-copy">問題をといてためたコインで、キャラをおむかえ。どの子が出るかは、お楽しみ！</p>
             <div class="gacha-status-grid" aria-label="ガチャの状態">
               <div class="gacha-stat"><span>コイン</span><strong id="gachaCoinText">0</strong></div>
               <div class="gacha-stat"><span>まわせる回数</span><strong id="gachaTicketText">0回</strong></div>
               <div class="gacha-stat"><span>あと</span><strong id="gachaNeedText">100</strong></div>
             </div>
           </div>
-          <div class="gacha-machine" aria-hidden="true">
-            <div class="gacha-glow"></div>
-            <div class="gacha-dome">
-              <span class="capsule c1">?</span><span class="capsule c2">星</span><span class="capsule c3">♪</span><span class="capsule c4">猫</span><span class="capsule c5">冠</span>
+          <div class="gacha-character-stage" aria-label="ガチャで出会えるキャラ">
+            <span class="gacha-stage-badge">全50種類の仲間たち</span>
+            <div class="gacha-stage-cast">
+              <img class="stage-friend" src="./assets/rewards/characters/char005.png" alt="もりのニャン">
+              <img class="stage-star" src="./assets/rewards/characters/char050.png" alt="ロイヤルニャン">
+              <img class="stage-friend" src="./assets/rewards/characters/char045.png" alt="キングニャン">
             </div>
-            <div class="gacha-body">
-              <div class="gacha-window">LUCKY</div>
-              <strong>100</strong>
-              <span>COIN</span>
-              <div class="gacha-handle"></div>
-            </div>
+            <p>つぎは、どの子に会えるかな？</p>
+            <span class="gacha-stage-cost">1回 <strong>100</strong> コイン</span>
           </div>
         </section>
         <section class="gacha-action-panel" aria-label="ガチャ操作">
@@ -131,7 +129,6 @@
         <h3 class="gacha-preview-title">こんなキャラが出るよ（一部）</h3>
         <div class="gacha-prize-preview" id="gachaPrizePreview" aria-label="景品一覧"></div>
         <div class="gacha-footer-actions">
-          <button class="ghost-button" type="button" data-nav="challenge">問題を解く</button>
           <button class="ghost-button" type="button" data-nav="rewards">コレクションを見る</button>
         </div>
       </section>
@@ -329,6 +326,6 @@
       </div>
     </div>
     <script src="learning-usage.js?v=1"></script>
-    <script src="script.js?v=108"></script>
+    <script src="script.js?v=109"></script>
   </body>
 </html>
