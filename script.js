@@ -2801,7 +2801,9 @@ renderProblem();
 
 // A guide's practice button opens its matching worked example directly.
 const practiceLink = new URLSearchParams(window.location.search).get('practice');
-if (practiceLink === 'multiply' || practiceLink === 'divide') {
+if (practiceLink === 'kuku') {
+  document.querySelector('.course-card[data-course="multiplyFill"]')?.click();
+} else if (practiceLink === 'multiply' || practiceLink === 'divide') {
   const course = practiceLink === 'multiply' ? 'multiplyForest' : 'divideRiver';
   document.querySelector(`.course-card[data-course="${course}"]`)?.click();
   state.customProblem = practiceLink === 'multiply' ? buildMultiplyProblem(23, 4) : buildDivideProblem(3, 28);

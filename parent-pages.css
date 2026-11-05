@@ -52,6 +52,15 @@ a {
 
 .breadcrumbs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-top: 20px; color: var(--sub); font-size: .9rem; line-height: 1.8; }
 .breadcrumbs a { color: #175dac; text-underline-offset: 3px; }
+.practice-starts { display: flex; flex-wrap: wrap; align-items: stretch; gap: 12px; margin-top: 18px; }
+.practice-starts a { padding: 12px 18px; line-height: 1.6; text-align: center; }
+.app-preview { margin: 20px 0; }
+.app-preview img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 16px; }
+.app-preview figcaption { margin-top: 12px; color: var(--sub); line-height: 1.8; }
+.question-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding-left: 1.8em; }
+.question-grid li { padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: #f8fbff; }
+.question-grid .question { color: var(--ink); font-size: 1.4rem; font-weight: 850; }
+@media (max-width: 600px) { .practice-starts { flex-direction: column; } .question-grid { grid-template-columns: minmax(0, 1fr); } }
 
 .home-link,
 .cta,
