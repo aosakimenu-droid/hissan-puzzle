@@ -25,7 +25,7 @@
     <meta name="theme-color" content="#fffaf1" />
     <meta name="google-site-verification" content="7TQ9q4ZuUlLCsvgE9iTifmCu4NqHRTqEV0qFZP7REwU" />
     <link rel="manifest" href="manifest.webmanifest?v=103" />
-    <link rel="stylesheet" href="styles.css?v=109" />
+    <link rel="stylesheet" href="styles.css?v=110" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -48,129 +48,39 @@
   <body>
     <main class="app-shell">
       <section class="view app-home active" data-view="home" aria-label="ホーム">
-        <div class="hero-panel">
+        <div class="hero-panel home-hub">
           <div class="hero-copy">
             <p class="eyebrow">ひっさんパズル</p>
-            <h1>かけ算・わり算の筆算を、<span>ひとマスずつ練習。</span></h1>
-            <p>かけ算・わり算の途中計算を、順番に練習。わからない時はヒントを見ながら、自分のペースで進められます。</p>
-            <p class="entry-note">無料・登録不要 ／ 小学生のかけ算・わり算・九九に</p>
-            <div class="home-actions">
-              <button class="primary-button" type="button" id="tryOneProblem">まずは1問やってみる</button>
-              <button class="ghost-button" type="button" data-nav="courseSelect">練習をえらぶ・つづける</button>
+            <h1>筆算をといて、<span>キャラをあつめよう！</span></h1>
+            <p>かけ算・わり算・九九を、ひとマスずつ。<br>できたらコイン。100コインでガチャを1回！</p>
+            <ol class="home-play-loop" aria-label="あそび方"><li><b>1</b> 問題をとく</li><li><b>2</b> コインをためる</li><li><b>3</b> ガチャで仲間！</li></ol>
+            <div class="home-main-actions">
+              <button class="primary-button" type="button" id="tryOneProblem">1問あそんでコインをためる</button>
+              <button class="home-course-link" type="button" data-nav="courseSelect">練習の種類をえらぶ</button>
             </div>
-            <p class="entry-note">できたらコインをゲット。お気に入りのキャラも集めよう！</p>
+            <p class="entry-note">無料・登録不要 ／ 迷ったらヒントも見られるよ</p>
           </div>
-          <div class="hero-teacher" aria-hidden="true">
-            <img class="character-avatar character-avatar-main" src="assets/characters/character-main.png" alt="" />
-          </div>
-        </div>
-
-        <section class="entry-benefits" aria-label="おうちの方へ">
-          <div><p class="eyebrow">おうちの方へ</p><h2>答えだけでなく、途中を練習。</h2><p>まずはお子さんと1問。次に書くマスを確かめながら、進めてみてください。</p></div>
-          <div><h3>迷ったらヒント</h3><p>一度でできなくても大丈夫。手順を確かめながら取り組めます。</p></div>
-          <div><h3>取り組みをふり返る</h3><p>親モードで学習履歴を確認。ふくしゅう機能も使えます。</p><button class="parent-link" type="button" data-nav="parent">親モードを見る</button></div>
-        </section>
-        <section class="entry-practice" aria-label="練習への近道">
-          <div class="daily-mission">
-            <div><p class="eyebrow">小さな「できた」を、今日も。</p><h2 id="dailyLearningTitle">きょうの目標は3問</h2><p id="dailyLearningText">1問からでも大丈夫。自分のペースで進めよう。</p><progress id="dailyLearningProgress" value="0" max="3" aria-label="今日の学習目標"></progress></div>
-            <button class="primary-button" type="button" id="startMission">3問ミッションに挑戦</button>
-          </div>
-          <h2>きょうは、どれに挑戦する？</h2>
-          <div class="home-actions">
-            <button class="ghost-button" type="button" data-home-course="multiplyFill">九九のかくれた数をさがす</button>
-            <button class="ghost-button" type="button" data-home-course="multiplyForest">かけ算・くり上がり</button>
-            <button class="ghost-button" type="button" data-home-course="divideRiver">わり算の手順</button>
-          </div>
-        </section>
-        <section class="home-dashboard home-dashboard-simple" aria-label="学習の進み具合">
-          <div class="daily-card soft">
-            <p class="eyebrow">いまのコイン</p>
-            <h2 id="homeCoinText">0コイン</h2>
-            <p id="homeGachaText">あと100コインでガチャに挑戦できます。</p>
-            <button class="ghost-button" type="button" data-nav="gacha">ガチャへ</button>
-          </div>
-          <div class="daily-card reward-preview">
-            <p class="eyebrow">コレクション</p>
-            <h2 id="homeNextReward">まだこれから</h2>
-            <p id="homeRewardText">ガチャでキャラ景品を集めよう。</p>
-            <button class="ghost-button" type="button" data-nav="rewards">コレクションを見る</button>
-          </div>
-          <div class="daily-card journey-card">
-            <p class="eyebrow">九九とどけもの</p>
-            <h2 id="homeJourneyTitle">背景まであと50問</h2>
-            <p id="homeJourneyText">九九あなうめを進めると、ホーム背景が増えます。</p>
-            <div class="home-progress journey-progress" aria-hidden="true"><span id="homeJourneyProgress"></span></div>
-            <button class="ghost-button" type="button" data-home-course="multiplyFill">九九あなうめへ</button>
-          </div>
-        </section>
-
-        <div class="home-secondary-actions">
-          <button class="ghost-button" type="button" data-nav="review">ふくしゅう</button>
-          <button class="parent-link" type="button" data-nav="parent">親モード</button>
-        </div>
-
-        <section class="seo-content" aria-label="ひっさんパズルで練習できること">
-          <div class="seo-content-inner">
-            <p class="eyebrow">小学生の筆算練習</p>
-            <h2>筆算パズルで、掛け算・割り算を少しずつ練習できます</h2>
-            <p>
-              ひっさんパズルは、筆算が苦手な小学生向けの無料筆算パズルゲームです。「掛け算の筆算で繰り上がりを忘れる」「割り算の筆算がわからない」「九九は言えるのに計算で使えない」という悩みに合わせて練習できます。
-              答えを一気に書くのではなく、オレンジのマスを順番に埋めながら、途中計算を見える形で練習できます。
-            </p>
-            <div class="seo-grid">
-              <article>
-                <h3><a href="./seo-multiplication">掛け算の筆算のやり方</a></h3>
-                <p>掛け算の筆算でつまずきやすい繰り上がりを、小さく残しながら1マスずつ進めます。</p>
-                <p><a href="./seo-carry-multiplication">繰り上がりを忘れる時の確認方法</a></p>
-              </article>
-              <article>
-                <h3><a href="./seo-division">割り算の筆算のやり方</a></h3>
-                <p>上に書く、かける、ひく、おろす流れを、途中で迷わないように分けて練習します。</p>
-                <p><a href="./seo-division-confusing">書く位置・おろす手順・商の0で迷う時</a></p>
-              </article>
-              <article>
-                <h3><a href="./seo-kuku-fill">九九穴埋め問題</a></h3>
-                <p>4×？=32 や ？×8=32 のような問題で、九九を「使う」力を育てます。</p>
-              </article>
+          <section class="home-gacha-card" aria-labelledby="home-gacha-title">
+            <p class="eyebrow">つぎは、どの子に会えるかな？</p>
+            <h2 id="home-gacha-title">コインでキャラガチャ</h2>
+            <div class="home-prize-showcase" aria-label="ガチャで出るキャラの一部">
+              <figure><img src="assets/rewards/characters/char005.png" alt="もりのニャン" width="112" height="112" /><figcaption>もりのニャン</figcaption></figure>
+              <figure><img src="assets/rewards/characters/char045.png" alt="キングニャン" width="112" height="112" /><figcaption>キングニャン</figcaption></figure>
+              <figure><img src="assets/rewards/characters/char050.png" alt="ロイヤルニャン" width="112" height="112" /><figcaption>ロイヤルニャン</figcaption></figure>
             </div>
-
-            <section class="parent-guide-links" aria-label="保護者向けガイド">
-              <div class="parent-guide-head">
-                <p class="eyebrow">保護者向けガイド</p>
-                <h3>お子さんのつまずきに合わせて読めます</h3>
-                <p>途中の計算で迷った時の確認方法と、家庭での声かけをまとめています。</p>
-              </div>
-              <div class="search-intent-links" aria-label="筆算の困りごとと練習">
-                <a href="./parent-guide">筆算が苦手な小学生の家庭学習</a>
-                <a href="./seo-free-practice">無料の筆算ゲームの内容・使い方</a>
-                <a href="./seo-multiplication">掛け算の筆算が苦手</a>
-                <a href="./seo-division">割り算の筆算が苦手</a>
-                <a href="./seo-kuku-fill">九九穴埋め問題10問・答え付き</a>
-              </div>
-              <div class="parent-guide-grid">
-                <a href="./parent-guide"><strong>保護者向けガイド</strong><span>声かけ、続け方、つまずき別の記事をまとめています。</span></a>
-                <a href="./seo-parent-hissan-reluctant"><strong>筆算が苦手な子へ</strong><span>「次はどこに書くの？」で止まりやすい時に。</span></a>
-                <a href="./seo-parent-division-help"><strong>割り算の筆算が苦手な時</strong><span>何を先にするか分からなくなりやすい時に。</span></a>
-                <a href="./seo-parent-carry-help"><strong>繰り上がりで迷う時</strong><span>小さく残して、次の位で使う流れを見たい時に。</span></a>
-                <a href="./seo-parent-kuku-division"><strong>九九は言えるのに止まる時</strong><span>九九を「使う」練習につなげたい時に。</span></a>
-                <a href="./seo-parent-math-home-study"><strong>家庭学習の進め方</strong><span>何分くらい、どんな声かけで続けるかを考えたい時に。</span></a>
-                <a href="./seo-summer-math-practice"><strong>夏休みの算数練習</strong><span>毎日続ける時間やごほうびの考え方を知りたい時に。</span></a>
-                <a href="./seo-calculation-mistakes"><strong>計算ミスが多い時</strong><span>責めずに、ずれた場所を一緒に見つけたい時に。</span></a>
-              </div>
-            </section>
-            <details>
-              <summary>よくある質問</summary>
-              <dl>
-                <dt>無料で使えますか？</dt>
-                <dd>はい。ブラウザで開いて、無料で筆算練習を始められます。</dd>
-                <dt>対象学年はどのくらいですか？</dt>
-                <dd>掛け算・割り算の筆算を学び始める小学生を主な対象にしています。</dd>
-                <dt>タブレットでも使えますか？</dt>
-                <dd>横向きのタブレットで遊びやすいように画面を調整しています。</dd>
-              </dl>
-            </details>
-          </div>
-        </section>
+            <p class="home-gacha-rule">全50種類。100コインで1回まわせるよ。</p>
+            <div class="home-coin-summary"><span>もっているコイン</span><strong id="homeCoinText">0コイン</strong></div>
+            <progress id="homeGachaProgress" value="0" max="100" aria-label="つぎのガチャまでのコイン"></progress>
+            <p id="homeGachaText" class="home-gacha-status" aria-live="polite">あと100コインでガチャ！</p>
+            <button class="ghost-button home-gacha-link" type="button" data-nav="gacha" id="homeGachaButton">ガチャとキャラを見る</button>
+          </section>
+        </div>
+        <details class="home-parent-menu">
+          <summary>おうちの方へ・学習記録</summary>
+          <p>小学生の掛け算・割り算の途中計算を、順番に練習する無料ゲームです。コインとガチャはゲーム内のごほうびで、お金は使いません。</p>
+          <div class="home-parent-actions"><button class="ghost-button" type="button" data-nav="parent">学習記録・設定</button><button class="ghost-button" type="button" data-nav="review">ふくしゅう</button></div>
+          <nav class="home-guide-links" aria-label="使い方と筆算の解説"><a href="./parent-guide">保護者向けガイド・つまずき別の解説</a><a href="./seo-free-practice">無料ゲームの内容・使い方</a><a href="./seo-multiplication">掛け算の筆算のやり方</a><a href="./seo-division">割り算の筆算のやり方</a><a href="./seo-kuku-fill">九九穴埋め問題10問・答え付き</a></nav>
+        </details>
       </section>
 
       <section class="view gacha-view" data-view="gacha" aria-label="コインガチャ">
@@ -205,6 +115,7 @@
             <strong id="gachaProgressText">あと100コイン</strong>
             <div class="gacha-coin-track" aria-hidden="true"><span id="gachaProgress"></span></div>
           </div>
+          <button id="gachaEarnButton" class="primary-button" type="button">問題をといてコインをためる</button>
           <button id="gachaButton" class="primary-button gacha-button" type="button">ガチャをまわす</button>
         </section>
         <section class="gacha-result" aria-live="polite">
@@ -217,6 +128,7 @@
           </div>
         </section>
         <div id="gachaParty" class="gacha-party-overlay" aria-hidden="true"></div>
+        <h3 class="gacha-preview-title">こんなキャラが出るよ（一部）</h3>
         <div class="gacha-prize-preview" id="gachaPrizePreview" aria-label="景品一覧"></div>
         <div class="gacha-footer-actions">
           <button class="ghost-button" type="button" data-nav="challenge">問題を解く</button>
@@ -417,6 +329,6 @@
       </div>
     </div>
     <script src="learning-usage.js?v=1"></script>
-    <script src="script.js?v=107"></script>
+    <script src="script.js?v=108"></script>
   </body>
 </html>

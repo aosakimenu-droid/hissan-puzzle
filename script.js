@@ -1941,14 +1941,15 @@ function completeProblem() {
     state.sessionCoins = 0;
     document.querySelector('.challenge-view')?.classList.add('session-finished');
     setText('#sessionStatus', wasTrial ? 'おためしクリア！' : '3問クリア！');
-    setText('#carryText', 'ここでおしまいでも大丈夫。またいっしょに練習しよう。');
+    setText('#carryText', state.coins >= GACHA_COST ? '100コインたまったよ！ ガチャで仲間を見つけよう。' : `ガチャまで、あと${GACHA_COST - state.coins}コイン！`);
     const choices = document.createElement('div');
     choices.className = 'home-actions';
     const next = document.createElement('button');
     next.type = 'button';
     next.className = 'primary-button';
-    next.textContent = 'つぎは3問に挑戦';
-    next.addEventListener('click', startMission);
+    const gachaReady = state.coins >= GACHA_COST;
+    next.textContent = gachaReady ? 'ガチャをまわしに行く' : 'つぎは3問あそぶ';
+    next.addEventListener('click', gachaReady ? () => showView('gacha') : startMission);
     const home = document.createElement('button');
     home.type = 'button';
     home.className = 'ghost-button';
@@ -2130,9 +2131,12 @@ function updateProgress() {
   if (els.homeGachaText) {
     els.homeGachaText.textContent =
       coin.ready > 0
-        ? `いま${coin.ready}回ガチャをまわせます。かけら${state.gachaFragments}こ。`
-        : `あと${coin.need}コイン。${gachaProblemEstimate(coin)}でガチャに近づきます。かけら${state.gachaFragments}こ。`;
+        ? `ガチャを${coin.ready}回まわせるよ！`
+        : `あと${coin.need}コインでガチャ！`;
   }
+  const homeGachaProgress = document.querySelector('#homeGachaProgress');
+  if (homeGachaProgress) homeGachaProgress.value = coin.ready > 0 ? 100 : state.coins % GACHA_COST;
+  setText('#homeGachaButton', coin.ready > 0 ? `ガチャへ（${coin.ready}回まわせる）` : 'ガチャとキャラを見る');
   els.badgeList.innerHTML =
     coin.ready > 0 ? '<span class="badge">ガチャOK</span>' : '<span class="badge">あと' + coin.need + 'コイン</span>';
   updateComboPanel();
@@ -2278,8 +2282,11 @@ function renderGachaUi() {
   if (els.gachaProgress) els.gachaProgress.style.width = `${hasCoin ? 100 : Math.max(8, coin.percent)}%`;
   if (els.gachaButton) {
     els.gachaButton.disabled = !canRoll;
-    els.gachaButton.textContent = state.gachaRolling ? "ガチャ演出中..." : canRoll ? "ガチャをまわす" : "コインが足りません";
+    els.gachaButton.hidden = !hasCoin;
+    els.gachaButton.textContent = state.gachaRolling ? "ガチャ演出中..." : "ガチャをまわす（100コイン）";
   }
+  const earnButton = document.querySelector('#gachaEarnButton');
+  if (earnButton) earnButton.hidden = hasCoin;
   if (els.gachaResultIcon && els.gachaResultTitle && els.gachaResultText) {
     document.querySelector(".gacha-result")?.classList.toggle("has-prize", Boolean(state.lastGachaPrize));
     if (state.lastGachaPrize) {
@@ -2307,13 +2314,13 @@ function renderGachaUi() {
     }
   }
   if (els.gachaPrizePreview) {
-    els.gachaPrizePreview.innerHTML = GACHA_PRIZES.slice(0, 8)
+    els.gachaPrizePreview.innerHTML = [0, 4, 22, 31, 39, 44, 45, 49].map(index => GACHA_PRIZES[index])
       .map((prize) => {
         const owned = ownedPrize(prize);
         return `
           <div class="gacha-prize-card ${owned ? "owned" : ""}" data-rarity="${escapeHtml(prize.rarity)}">
-            <span class="prize-portrait">${prizeVisualHtml(prize, !owned)}</span>
-            <strong>${owned ? escapeHtml(prize.name) : "？"}</strong>
+            <span class="prize-portrait">${prizeVisualHtml(prize)}</span>
+            <strong>${escapeHtml(prize.name)}</strong>
             <small>${escapeHtml(rarityLabel(prize.rarity))}</small>
           </div>
         `;
@@ -2785,6 +2792,7 @@ function startMission() {
 }
 
 document.querySelector('#startMission')?.addEventListener('click', startMission);
+document.querySelector('#gachaEarnButton')?.addEventListener('click', startMission);
 document.querySelector('#tryOneProblem')?.addEventListener('click', () => {
   document.querySelector('.course-card[data-course="multiplyForest"]')?.click();
   state.trialMode = true;

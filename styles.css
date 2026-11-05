@@ -5660,3 +5660,52 @@ select {
   .challenge-view .guided-layout, .challenge-view .fill-layout,
   .challenge-view .wide-division-layout { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Home: one play action, one clear reward destination. */
+.app-home .home-hub { grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr); min-height: 0; padding: clamp(22px, 3.5vw, 42px); gap: 32px; }
+.app-home .home-hub .hero-copy h1 { font-size: clamp(2rem, 3.7vw, 3.5rem); line-height: 1.25; }
+.home-hub .hero-copy > p:not(.eyebrow) { font-size: 1rem; }
+.home-play-loop { display: flex; flex-wrap: wrap; gap: 10px 16px; margin: 24px 0; padding: 0; list-style: none; font-size: .9rem; font-weight: 800; }
+.home-play-loop li { display: flex; align-items: center; gap: 6px; }
+.home-play-loop b { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #fff; color: #175dac; border: 1px solid #b9c9e4; }
+.home-main-actions { display: grid; justify-items: start; gap: 6px; }
+.home-main-actions .primary-button { min-height: 56px; padding: 14px 22px; font-size: 1.08rem; }
+.home-course-link { min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: #24476d; text-decoration: underline; text-underline-offset: 4px; font: inherit; font-weight: 700; cursor: pointer; }
+.home-gacha-card { position: relative; z-index: 1; min-width: 0; padding: 24px; border: 2px solid #f4ad32; border-radius: 24px; background: linear-gradient(145deg, #fff9df, #fff); box-shadow: 0 12px 26px #a86a1820; text-align: center; }
+.home-gacha-card h2 { margin: 0; font-size: clamp(1.4rem, 2.3vw, 2rem); }
+.home-gacha-card .eyebrow { color: #815212; font-size: .9rem; }
+.home-prize-showcase { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 18px 0 12px; }
+.home-prize-showcase figure { margin: 0; min-width: 0; }
+.home-prize-showcase img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 18px; background: #fff; }
+.home-prize-showcase figcaption { margin-top: 8px; font-size: .72rem; font-weight: 800; overflow-wrap: anywhere; }
+.home-gacha-rule { font-size: .85rem; line-height: 1.6; }
+.home-coin-summary { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 20px; text-align: left; font-size: .85rem; }
+.home-coin-summary strong { color: #694200; font-size: 1.35rem; }
+#homeGachaProgress { display: block; width: 100%; height: 14px; margin: 10px 0; accent-color: #e39213; }
+.home-gacha-status { margin: 10px 0; font-weight: 850; color: #694200; }
+.home-gacha-link { width: 100%; min-height: 48px; border-color: #d3942e; background: #fff6d5; }
+.home-parent-menu { margin: 18px 0 0; padding: 10px 20px; border: 1px solid var(--line); border-radius: 16px; background: #fffdf7; }
+.home-parent-menu summary { min-height: 44px; padding: 10px 0; cursor: pointer; font-weight: 800; }
+.home-parent-menu p { max-width: 800px; color: var(--muted); line-height: 1.8; }
+.home-parent-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.home-guide-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 22px 0 12px; }
+.home-guide-links a { color: #175dac; line-height: 1.7; }
+.gacha-action-panel > button[hidden], .gacha-view:not(.has-result) .gacha-result { display: none; }
+.gacha-preview-title { margin: 24px 0 12px; font-size: 1.3rem; }
+.gacha-view .gacha-prize-card strong { color: var(--ink); }
+@media (max-width: 900px) {
+  .app-home .home-hub { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .home-gacha-card { max-width: 520px; width: 100%; justify-self: center; }
+}
+@media (max-width: 600px) {
+  .app-home .home-hub { padding: 20px 16px; }
+  .app-home .home-hub .hero-copy h1 { margin-bottom: 12px; font-size: 1.85rem; }
+  .home-hub .hero-copy > p:not(.eyebrow) { font-size: .92rem; }
+  .home-play-loop { margin: 18px 0; gap: 8px 10px; font-size: .78rem; }
+  .home-play-loop b { width: 22px; height: 22px; }
+  .home-main-actions { justify-items: stretch; }
+  .home-main-actions .primary-button { font-size: 1rem; padding: 12px; }
+  .home-gacha-card { padding: 18px 14px; }
+  .home-prize-showcase { gap: 6px; margin-top: 14px; }
+  .home-guide-links { grid-template-columns: minmax(0, 1fr); }
+}
