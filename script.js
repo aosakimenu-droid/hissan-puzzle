@@ -76,7 +76,7 @@ function applyJapaneseLabels() {
   setText("#gachaButton", "ガチャをまわす");
 
   setText(".course-select-hero .eyebrow", "コース選択");
-  setText(".course-select-hero h1", "どの練習をする？");
+  setText(".course-select-hero .view-title", "どの練習をする？");
   setText(".course-select-hero p:not(.eyebrow)", "迷ったらレベルアップチャレンジ。自分で選ぶ時は、かけ算・わり算・九九あなうめから選べます。");
   const courseLabels = {
     autoAdventure: ["レベルアップチャレンジ", "今のステージから進んで、かけ算もわり算もレベルアップ"],
@@ -97,7 +97,7 @@ function applyJapaneseLabels() {
 
   setText(".challenge-view .page-nav [data-nav='home']", "ホームにもどる");
   setText(".challenge-view .top-bar .eyebrow", "計算チャレンジ");
-  setText(".challenge-view .top-bar h1", "オレンジのマスだけ、順番にうめよう");
+  setText(".challenge-view .top-bar .view-title", "オレンジのマスだけ、順番にうめよう");
   setText(".score-board div:nth-child(1) .score-label", "ノーミス");
   setText(".score-board div:nth-child(2) .score-label", "コイン");
   setText(".score-board div:nth-child(3) .score-label", "ランク");

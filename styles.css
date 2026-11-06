@@ -2467,6 +2467,7 @@ p {
   margin-top: 0;
 }
 
+.view-title,
 h1 {
   max-width: 740px;
   margin-bottom: 0;
@@ -2613,7 +2614,7 @@ h2 {
   padding: 16px 18px;
 }
 
-.course-select-hero h1 {
+.course-select-hero .view-title {
   margin: 0 0 4px;
   font-size: clamp(1.55rem, 3.2vw, 2.15rem);
 }
@@ -4798,6 +4799,7 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .view-title,
   h1 {
     font-size: 1.65rem;
   }
@@ -4859,7 +4861,7 @@ select {
     gap: 8px;
   }
 
-  .challenge-view .top-bar h1 {
+  .challenge-view .top-bar .view-title {
     font-size: 1.24rem;
   }
 
@@ -5108,7 +5110,7 @@ select {
     gap: 10px;
   }
 
-  .top-bar h1 {
+  .top-bar .view-title {
     font-size: 1.45rem;
   }
 
@@ -5298,7 +5300,7 @@ select {
   }
 
   .challenge-view .top-bar .eyebrow,
-  .challenge-view .top-bar h1 {
+  .challenge-view .top-bar .view-title {
     display: none;
   }
 
